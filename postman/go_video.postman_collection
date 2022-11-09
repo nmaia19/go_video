@@ -1,0 +1,138 @@
+{
+	"info": {
+		"_postman_id": "50c5a9f4-af97-44c3-8af7-f5186169d012",
+		"name": "Go Video",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21006145"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/equipamentos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/equipamentos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"equipamentos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/equipamentos/{id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/equipamentos/{id}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"equipamentos",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/equipamentos",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"modelo\":\"Pocket Cinema 6K\",\r\n    \"descricao\":\"Filmadora profissional Pocket Cinema 6K\",\r\n    \"marca\":\"Black Magic\",\r\n    \"categoria\":\"Filmadoras\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/equipamentos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"equipamentos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/equipamentos/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgZG8gRsOzcnVtIGRhIEFsdXJhIiwic3ViIjoiMSIsImlhdCI6MTY1NzQ4NDUyOSwiZXhwIjoxNjU3NTcwOTI5fQ.VRb6o8vr_OQTOne7ClF_HOJYCPrI6jEyk80-eQIXxh8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"descricao\":\"Chocolate amargo\",\r\n    \"preco\":\"3.00\",\r\n    \"estoque\":\"5\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/equipamentos/{id}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"equipamentos",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/equipamentos/{id}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/equipamentos/{id}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"equipamentos",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
