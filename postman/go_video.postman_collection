@@ -31,7 +31,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/equipamentos/{id}",
+					"raw": "http://localhost:8080/equipamentos/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -39,7 +39,28 @@
 					"port": "8080",
 					"path": [
 						"equipamentos",
-						"{id}"
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/equipamentos/{status}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/equipamentos/buscarPorStatus/inativo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"equipamentos",
+						"buscarPorStatus",
+						"inativo"
 					]
 				}
 			},
@@ -59,6 +80,12 @@
 						"key": "Content-Type",
 						"value": "application/json",
 						"type": "text"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US",
+						"type": "text",
+						"disabled": true
 					}
 				],
 				"body": {
@@ -97,10 +124,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"descricao\":\"Chocolate amargo\",\r\n    \"preco\":\"3.00\",\r\n    \"estoque\":\"5\"\r\n}"
+					"raw": "{\r\n    \"modelo\":\"Teste\",\r\n    \"descricao\":\"Testando\",\r\n    \"marca\":\"Teste\",\r\n    \"categoria\":\"Testando\"\r\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/equipamentos/{id}",
+					"raw": "http://localhost:8080/equipamentos/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -108,7 +135,49 @@
 					"port": "8080",
 					"path": [
 						"equipamentos",
-						"{id}"
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/equipamentos/alterarStatus/1",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgZG8gRsOzcnVtIGRhIEFsdXJhIiwic3ViIjoiMSIsImlhdCI6MTY1NzQ4NDUyOSwiZXhwIjoxNjU3NTcwOTI5fQ.VRb6o8vr_OQTOne7ClF_HOJYCPrI6jEyk80-eQIXxh8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\":\"Inativo\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/equipamentos/alterarStatus/1?status=inativo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"equipamentos",
+						"alterarStatus",
+						"1"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "inativo"
+						}
 					]
 				}
 			},
@@ -120,7 +189,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/equipamentos/{id}",
+					"raw": "http://localhost:8080/equipamentos/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -128,7 +197,7 @@
 					"port": "8080",
 					"path": [
 						"equipamentos",
-						"{id}"
+						"1"
 					]
 				}
 			},
