@@ -40,4 +40,5 @@ public class EquipamentoForm {
     public Equipamento converterParaEntidade() {
         return new Equipamento(modelo, descricao, marca, categoria);
     }
+
 }
