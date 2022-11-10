@@ -7,12 +7,10 @@ import com.govideo.gerenciador.repositories.EquipamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 @Service
 public class EquipamentoService {
@@ -34,9 +32,9 @@ public class EquipamentoService {
 
     @Transactional
     public EquipamentoDTO cadastrar(EquipamentoForm equipamentoForm) {
-     Equipamento equipamento = equipamentoForm.converterParaEntidade();
-     equipamento = equipamentoRepository.save(equipamento);
-     return new EquipamentoDTO(equipamento);
+        Equipamento equipamento = equipamentoForm.converterParaEntidade();
+        equipamento = equipamentoRepository.save(equipamento);
+        return new EquipamentoDTO(equipamento);
     }
 
     //TODO: alterar

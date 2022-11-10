@@ -23,8 +23,8 @@ public class EquipamentoController {
 
     @GetMapping
     public ResponseEntity<Page<EquipamentoDTO>> consultar(@PageableDefault(sort = "id", direction = Sort.Direction.DESC, page = 0, size = 5) Pageable paginacao) {
-        Page<EquipamentoDTO> equipamentos = equipamentoService.consultar(paginacao);
-        return ResponseEntity.status(HttpStatus.OK).body(equipamentos);
+        Page<EquipamentoDTO> equipamentosDtos = equipamentoService.consultar(paginacao);
+        return ResponseEntity.status(HttpStatus.OK).body(equipamentosDtos);
     }
 
     @GetMapping("/{id}")
