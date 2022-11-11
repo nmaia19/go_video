@@ -20,6 +20,8 @@ public class Equipamento {
 
     private String categoria;
 
+    private String urlFoto;
+
     @Enumerated(EnumType.STRING)
     private StatusEquipamento status = StatusEquipamento.DISPONIVEL;
 
@@ -43,11 +45,12 @@ public class Equipamento {
 
     }
 
-    public Equipamento(String modelo, String descricao, String marca, String categoria) {
+    public Equipamento(String modelo, String descricao, String marca, String categoria, String urlFoto) {
         this.modelo = modelo;
         this.descricao = descricao;
         this.marca = marca;
         this.categoria = categoria;
+        this.urlFoto = urlFoto;
     }
 
     @Override
@@ -103,11 +106,27 @@ public class Equipamento {
         this.categoria = categoria;
     }
 
+    public String getUrlFoto() {
+        return urlFoto;
+    }
+
+    public void setUrlFoto(String urlFoto) {
+        this.urlFoto = urlFoto;
+    }
+
     public StatusEquipamento getStatus() {
         return status;
     }
 
     public void setStatus(StatusEquipamento status) {
         this.status = status;
+    }
+
+    public Instant getCriadoEm() {
+        return criadoEm;
+    }
+
+    public Instant getAtualizadoEm() {
+        return atualizadoEm;
     }
 }

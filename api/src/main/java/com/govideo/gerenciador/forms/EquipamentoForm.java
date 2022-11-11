@@ -21,6 +21,9 @@ public class EquipamentoForm {
     @NotNull @NotEmpty
     private String categoria;
 
+    @NotNull @NotEmpty
+    private String urlFoto;
+
     public String getModelo() {
         return modelo;
     }
@@ -37,8 +40,12 @@ public class EquipamentoForm {
         return categoria;
     }
 
+    public String getUrlFoto() {
+        return urlFoto;
+    }
+
     public Equipamento converterParaEntidade() {
-        return new Equipamento(modelo, descricao, marca, categoria);
+        return new Equipamento(modelo, descricao, marca, categoria, urlFoto);
     }
 
 }

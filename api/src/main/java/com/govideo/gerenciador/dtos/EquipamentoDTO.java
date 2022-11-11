@@ -16,6 +16,8 @@ public class EquipamentoDTO {
 
     private String categoria;
 
+    private String urlFoto;
+
     private StatusEquipamento status;
 
     public EquipamentoDTO(Equipamento equipamento) {
@@ -24,6 +26,7 @@ public class EquipamentoDTO {
         this.descricao = equipamento.getDescricao();
         this.marca = equipamento.getMarca();
         this.categoria = equipamento.getCategoria();
+        this.urlFoto = equipamento.getUrlFoto();
         this.status = equipamento.getStatus();
     }
 
@@ -45,6 +48,10 @@ public class EquipamentoDTO {
 
     public String getCategoria() {
         return categoria;
+    }
+
+    public String getUrlFoto() {
+        return urlFoto;
     }
 
     public StatusEquipamento getStatus() {
