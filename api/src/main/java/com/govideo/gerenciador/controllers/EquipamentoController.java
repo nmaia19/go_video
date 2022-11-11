@@ -46,7 +46,7 @@ public class EquipamentoController {
 
     @PostMapping
     @Operation(summary = "Cadastrar equipamento")
-    public ResponseEntity<EquipamentoDTO> salvar(@Valid @RequestBody EquipamentoForm equipamentoForm, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<EquipamentoDTO> cadastrar(@Valid @RequestBody EquipamentoForm equipamentoForm, UriComponentsBuilder uriBuilder) {
         EquipamentoDTO equipamentoDTO = equipamentoService.cadastrar(equipamentoForm);
         URI uri = uriBuilder.path("/equipamentos/{id}").buildAndExpand(equipamentoDTO.getId()).toUri();
         return ResponseEntity.created(uri).body(equipamentoDTO);
@@ -58,16 +58,9 @@ public class EquipamentoController {
         return ResponseEntity.ok().body(equipamentoService.alterar(id, equipamentoForm));
     }
 
-    @PutMapping("/alterarStatus/{id}")
-    @Operation(summary = "Alterar status de equipamento")
-    public ResponseEntity<EquipamentoDTO> alterarStatus(@PathVariable Long id, @RequestParam(value = "status", required = true) String status) {
-        return ResponseEntity.ok().body(equipamentoService.alterarStatus(id, status));
-    }
-
     @DeleteMapping("/{id}")
     @Operation(summary = "Excluir ou inativar equipamento")
-    public ResponseEntity<Void> excluir(@PathVariable("id") Long id) {
-        equipamentoService.excluir(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> excluir(@PathVariable("id") Long id) {
+        return ResponseEntity.ok().body(equipamentoService.excluir(id));
     }
 }
