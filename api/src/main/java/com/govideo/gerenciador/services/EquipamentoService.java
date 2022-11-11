@@ -3,6 +3,7 @@ package com.govideo.gerenciador.services;
 import com.govideo.gerenciador.dtos.EquipamentoDTO;
 import com.govideo.gerenciador.entities.Equipamento;
 import com.govideo.gerenciador.entities.enuns.StatusEquipamento;
+import com.govideo.gerenciador.exceptions.RecursoNaoEncontradoException;
 import com.govideo.gerenciador.forms.EquipamentoForm;
 import com.govideo.gerenciador.repositories.EquipamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 @Service
@@ -25,18 +25,18 @@ public class EquipamentoService {
     }
 
     public EquipamentoDTO consultarPorIdRetornarDTO(Long id) {
-        Equipamento equipamento = equipamentoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Equipamento não encontrado!"));
+        Equipamento equipamento = equipamentoRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Equipamento não encontrado!"));
         return new EquipamentoDTO(equipamento);
     }
 
     public Equipamento consultarPorId(Long id) {
-        return equipamentoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Equipamento não encontrado!"));
+        return equipamentoRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Equipamento não encontrado!"));
     }
 
     public Page<EquipamentoDTO> consultarPorStatus(String statusString, Pageable paginacao) {
         Page<Equipamento> equipamentos = equipamentoRepository.findAll(paginacao);
 
-        if(statusString != null) {
+        if (statusString != null) {
             if (statusString.equalsIgnoreCase("DISPONIVEL")) {
                 equipamentos = equipamentoRepository.findByStatus(StatusEquipamento.DISPONIVEL, paginacao);
             } else if (statusString.equalsIgnoreCase("INDISPONIVEL")) {
@@ -57,7 +57,7 @@ public class EquipamentoService {
 
     @Transactional
     public EquipamentoDTO alterar(Long id, EquipamentoForm equipamentoForm) {
-        Equipamento equipamento = equipamentoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Equipamento não encontrado!"));
+        Equipamento equipamento = consultarPorId(id);
 
         equipamento.setModelo(equipamentoForm.getModelo());
         equipamento.setDescricao(equipamentoForm.getDescricao());
@@ -70,19 +70,11 @@ public class EquipamentoService {
     }
 
     @Transactional
-    public EquipamentoDTO alterarStatus(Long id, String statusString) {
+    public EquipamentoDTO alterarStatus(Long id, StatusEquipamento status) {
         Equipamento equipamento = consultarPorId(id);
+        equipamento.setStatus(status);
+        equipamento = equipamentoRepository.save(equipamento);
 
-        if(statusString != null) {
-            if (statusString.equalsIgnoreCase("DISPONIVEL")) {
-                equipamento.setStatus(StatusEquipamento.DISPONIVEL);
-            } else if (statusString.equalsIgnoreCase("INDISPONIVEL")) {
-                equipamento.setStatus(StatusEquipamento.INDISPONIVEL);
-            } else if (statusString.equalsIgnoreCase("INATIVO")) {
-                equipamento.setStatus(StatusEquipamento.INATIVO);
-            }
-            equipamento = equipamentoRepository.save(equipamento);
-        }
         return new EquipamentoDTO(equipamento);
     }
 
@@ -100,8 +92,8 @@ public class EquipamentoService {
 //                 mensagem = "O status atual do equipamento de ID " + id + " é " + equipamento.getStatus();
 //             }
 //         } else {
-            equipamentoRepository.delete(equipamento);
-            mensagem = "Equipamento de ID " + id + " excluído com sucesso!";
+        equipamentoRepository.delete(equipamento);
+        mensagem = "Equipamento de ID " + id + " excluído com sucesso!";
 //         }
         return mensagem;
     }
