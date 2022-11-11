@@ -44,11 +44,12 @@ public class EmprestimoService {
         return emprestimoRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Empréstimo não encontrado!"));
     }
 
-    //TODO: CRIAR MÉTODOS: consultarEncerrados e consultarVigentes
     public Page<EmprestimoDTO> consultarEncerrados(Pageable paginacao) {
         Page<Emprestimo> emprestimos = emprestimoRepository.findByDataFimIsNotNull(paginacao);
         return EmprestimoDTO.converterParaDTO(emprestimos);
     }
+
+    //TODO: CRIAR MÉTODO consultarVigentes
 
     //TODO: CRIAR MÉTODO PARA PESQUISAS EMPRÉSTIMOS POR EQUIPAMENTO: public List<Emprestimo> consultarEmprestimosPorEquipamento(Long IdEquipamento){} na Service de Emprestimo;
     //TODO: CRIAR MÉTODO PARA PESQUISAS EMPRÉSTIMOS POR USUÁRIO

@@ -40,12 +40,11 @@ public class EmprestimoController {
         return ResponseEntity.ok().body(emprestimoService.consultarPorIdRetornarDTO(id));
     }
 
-    //TODO: REFATORAR ESTE MÉTODO PARA FUNCIONAR
-/*    @GetMapping("/encerrados")
+    @GetMapping("/encerrados")
     @Operation(summary = "Listar empréstimos encerrados")
     public ResponseEntity<Page<EmprestimoDTO>> consultarEncerrados(@PageableDefault(sort = "id", direction = Sort.Direction.DESC, page = 0, size = 5) Pageable paginacao) {
         return ResponseEntity.ok().body(emprestimoService.consultarEncerrados(paginacao));
-    }*/
+    }
 
     @PostMapping("/{idEquipamento}")
     @Operation(summary = "Cadastrar empréstimo")
