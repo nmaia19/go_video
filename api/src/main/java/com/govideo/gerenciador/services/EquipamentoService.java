@@ -63,6 +63,7 @@ public class EquipamentoService {
         equipamento.setDescricao(equipamentoForm.getDescricao());
         equipamento.setMarca(equipamentoForm.getMarca());
         equipamento.setCategoria(equipamentoForm.getCategoria());
+        equipamento.setUrlFoto(equipamentoForm.getUrlFoto());
         equipamento = equipamentoRepository.save(equipamento);
 
         return new EquipamentoDTO(equipamento);
