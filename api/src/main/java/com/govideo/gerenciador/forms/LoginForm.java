@@ -2,9 +2,16 @@ package com.govideo.gerenciador.forms;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class LoginForm {
 
+    @NotNull @NotEmpty @Email
     private String email;
+
+    @NotNull @NotEmpty
     private String senha;
 
     public String getEmail() {
