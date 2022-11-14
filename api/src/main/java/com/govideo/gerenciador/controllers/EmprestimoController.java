@@ -1,10 +1,7 @@
 package com.govideo.gerenciador.controllers;
 
 import com.govideo.gerenciador.dtos.EmprestimoDTO;
-import com.govideo.gerenciador.dtos.EquipamentoDTO;
-import com.govideo.gerenciador.forms.EquipamentoForm;
 import com.govideo.gerenciador.services.EmprestimoService;
-import com.govideo.gerenciador.services.EquipamentoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.validation.Valid;
 import java.net.URI;
 
 @Tag(name = "Empréstimos Endpoint")
@@ -44,6 +40,24 @@ public class EmprestimoController {
     @Operation(summary = "Listar empréstimos encerrados")
     public ResponseEntity<Page<EmprestimoDTO>> consultarEncerrados(@PageableDefault(sort = "id", direction = Sort.Direction.DESC, page = 0, size = 5) Pageable paginacao) {
         return ResponseEntity.ok().body(emprestimoService.consultarEncerrados(paginacao));
+    }
+
+    @GetMapping("/vigentes")
+    @Operation(summary = "Listar empréstimos vigentes")
+    public ResponseEntity<Page<EmprestimoDTO>> consultarVigentes(@PageableDefault(sort = "id", direction = Sort.Direction.DESC, page = 0, size = 5) Pageable paginacao) {
+        return ResponseEntity.ok().body(emprestimoService.consultarVigentes(paginacao));
+    }
+
+    @GetMapping("/usuario/{idUsuario}")
+    @Operation(summary = "Listar empréstimos por usuário")
+    public ResponseEntity<Page<EmprestimoDTO>> consultarPorUsuario(@PathVariable("idUsuario") Long idUsuario, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, page = 0, size = 5) Pageable paginacao) {
+        return ResponseEntity.ok().body(emprestimoService.consultarEmprestimosPorUsuario(idUsuario, paginacao));
+    }
+
+    @GetMapping("/vigentes/usuario/{idUsuario}")
+    @Operation(summary = "Listar empréstimos vigentes por usuário")
+    public ResponseEntity<Page<EmprestimoDTO>> consultarVigentesPorUsuario(@PathVariable("idUsuario") Long idUsuario, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, page = 0, size = 5) Pageable paginacao) {
+        return ResponseEntity.ok().body(emprestimoService.consultarEmprestimosVigentesPorUsuario(idUsuario, paginacao));
     }
 
     @PostMapping("/{idEquipamento}")
