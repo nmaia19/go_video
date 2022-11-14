@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class EmprestimoService {
@@ -49,10 +50,31 @@ public class EmprestimoService {
         return EmprestimoDTO.converterParaDTO(emprestimos);
     }
 
-    //TODO: CRIAR MÉTODO consultarVigentes
+    public Page<EmprestimoDTO> consultarVigentes(Pageable paginacao) {
+        Page<Emprestimo> emprestimos = emprestimoRepository.findByDataFimIsNull(paginacao);
+        return EmprestimoDTO.converterParaDTO(emprestimos);
+    }
 
-    //TODO: CRIAR MÉTODO PARA PESQUISAS EMPRÉSTIMOS POR EQUIPAMENTO: public List<Emprestimo> consultarEmprestimosPorEquipamento(Long IdEquipamento){} na Service de Emprestimo;
-    //TODO: CRIAR MÉTODO PARA PESQUISAS EMPRÉSTIMOS POR USUÁRIO
+    public Page<EmprestimoDTO> consultarEmprestimosPorEquipamento(Long idEquipamento, Pageable paginacao){
+        Equipamento equipamento = equipamentoService.consultarPorId(idEquipamento);
+        Page<Emprestimo> emprestimos = emprestimoRepository.findByEquipamento(equipamento, paginacao);
+        return EmprestimoDTO.converterParaDTO(emprestimos);
+    }
+
+    //TODO: VALIDAR QUAL USUARIO ESTÁ LOGADO PARA TER ACESSO OU NÃO A ESSA BUSCA
+    //TODO: CRIAR NA SERVICE DE USUARIO UMA CONSULTA POR ID, COMO A DE EQUIPAMENTOS E SUBSTITUIR O OPTIONAL DENTRO DESSE MÉTODO
+    public Page<EmprestimoDTO> consultarEmprestimosPorUsuario(Long idUsuario, Pageable paginacao){
+        Optional<Usuario> usuario = usuarioRepository.findById(idUsuario);
+        Page<Emprestimo> emprestimos = emprestimoRepository.findByUsuario(usuario.get(), paginacao);
+        return EmprestimoDTO.converterParaDTO(emprestimos);
+    }
+
+    //TODO: CRIAR NA SERVICE DE USUARIO UMA CONSULTA POR ID, COMO A DE EQUIPAMENTOS E SUBSTITUIR O OPTIONAL DENTRO DESSE MÉTODO
+    public Page<EmprestimoDTO> consultarEmprestimosVigentesPorUsuario(Long idUsuario, Pageable paginacao){
+        Optional<Usuario> usuario = usuarioRepository.findById(idUsuario);
+        Page<Emprestimo> emprestimos = emprestimoRepository.findPorUsuarioEStatus(usuario.get().getId(), paginacao);
+        return EmprestimoDTO.converterParaDTO(emprestimos);
+    }
 
     //TODO: AVALIAR SE O USUÁRIO ESTÁ NA CONTROLLER E É PASSADO PARA O SERVICE OU SE É CAPTURADO E TRATADO AQUI
     @Transactional
