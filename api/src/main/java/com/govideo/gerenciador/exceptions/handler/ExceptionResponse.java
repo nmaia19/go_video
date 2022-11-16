@@ -6,8 +6,11 @@ import java.time.Instant;
 public class ExceptionResponse implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     private Instant timeStamp;
+
     private String message;
+
     private String path;
 
     public ExceptionResponse() {
@@ -42,4 +45,5 @@ public class ExceptionResponse implements Serializable {
     public void setPath(String path) {
         this.path = path;
     }
+
 }

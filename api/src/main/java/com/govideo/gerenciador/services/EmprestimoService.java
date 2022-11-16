@@ -96,8 +96,8 @@ public class EmprestimoService {
                 throw new EquipamentoNaoDisponivelException("O equipamento informado não está disponível para empréstimo.");
             }
         } catch (EquipamentoNaoDisponivelException e) {
-        }
 
+        }
         return new EmprestimoDTO(emprestimo);
     }
 

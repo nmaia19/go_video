@@ -1,16 +1,16 @@
 {
 	"info": {
-		"_postman_id": "988a204d-1eb4-4dd3-8a26-38dbd7920e9b",
+		"_postman_id": "08567ddf-3dd9-413e-a867-9851699b0a1b",
 		"name": "Go Video",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "23673573"
+		"_exporter_id": "21006145"
 	},
 	"item": [
 		{
 			"name": "Equipamentos",
 			"item": [
 				{
-					"name": "http://localhost:8080/equipamentos",
+					"name": "/equipamentos",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -29,44 +29,7 @@
 					"response": []
 				},
 				{
-					"name": "http://localhost:8080/equipamentos/{id}",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "",
-								"type": "text",
-								"disabled": true
-							}
-						],
-						"url": {
-							"raw": "http://localhost:8080/equipamentos/2",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"equipamentos",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "http://localhost:8080/equipamentos/{status}",
+					"name": "/equipamentos/{status}",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -87,7 +50,7 @@
 					"response": []
 				},
 				{
-					"name": "http://localhost:8080/equipamentos",
+					"name": "/equipamentos",
 					"protocolProfileBehavior": {
 						"disabledSystemHeaders": {
 							"content-type": true
@@ -127,7 +90,7 @@
 					"response": []
 				},
 				{
-					"name": "http://localhost:8080/equipamentos/{id}",
+					"name": "/equipamentos/{id}",
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -162,7 +125,7 @@
 					"response": []
 				},
 				{
-					"name": "http://localhost:8080/equipamentos/{id}",
+					"name": "/equipamentos/{id}",
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -187,7 +150,7 @@
 			"name": "Emprestimos",
 			"item": [
 				{
-					"name": "http://localhost:8080/emprestimos",
+					"name": "/emprestimos",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -206,7 +169,7 @@
 					"response": []
 				},
 				{
-					"name": "http://localhost:8080/emprestimos/{id}",
+					"name": "/emprestimos/{id}",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -243,7 +206,7 @@
 					"response": []
 				},
 				{
-					"name": "http://localhost:8080/emprestimos/encerrados",
+					"name": "/emprestimos/encerrados",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -263,7 +226,70 @@
 					"response": []
 				},
 				{
-					"name": "http://localhost:8080/emprestimos/{idEquipamento}",
+					"name": "/emprestimos/vigentes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/emprestimos/vigentes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"emprestimos",
+								"vigentes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/emprestimos/vigente/usuario/{idUsuario}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/emprestimos/vigente/usuario/{idUsuario}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"emprestimos",
+								"vigente",
+								"usuario",
+								"{idUsuario}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/emprestimos/usuario/{idUsuario}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/emprestimos/usuario/{idUsuario}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"emprestimos",
+								"usuario",
+								"{idUsuario}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/emprestimos/{idEquipamento}",
 					"protocolProfileBehavior": {
 						"disabledSystemHeaders": {
 							"content-type": true
@@ -300,7 +326,7 @@
 					"response": []
 				},
 				{
-					"name": "http://localhost:8080/emprestimos/encerrar/{id}",
+					"name": "/emprestimos/encerrar/{id}",
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -326,6 +352,51 @@
 								"emprestimos",
 								"encerrar",
 								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "/auth",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en-US",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"admin@email.com\",\r\n    \"senha\":\"123\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth"
 							]
 						}
 					},
