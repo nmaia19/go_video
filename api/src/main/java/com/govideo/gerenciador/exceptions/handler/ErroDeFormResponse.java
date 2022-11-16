@@ -1,11 +1,11 @@
-package com.govideo.gerenciador.exceptions.validations;
+package com.govideo.gerenciador.exceptions.handler;
 
-public class ErroDeFormDTO {
+public class ErroDeFormResponse {
 
     private String campo;
     private String erro;
 
-    public ErroDeFormDTO(String campo, String erro) {
+    public ErroDeFormResponse(String campo, String erro) {
         this.campo = campo;
         this.erro = erro;
     }
