@@ -3,7 +3,6 @@ package com.govideo.gerenciador.dtos;
 import com.govideo.gerenciador.entities.Emprestimo;
 import com.govideo.gerenciador.entities.Equipamento;
 import com.govideo.gerenciador.entities.Usuario;
-import com.govideo.gerenciador.entities.enuns.StatusEquipamento;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;

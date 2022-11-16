@@ -114,6 +114,14 @@ public class Usuario implements UserDetails, Serializable {
         this.status = status;
     }
 
+    public List<Perfil> getPerfis() {
+        return perfis;
+    }
+
+    public void setPerfis(List<Perfil> perfis) {
+        this.perfis = perfis;
+    }
+
     public Instant getCriadoEm() {
         return criadoEm;
     }
@@ -121,6 +129,8 @@ public class Usuario implements UserDetails, Serializable {
     public Instant getAtualizadoEm() {
         return atualizadoEm;
     }
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
