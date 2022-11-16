@@ -8,6 +8,7 @@ import com.govideo.gerenciador.forms.EquipamentoForm;
 import com.govideo.gerenciador.repositories.EquipamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,9 @@ public class EquipamentoService {
 
     @Autowired
     private EquipamentoRepository equipamentoRepository;
+
+    @Autowired
+    private EmprestimoService emprestimoService;
 
     public Page<EquipamentoDTO> consultar(Pageable paginacao) {
         Page<Equipamento> equipamentos = equipamentoRepository.findAll(paginacao);
@@ -81,20 +85,22 @@ public class EquipamentoService {
     @Transactional
     public String excluir(Long id) {
         Equipamento equipamento = consultarPorId(id);
+
         String mensagem;
 
-        //TODO: public List<Emprestimo> consultarEmprestimosPorEquipamento(Long IdEquipamento){} na Service de Emprestimo;
-//         if(emprestimoService.consultarEmprestimosPorEquipamento(id).size() > 0) {
-//             if(equipamento.getStatus().equals(StatusEquipamento.DISPONIVEL)) {
-//                alterarStatus(id, StatusEquipamento.INATIVO);
-//                mensagem = "Equipamento de ID " + id + " inativado com sucesso!";
-//             } else {
-//                 mensagem = "O status atual do equipamento de ID " + id + " é " + equipamento.getStatus();
-//             }
-//         } else {
+        Pageable paginacao = PageRequest.of(0, 10);
+        
+        if(emprestimoService.consultarEmprestimosPorEquipamento(id, paginacao).hasContent()) {
+             if(equipamento.getStatus().equals(StatusEquipamento.DISPONIVEL)) {
+                alterarStatus(id, StatusEquipamento.INATIVO);
+                mensagem = "Equipamento de ID " + id + " inativado com sucesso!";
+             } else {
+                 mensagem = "O status atual do equipamento de ID " + id + " é " + equipamento.getStatus() + ", então ele não pode ser inativado ou excluído!";
+             }
+         } else {
         equipamentoRepository.delete(equipamento);
         mensagem = "Equipamento de ID " + id + " excluído com sucesso!";
-//         }
+         }
         return mensagem;
     }
 
