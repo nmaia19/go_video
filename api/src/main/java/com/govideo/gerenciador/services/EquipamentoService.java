@@ -1,10 +1,12 @@
 package com.govideo.gerenciador.services;
 
 import com.govideo.gerenciador.dtos.EquipamentoDTO;
+import com.govideo.gerenciador.entities.Emprestimo;
 import com.govideo.gerenciador.entities.Equipamento;
 import com.govideo.gerenciador.entities.enuns.StatusEquipamento;
 import com.govideo.gerenciador.exceptions.RecursoNaoEncontradoException;
 import com.govideo.gerenciador.forms.EquipamentoForm;
+import com.govideo.gerenciador.repositories.EmprestimoRepository;
 import com.govideo.gerenciador.repositories.EquipamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +23,7 @@ public class EquipamentoService {
     private EquipamentoRepository equipamentoRepository;
 
     @Autowired
-    private EmprestimoService emprestimoService;
+    private EmprestimoRepository emprestimoRepository;
 
     public Page<EquipamentoDTO> consultar(Pageable paginacao) {
         Page<Equipamento> equipamentos = equipamentoRepository.findAll(paginacao);
@@ -85,12 +87,10 @@ public class EquipamentoService {
     @Transactional
     public String excluir(Long id) {
         Equipamento equipamento = consultarPorId(id);
-
         String mensagem;
-
         Pageable paginacao = PageRequest.of(0, 10);
         
-        if(emprestimoService.consultarEmprestimosPorEquipamento(id, paginacao).hasContent()) {
+        if(emprestimoRepository.findByEquipamento(equipamento, paginacao).hasContent()) {
              if(equipamento.getStatus().equals(StatusEquipamento.DISPONIVEL)) {
                 alterarStatus(id, StatusEquipamento.INATIVO);
                 mensagem = "Equipamento de ID " + id + " inativado com sucesso!";
