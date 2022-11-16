@@ -10,8 +10,10 @@ public class UsuarioForm {
 
     @NotNull @NotEmpty
     private String nome;
+
     @NotNull @NotEmpty @Email
     private String email;
+
     @NotNull @NotEmpty
     private String senha;
 

@@ -10,10 +10,12 @@ import java.util.List;
 public class UsuarioDTO {
 
     private Long id;
-    private String nome;
-    private String email;
-    private List<Perfil> perfis = new ArrayList<>();
 
+    private String nome;
+
+    private String email;
+
+    private List<Perfil> perfis = new ArrayList<>();
 
     public UsuarioDTO(Usuario usuario) {
         this.id = usuario.getId();
@@ -37,4 +39,5 @@ public class UsuarioDTO {
     public static Page<UsuarioDTO> converterParaDTO(Page<Usuario> usuarios) {
         return usuarios.map(UsuarioDTO::new);
     }
+
 }
