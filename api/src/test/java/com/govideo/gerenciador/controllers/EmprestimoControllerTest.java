@@ -29,6 +29,7 @@ public class EmprestimoControllerTest {
     //private TokenGenerator tokenGenerator;
 
     private EmprestimoGenerator emprestimoGenerator;
+
     private EquipamentosGenerator equipamentosGenerator;
 
     @Autowired

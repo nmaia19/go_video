@@ -151,7 +151,6 @@ public class EquipamentoControllerTest {
                         .is(200));
     }
 
-
     //TODO: verificar mensagem que vem com a resposta
     @Test
     public void deveriaDevolver200AoExcluirEquipamentos() throws Exception {
