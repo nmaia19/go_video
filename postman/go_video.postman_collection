@@ -29,6 +29,35 @@
 					"response": []
 				},
 				{
+					"name": "/equipamentos?size=1&page=0",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/equipamentos?size=1&page=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"equipamentos"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "1"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "/equipamentos/{status}",
 					"request": {
 						"method": "GET",
@@ -191,7 +220,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/emprestimos/7",
+							"raw": "http://localhost:8080/emprestimos/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -199,7 +228,7 @@
 							"port": "8080",
 							"path": [
 								"emprestimos",
-								"7"
+								"1"
 							]
 						}
 					},
@@ -246,12 +275,12 @@
 					"response": []
 				},
 				{
-					"name": "/emprestimos/vigente/usuario/{idUsuario}",
+					"name": "/emprestimos/vigentes/usuario/{idUsuario}",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/emprestimos/vigente/usuario/{idUsuario}",
+							"raw": "http://localhost:8080/emprestimos/vigentes/usuario/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -259,9 +288,9 @@
 							"port": "8080",
 							"path": [
 								"emprestimos",
-								"vigente",
+								"vigentes",
 								"usuario",
-								"{idUsuario}"
+								"1"
 							]
 						}
 					},
@@ -273,7 +302,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/emprestimos/usuario/{idUsuario}",
+							"raw": "http://localhost:8080/emprestimos/usuario/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -282,7 +311,7 @@
 							"path": [
 								"emprestimos",
 								"usuario",
-								"{idUsuario}"
+								"1"
 							]
 						}
 					},
@@ -311,7 +340,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/emprestimos/2",
+							"raw": "http://localhost:8080/emprestimos/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -319,7 +348,7 @@
 							"port": "8080",
 							"path": [
 								"emprestimos",
-								"2"
+								"1"
 							]
 						}
 					},
