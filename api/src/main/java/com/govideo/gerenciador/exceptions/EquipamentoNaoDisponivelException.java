@@ -2,7 +2,7 @@ package com.govideo.gerenciador.exceptions;
 
 import org.springframework.http.HttpStatus;
 
-public class EquipamentoNaoDisponivelException extends Throwable {
+public class EquipamentoNaoDisponivelException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
