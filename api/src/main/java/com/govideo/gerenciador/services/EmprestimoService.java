@@ -80,12 +80,16 @@ public class EmprestimoService {
     @Transactional
     public EmprestimoDTO cadastrar(Long idEquipamento) throws EquipamentoNaoDisponivelException {
         Equipamento equipamento = equipamentoService.consultarPorId(idEquipamento);
-//        Emprestimo emprestimo = null;
-
 
         //TODO: BUSCAR O USUÁRIO PELO ID (NA SERVICE DE USUARIO) QUE VEM PELA CONTROLLER
-        Usuario usuario = new Usuario();
-        usuarioRepository.save(usuario);
+        Optional<Usuario> optionalUsuario = usuarioRepository.findById(1L);
+        Usuario usuario = null;
+        if(optionalUsuario.isPresent()){
+            usuario = optionalUsuario.get();
+        } else {
+            usuario = new Usuario(1L);
+            usuario = usuarioRepository.save(usuario);
+        }
 
         if (equipamento.getStatus() == StatusEquipamento.DISPONIVEL) {
             Emprestimo emprestimo = new Emprestimo(equipamento, usuario);
