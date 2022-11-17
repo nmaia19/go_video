@@ -7,6 +7,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.net.URI;
 
 public class EquipamentosGenerator {
+
     //TODO: incluir tokenGenerator quando security pronto
     public void cadastrarEquipamento(MockMvc mockMvc) throws Exception {
         URI uri = new URI("/equipamentos");

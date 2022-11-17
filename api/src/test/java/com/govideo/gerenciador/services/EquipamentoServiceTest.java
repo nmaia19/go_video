@@ -69,22 +69,6 @@ public class EquipamentoServiceTest {
     }
 
     @Test
-    public void deveriaRetornarEquipamentoDTOAoBuscarPorId() {
-        when(equipamentoRepository.findById(any())).thenReturn(Optional.of(mockEquipamentoEntity()));
-        EquipamentoDTO retornoEquipamento = equipamentoService.consultarPorIdRetornarDTO(1L);
-        assertNotNull(retornoEquipamento);
-    }
-
-    @Test
-    public void naoDeveriaEncontrarEquipamentoDTOAoBuscarPorId() {
-        RecursoNaoEncontradoException exception = assertThrows(RecursoNaoEncontradoException.class, () -> {
-            when(equipamentoRepository.findById(any())).thenReturn(Optional.empty());
-            equipamentoService.consultarPorIdRetornarDTO(1L);
-        });
-        assertTrue(exception.getMessage().equals("Equipamento não encontrado!"));
-    }
-
-    @Test
     public void deveriaRetornarEquipamentoAoBuscarPorId() {
         when(equipamentoRepository.findById(any())).thenReturn(Optional.of(mockEquipamentoEntity()));
         Equipamento retornoEquipamento = equipamentoService.consultarPorId(1L);
@@ -92,7 +76,7 @@ public class EquipamentoServiceTest {
     }
 
     @Test
-    public void naoDeveriaEncontrarEquipamentoAoBuscarPorId() {
+    public void naoDeveriaRetornarEquipamentoAoBuscarPorId() {
         RecursoNaoEncontradoException exception = assertThrows(RecursoNaoEncontradoException.class, () -> {
             when(equipamentoRepository.findById(any())).thenReturn(Optional.empty());
             equipamentoService.consultarPorId(1L);
@@ -101,7 +85,23 @@ public class EquipamentoServiceTest {
     }
 
     @Test
-    public void deveriaRetornarTodosEquipamentos() {
+    public void deveriaRetornarEquipamentoDTOAoBuscarPorId() {
+        when(equipamentoRepository.findById(any())).thenReturn(Optional.of(mockEquipamentoEntity()));
+        EquipamentoDTO retornoEquipamento = equipamentoService.consultarPorIdRetornarDTO(1L);
+        assertNotNull(retornoEquipamento);
+    }
+
+    @Test
+    public void naoDeveriaRetornarEquipamentoDTOAoBuscarPorId() {
+        RecursoNaoEncontradoException exception = assertThrows(RecursoNaoEncontradoException.class, () -> {
+            when(equipamentoRepository.findById(any())).thenReturn(Optional.empty());
+            equipamentoService.consultarPorIdRetornarDTO(1L);
+        });
+        assertTrue(exception.getMessage().equals("Equipamento não encontrado!"));
+    }
+
+    @Test
+    public void deveriaRetornarTodosOsEquipamentos() {
         Pageable pageable = PageRequest.of(0, 10);
         when(equipamentoRepository.findAll(pageable)).thenReturn(mockEquipamentoPage());
         Page<EquipamentoDTO> equipamentoDTOPage = equipamentoService.consultar(pageable);
@@ -109,7 +109,7 @@ public class EquipamentoServiceTest {
     }
 
     @Test
-    public void deveriaBuscarPorStatusDisponivel() {
+    public void deveriaRetornarEquipamentosComStatusDisponivel() {
         Pageable paginacao = PageRequest.of(0, 10);
         when(equipamentoRepository.findAll(paginacao)).thenReturn(mockEquipamentoPage());
         when(equipamentoRepository.findByStatus(StatusEquipamento.DISPONIVEL, paginacao)).thenReturn(mockEquipamentoPage());
@@ -118,7 +118,7 @@ public class EquipamentoServiceTest {
     }
 
     @Test
-    public void deveriaBuscarPorStatusIndisponivel() {
+    public void deveriaRetornarEquipamentosComStatusIndisponivel() {
         Pageable paginacao = PageRequest.of(0, 10);
         when(equipamentoRepository.findAll(paginacao)).thenReturn(mockEquipamentoPage());
         when(equipamentoRepository.findByStatus(StatusEquipamento.INDISPONIVEL, paginacao)).thenReturn(mockEquipamentoPage());
@@ -127,12 +127,30 @@ public class EquipamentoServiceTest {
     }
 
     @Test
-    public void deveriaBuscarPorStatusInativo() {
+    public void deveriaRetornarEquipamentosComStatusInativo() {
         Pageable paginacao = PageRequest.of(0, 10);
         when(equipamentoRepository.findAll(paginacao)).thenReturn(mockEquipamentoPage());
         when(equipamentoRepository.findByStatus(StatusEquipamento.INATIVO, paginacao)).thenReturn(mockEquipamentoPage());
         Page<EquipamentoDTO> equipamentoDTO = equipamentoService.consultarPorStatus("INATIVO", paginacao);
         assertEquals(1L, equipamentoDTO.getTotalElements());
+    }
+
+    @Test
+    public void deveriaAlterarEquipamentoComSucesso() {
+        when(equipamentoRepository.findById(1L)).thenReturn(Optional.of(mockEquipamentoEntity()));
+        when(equipamentoRepository.save(any())).thenReturn(mockEquipamentoEntity());
+        EquipamentoDTO retornoEquipamento = equipamentoService.alterar(1L, mockEquipamentoForm());
+        assertEquals(1L, (long) retornoEquipamento.getId());
+    }
+
+    @Test
+    public void deveriaAlterarStatusDeEquipamentoComSucesso() {
+        when(equipamentoRepository.findById(1L)).thenReturn(Optional.of(mockEquipamentoEntity()));
+        Equipamento equipamento = mockEquipamentoEntity();
+        equipamento.setStatus(StatusEquipamento.INATIVO);
+        when(equipamentoRepository.save(any())).thenReturn(equipamento);
+        EquipamentoDTO retornoEquipamento = equipamentoService.alterarStatus(1L, StatusEquipamento.INATIVO);
+        assertEquals(StatusEquipamento.INATIVO, retornoEquipamento.getStatus());
     }
 
     @Test
@@ -159,7 +177,7 @@ public class EquipamentoServiceTest {
     }
 
     @Test
-    public void deveriaInativarEquipamentoDisponivel() {
+    public void deveriaInativarEquipamentoDisponivelComEmprestimos() {
         Pageable paginacao = PageRequest.of(0, 10);
         Equipamento equipamento = mockEquipamentoEntity();
         when(equipamentoRepository.findById(1L)).thenReturn(Optional.of(equipamento));
@@ -169,23 +187,5 @@ public class EquipamentoServiceTest {
         assertEquals("Equipamento de ID 1 inativado com sucesso!", retorno);
         verify(equipamentoRepository, Mockito.times(1)).save(equipamento);
         verify(equipamentoRepository, Mockito.times(0)).delete(equipamento);
-    }
-
-    @Test
-    public void deveriaAlterarEquipamentoComSucesso() {
-        when(equipamentoRepository.findById(1L)).thenReturn(Optional.of(mockEquipamentoEntity()));
-        when(equipamentoRepository.save(any())).thenReturn(mockEquipamentoEntity());
-        EquipamentoDTO retornoEquipamento = equipamentoService.alterar(1L, mockEquipamentoForm());
-        assertEquals(1L, (long) retornoEquipamento.getId());
-    }
-
-    @Test
-    public void deveriaAlterarStatusEquipamentoComSucesso() {
-        when(equipamentoRepository.findById(1L)).thenReturn(Optional.of(mockEquipamentoEntity()));
-        Equipamento equipamento = mockEquipamentoEntity();
-        equipamento.setStatus(StatusEquipamento.INATIVO);
-        when(equipamentoRepository.save(any())).thenReturn(equipamento);
-        EquipamentoDTO retornoEquipamento = equipamentoService.alterarStatus(1L, StatusEquipamento.INATIVO);
-        assertEquals(StatusEquipamento.INATIVO, retornoEquipamento.getStatus());
     }
 }

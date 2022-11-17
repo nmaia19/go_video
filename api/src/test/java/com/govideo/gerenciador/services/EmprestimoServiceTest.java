@@ -71,20 +71,6 @@ public class EmprestimoServiceTest {
     }
 
     @Test
-    public void deveriaRetornarEmprestimoAoBuscarPorId() {
-        when(emprestimoRepository.findById(any())).thenReturn(Optional.of(mockEmprestimoEntity()));
-        Emprestimo retornoEmprestimo = emprestimoService.consultarPorId(1L);
-        assertNotNull(retornoEmprestimo);
-    }
-
-    @Test
-    public void deveriaRetornarEmprestimoDTOAoBuscarPorId() {
-        when(emprestimoRepository.findById(any())).thenReturn(Optional.of(mockEmprestimoEntity()));
-        EmprestimoDTO retornoEmprestimo = emprestimoService.consultarPorIdRetornarDTO(1L);
-        assertNotNull(retornoEmprestimo);
-    }
-
-    @Test
     public void deveriaCadastrarEmprestimo() throws EquipamentoNaoDisponivelException {
         Emprestimo emprestimo = mockEmprestimoEntity();
         when(equipamentoService.consultarPorId(any())).thenReturn(emprestimo.getEquipamento());
@@ -110,7 +96,30 @@ public class EmprestimoServiceTest {
     }
 
     @Test
-    public void naoDeveriaEncontrarEmprestimosDTOAoBuscarPorId() {
+    public void deveriaRetornarEmprestimoAoBuscarPorId() {
+        when(emprestimoRepository.findById(any())).thenReturn(Optional.of(mockEmprestimoEntity()));
+        Emprestimo retornoEmprestimo = emprestimoService.consultarPorId(1L);
+        assertNotNull(retornoEmprestimo);
+    }
+
+    @Test
+    public void naoDeveriaRetornarEmprestimoAoBuscarPorId() {
+        RecursoNaoEncontradoException exception = assertThrows(RecursoNaoEncontradoException.class, () -> {
+            when(emprestimoRepository.findById(any())).thenReturn(Optional.empty());
+            emprestimoService.consultarPorId(1L);
+        });
+        assertTrue(exception.getMessage().equals("Empréstimo não encontrado!"));
+    }
+
+    @Test
+    public void deveriaRetornarEmprestimoDTOAoBuscarPorId() {
+        when(emprestimoRepository.findById(any())).thenReturn(Optional.of(mockEmprestimoEntity()));
+        EmprestimoDTO retornoEmprestimo = emprestimoService.consultarPorIdRetornarDTO(1L);
+        assertNotNull(retornoEmprestimo);
+    }
+
+    @Test
+    public void naoDeveriaRetornarEmprestimoDTOAoBuscarPorId() {
         RecursoNaoEncontradoException exception = assertThrows(RecursoNaoEncontradoException.class, () -> {
             when(emprestimoRepository.findById(any())).thenReturn(Optional.empty());
             emprestimoService.consultarPorIdRetornarDTO(1L);
@@ -119,17 +128,7 @@ public class EmprestimoServiceTest {
     }
 
     @Test
-    public void naoDeveriaEncontrarEmprestimosAoBuscarPorId() {
-        RecursoNaoEncontradoException exception = assertThrows(RecursoNaoEncontradoException.class, () -> {
-            when(emprestimoRepository.findById(any())).thenReturn(Optional.empty());
-            emprestimoService.consultarPorId(1L);
-        });
-        assertTrue(exception.getMessage().equals("Empréstimo não encontrado!"));
-    }
-
-
-    @Test
-    public void deveriaRetornarTodosEmprestimos() {
+    public void deveriaRetornarTodosOsEmprestimos() {
         Pageable pageable = PageRequest.of(0, 10);
         when(emprestimoRepository.findAll(pageable)).thenReturn(mockEmprestimoPage());
         Page<EmprestimoDTO> emprestimoDTOPage = emprestimoService.consultar(pageable);
@@ -137,7 +136,7 @@ public class EmprestimoServiceTest {
     }
 
     @Test
-    public void deveriaBuscarEncerrados() {
+    public void deveriaRetornarEmprestimosEncerrados() {
         Emprestimo emprestimo = mockEmprestimoEntity();
         emprestimo.setDataFim(LocalDateTime.now());
         Page<Emprestimo> emprestimoEncerrado = new PageImpl<>(Collections.singletonList(emprestimo));
@@ -148,7 +147,7 @@ public class EmprestimoServiceTest {
     }
 
     @Test
-    public void deveriaBuscarVigentes() {
+    public void deveriaRetornarEmprestimosVigentes() {
         Pageable paginacao = PageRequest.of(0, 10);
         when(emprestimoRepository.findByDataFimIsNull(paginacao)).thenReturn(mockEmprestimoPage());
         Page<EmprestimoDTO> emprestimoDTO = emprestimoService.consultarVigentes(paginacao);
@@ -156,7 +155,7 @@ public class EmprestimoServiceTest {
     }
 
     @Test
-    public void deveriaBuscarEmprestimosPorEquipamento() {
+    public void deveriaRetornarEmprestimosPorEquipamento() {
         Pageable paginacao = PageRequest.of(0, 10);
         Equipamento equipamento = mockEquipamentoEntity();
         when(equipamentoService.consultarPorId(any())).thenReturn(equipamento);
@@ -166,7 +165,7 @@ public class EmprestimoServiceTest {
     }
 
     @Test
-    public void deveriaBuscarEmprestimosPorUsuario() {
+    public void deveriaRetornarEmprestimosPorUsuario() {
         Pageable paginacao = PageRequest.of(0, 10);
         Usuario usuario = mockUsuarioEntity();
         when(usuarioRepository.findById(any())).thenReturn(Optional.of(usuario));
@@ -176,7 +175,7 @@ public class EmprestimoServiceTest {
     }
 
     @Test
-    public void deveriaBuscarEmprestimosVigentesPorUsuario() {
+    public void deveriaRetornarEmprestimosVigentesPorUsuario() {
         Pageable paginacao = PageRequest.of(0, 10);
         Usuario usuario = mockUsuarioEntity();
         when(usuarioRepository.findById(any())).thenReturn(Optional.of(usuario));
