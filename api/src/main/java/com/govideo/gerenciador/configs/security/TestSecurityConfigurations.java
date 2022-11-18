@@ -17,6 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.util.Arrays;
+
 
 @EnableWebSecurity
 @Configuration
@@ -30,6 +32,7 @@ public class TestSecurityConfigurations {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.headers().frameOptions().disable();
         http.authorizeRequests()
                 .anyRequest().permitAll()
                 .and().csrf().disable();
