@@ -24,6 +24,10 @@ public class UsuarioDTO {
         this.perfis = usuario.getPerfis();
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getNome() {
         return nome;
     }

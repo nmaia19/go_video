@@ -16,4 +16,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     Page<Usuario> findByStatus(StatusUsuario statusUsuario, Pageable paginacao);
 
+    boolean existsByEmail(String email);
+
 }

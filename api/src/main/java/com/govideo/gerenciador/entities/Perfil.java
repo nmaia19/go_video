@@ -18,6 +18,14 @@ public class Perfil implements GrantedAuthority {
 
     private String perfil;
 
+
+    public Perfil() {
+    }
+
+    public Perfil(String perfil) {
+        this.perfil = perfil;
+    }
+
     public Long getId() {
         return id;
     }
