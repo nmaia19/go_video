@@ -91,7 +91,7 @@ public class EmprestimoService {
             usuario = usuarioRepository.save(usuario);
         }
 
-        if (equipamento.getStatus() == StatusEquipamento.DISPONIVEL) {
+        if(equipamento.getStatus() == StatusEquipamento.DISPONIVEL) {
             Emprestimo emprestimo = new Emprestimo(equipamento, usuario);
             emprestimo = emprestimoRepository.save(emprestimo);
             equipamentoService.alterarStatus(idEquipamento, StatusEquipamento.INDISPONIVEL);
