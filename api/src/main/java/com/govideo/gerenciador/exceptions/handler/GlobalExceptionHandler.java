@@ -1,5 +1,6 @@
 package com.govideo.gerenciador.exceptions.handler;
 
+import com.govideo.gerenciador.exceptions.ConflitoDeEmailException;
 import com.govideo.gerenciador.exceptions.RecursoNaoEncontradoException;
 import com.govideo.gerenciador.exceptions.EquipamentoNaoDisponivelException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,14 +45,21 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(RecursoNaoEncontradoException.class)
-    public final ResponseEntity<ExceptionResponse> resourceNotFound(RecursoNaoEncontradoException r,
+    public final ResponseEntity<ExceptionResponse> recursoNaoEncontrado(RecursoNaoEncontradoException r,
                                                                     HttpServletRequest req){
         ExceptionResponse error = new ExceptionResponse(Instant.now(), r.getMessage(), req.getRequestURI());
         return new ResponseEntity<>(error,r.getStatus());
     }
 
     @ExceptionHandler(EquipamentoNaoDisponivelException.class)
-    public final ResponseEntity<ExceptionResponse> resourceNotFound(EquipamentoNaoDisponivelException e,
+    public final ResponseEntity<ExceptionResponse> equipamentoNaoDisponivel(EquipamentoNaoDisponivelException e,
+                                                                    HttpServletRequest req){
+        ExceptionResponse error = new ExceptionResponse(Instant.now(), e.getMessage(), req.getRequestURI());
+        return new ResponseEntity<>(error,e.getStatus());
+    }
+
+    @ExceptionHandler(ConflitoDeEmailException.class)
+    public final ResponseEntity<ExceptionResponse> conflitoDeEmail(ConflitoDeEmailException e,
                                                                     HttpServletRequest req){
         ExceptionResponse error = new ExceptionResponse(Instant.now(), e.getMessage(), req.getRequestURI());
         return new ResponseEntity<>(error,e.getStatus());

@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "08567ddf-3dd9-413e-a867-9851699b0a1b",
+		"_postman_id": "93561b26-80ae-48be-89aa-d35313b713b0",
 		"name": "Go Video",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "21006145"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -58,7 +57,7 @@
 					"response": []
 				},
 				{
-					"name": "/equipamentos/{status}",
+					"name": "/equipamentos/buscarPorStatus/{status}",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -80,6 +79,146 @@
 				},
 				{
 					"name": "/equipamentos",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en-US",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"modelo\":\"Pocket Cinema 6K\",\r\n    \"descricao\":\"Filmadora profissional Pocket Cinema 6K\",\r\n    \"marca\":\"Black Magic\",\r\n    \"categoria\":\"Filmadoras\",\r\n    \"urlFoto\":\"https://emania.vteximg.com.br/arquivos/ids/209607\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/equipamentos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"equipamentos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/equipamentos/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgZG8gRsOzcnVtIGRhIEFsdXJhIiwic3ViIjoiMSIsImlhdCI6MTY1NzQ4NDUyOSwiZXhwIjoxNjU3NTcwOTI5fQ.VRb6o8vr_OQTOne7ClF_HOJYCPrI6jEyk80-eQIXxh8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"modelo\":\"Teste\",\r\n    \"descricao\":\"Testando\",\r\n    \"marca\":\"Teste\",\r\n    \"categoria\":\"Testando\",\r\n    \"urlFoto\":\"Teste\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/equipamentos/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"equipamentos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/equipamentos/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/equipamentos/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"equipamentos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "/usuarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/equipamentos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"equipamentos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/usuarios/buscarPorStatus/{status}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/equipamentos/buscarPorStatus/inativo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"equipamentos",
+								"buscarPorStatus",
+								"inativo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/usuarios",
 					"protocolProfileBehavior": {
 						"disabledSystemHeaders": {
 							"content-type": true
