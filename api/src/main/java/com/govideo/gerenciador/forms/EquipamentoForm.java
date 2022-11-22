@@ -24,6 +24,14 @@ public class EquipamentoForm {
     @NotNull @NotEmpty
     private String urlFoto;
 
+    public EquipamentoForm(String modelo, String descricao, String marca, String categoria, String urlFoto) {
+        this.modelo = modelo;
+        this.descricao = descricao;
+        this.marca = marca;
+        this.categoria = categoria;
+        this.urlFoto = urlFoto;
+    }
+
     public String getModelo() {
         return modelo;
     }

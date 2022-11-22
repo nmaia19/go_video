@@ -1,6 +1,7 @@
 package com.govideo.gerenciador.controllers;
 
 import com.govideo.gerenciador.dtos.EmprestimoDTO;
+import com.govideo.gerenciador.exceptions.EquipamentoNaoDisponivelException;
 import com.govideo.gerenciador.services.EmprestimoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -62,7 +63,7 @@ public class EmprestimoController {
 
     @PostMapping("/{idEquipamento}")
     @Operation(summary = "Cadastrar empréstimo")
-    public ResponseEntity<EmprestimoDTO> cadastrar(@PathVariable("idEquipamento") Long idEquipamento, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<EmprestimoDTO> cadastrar(@PathVariable("idEquipamento") Long idEquipamento, UriComponentsBuilder uriBuilder) throws EquipamentoNaoDisponivelException {
         EmprestimoDTO emprestimoDTO = emprestimoService.cadastrar(idEquipamento);
         URI uri = uriBuilder.path("/emprestimos/{id}").buildAndExpand(emprestimoDTO.getId()).toUri();
         return ResponseEntity.created(uri).body(emprestimoDTO);

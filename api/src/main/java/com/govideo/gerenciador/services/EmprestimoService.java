@@ -72,33 +72,33 @@ public class EmprestimoService {
     //TODO: CRIAR NA SERVICE DE USUARIO UMA CONSULTA POR ID, COMO A DE EQUIPAMENTOS E SUBSTITUIR O OPTIONAL DENTRO DESSE MÉTODO
     public Page<EmprestimoDTO> consultarEmprestimosVigentesPorUsuario(Long idUsuario, Pageable paginacao){
         Optional<Usuario> usuario = usuarioRepository.findById(idUsuario);
-        Page<Emprestimo> emprestimos = emprestimoRepository.findPorUsuarioEStatus(usuario.get().getId(), paginacao);
+        Page<Emprestimo> emprestimos = emprestimoRepository.findByUsuarioEStatus(usuario.get().getId(), paginacao);
         return EmprestimoDTO.converterParaDTO(emprestimos);
     }
 
     //TODO: AVALIAR SE O USUÁRIO ESTÁ NA CONTROLLER E É PASSADO PARA O SERVICE OU SE É CAPTURADO E TRATADO AQUI
     @Transactional
-    public EmprestimoDTO cadastrar(Long idEquipamento) {
+    public EmprestimoDTO cadastrar(Long idEquipamento) throws EquipamentoNaoDisponivelException {
         Equipamento equipamento = equipamentoService.consultarPorId(idEquipamento);
-        Emprestimo emprestimo = null;
-
 
         //TODO: BUSCAR O USUÁRIO PELO ID (NA SERVICE DE USUARIO) QUE VEM PELA CONTROLLER
-        Usuario usuario = new Usuario();
-        usuarioRepository.save(usuario);
-
-        try {
-            if (equipamento.getStatus() == StatusEquipamento.DISPONIVEL) {
-                emprestimo = new Emprestimo(equipamento, usuario);
-                emprestimo = emprestimoRepository.save(emprestimo);
-                equipamentoService.alterarStatus(idEquipamento, StatusEquipamento.INDISPONIVEL);
-            } else {
-                throw new EquipamentoNaoDisponivelException("O equipamento informado não está disponível para empréstimo.");
-            }
-        } catch (EquipamentoNaoDisponivelException e) {
-
+        Optional<Usuario> optionalUsuario = usuarioRepository.findById(1L);
+        Usuario usuario = null;
+        if(optionalUsuario.isPresent()){
+            usuario = optionalUsuario.get();
+        } else {
+            usuario = new Usuario(1L);
+            usuario = usuarioRepository.save(usuario);
         }
-        return new EmprestimoDTO(emprestimo);
+
+        if(equipamento.getStatus() == StatusEquipamento.DISPONIVEL) {
+            Emprestimo emprestimo = new Emprestimo(equipamento, usuario);
+            emprestimo = emprestimoRepository.save(emprestimo);
+            equipamentoService.alterarStatus(idEquipamento, StatusEquipamento.INDISPONIVEL);
+            return new EmprestimoDTO(emprestimo);
+        } else {
+            throw new EquipamentoNaoDisponivelException("O equipamento informado não está disponível para empréstimo.");
+        }
     }
 
     @Transactional
