@@ -56,8 +56,7 @@ public class EmprestimoServiceTest {
     }
 
     public Usuario mockUsuarioEntity() {
-        Usuario usuario = new Usuario(1L);
-        return usuario;
+        return new Usuario(1L);
     }
 
     public Emprestimo mockEmprestimoEntity() {
@@ -85,14 +84,14 @@ public class EmprestimoServiceTest {
     @Test
     public void naoDeveriaCadastrarEmprestimo() {
         Emprestimo emprestimo = mockEmprestimoEntity();
-        emprestimo.getEquipamento().setStatus(StatusEquipamento.INDISPONIVEL);
+        emprestimo.getEquipamento().setStatus(StatusEquipamento.INDISPONÍVEL);
         EquipamentoNaoDisponivelException exception = assertThrows(EquipamentoNaoDisponivelException.class, () -> {
             when(equipamentoService.consultarPorId(any())).thenReturn(emprestimo.getEquipamento());
             when(usuarioRepository.save(any())).thenReturn(emprestimo.getUsuario());
 
             emprestimoService.cadastrar(1L);
         });
-        assertTrue(exception.getMessage().equals("O equipamento informado não está disponível para empréstimo."));
+        assertEquals("O equipamento informado não está disponível para empréstimo.", exception.getMessage());
     }
 
     @Test
@@ -108,7 +107,7 @@ public class EmprestimoServiceTest {
             when(emprestimoRepository.findById(any())).thenReturn(Optional.empty());
             emprestimoService.consultarPorId(1L);
         });
-        assertTrue(exception.getMessage().equals("Empréstimo não encontrado!"));
+        assertEquals("Empréstimo não encontrado!", exception.getMessage());
     }
 
     @Test
@@ -124,7 +123,7 @@ public class EmprestimoServiceTest {
             when(emprestimoRepository.findById(any())).thenReturn(Optional.empty());
             emprestimoService.consultarPorIdRetornarDTO(1L);
         });
-        assertTrue(exception.getMessage().equals("Empréstimo não encontrado!"));
+        assertEquals("Empréstimo não encontrado!", exception.getMessage());
     }
 
     @Test
@@ -190,7 +189,7 @@ public class EmprestimoServiceTest {
         Emprestimo emprestimo = mockEmprestimoEntity();
         when(emprestimoRepository.findById(any())).thenReturn(Optional.ofNullable(emprestimo));
         when(emprestimoRepository.save(any())).thenReturn(emprestimo);
-        when(equipamentoService.alterarStatus(emprestimo.getEquipamento().getId(), StatusEquipamento.DISPONIVEL)).thenReturn(new EquipamentoDTO(emprestimo.getEquipamento()));
+        when(equipamentoService.alterarStatus(emprestimo.getEquipamento().getId(), StatusEquipamento.DISPONÍVEL)).thenReturn(new EquipamentoDTO(emprestimo.getEquipamento()));
         EmprestimoDTO emprestimoDTO = emprestimoService.encerrar(1L);
         assertNotNull(emprestimoDTO);
         verify(emprestimoRepository, Mockito.times(1)).save(emprestimo);

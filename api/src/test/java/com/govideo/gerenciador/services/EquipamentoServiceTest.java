@@ -1,6 +1,7 @@
 package com.govideo.gerenciador.services;
 
 import com.govideo.gerenciador.dtos.EquipamentoDTO;
+import com.govideo.gerenciador.dtos.ExclusaoEquipamentoDTO;
 import com.govideo.gerenciador.entities.Emprestimo;
 import com.govideo.gerenciador.entities.Equipamento;
 import com.govideo.gerenciador.entities.enuns.StatusEquipamento;
@@ -46,8 +47,7 @@ public class EquipamentoServiceTest {
     }
 
     public EquipamentoForm mockEquipamentoForm() {
-        EquipamentoForm equipamento = new EquipamentoForm("Pocket Cinema 6K", "Filmadora profissional Pocket Cinema 6K", "Black Magic", "Filmadoras", "https://emania.vteximg.com.br/arquivos/ids/209607");
-        return equipamento;
+        return new EquipamentoForm("Pocket Cinema 6K", "Filmadora profissional Pocket Cinema 6K", "Black Magic", "Filmadoras", "https://emania.vteximg.com.br/arquivos/ids/209607");
     }
 
     public Page<Equipamento> mockEquipamentoPage() {
@@ -81,7 +81,7 @@ public class EquipamentoServiceTest {
             when(equipamentoRepository.findById(any())).thenReturn(Optional.empty());
             equipamentoService.consultarPorId(1L);
         });
-        assertTrue(exception.getMessage().equals("Equipamento não encontrado!"));
+        assertEquals("Equipamento não encontrado!", exception.getMessage());
     }
 
     @Test
@@ -97,7 +97,7 @@ public class EquipamentoServiceTest {
             when(equipamentoRepository.findById(any())).thenReturn(Optional.empty());
             equipamentoService.consultarPorIdRetornarDTO(1L);
         });
-        assertTrue(exception.getMessage().equals("Equipamento não encontrado!"));
+        assertEquals("Equipamento não encontrado!", exception.getMessage());
     }
 
     @Test
@@ -160,8 +160,8 @@ public class EquipamentoServiceTest {
         when(equipamentoRepository.findById(any())).thenReturn(Optional.of(equipamento));
         when(emprestimoRepository.findByEquipamento(equipamento, paginacao)).thenReturn(Page.empty());
         doNothing().when(equipamentoRepository).delete(any());
-        String retorno = equipamentoService.excluir(1L);
-        assertEquals("Equipamento de ID 1 excluído com sucesso!", retorno);
+        ExclusaoEquipamentoDTO retorno = equipamentoService.excluir(1L);
+        assertEquals("Equipamento de ID 1 excluído com sucesso!", retorno.getMensagem());
     }
 
     @Test
@@ -171,8 +171,8 @@ public class EquipamentoServiceTest {
         equipamento.setStatus(StatusEquipamento.INDISPONÍVEL);
         when(equipamentoRepository.findById(any())).thenReturn(Optional.of(equipamento));
         when(emprestimoRepository.findByEquipamento(equipamento, paginacao)).thenReturn(mockEmprestimoPage(equipamento));
-        String retorno = equipamentoService.excluir(1L);
-        assertEquals("O status atual do equipamento de ID 1 é INDISPONIVEL, então ele não pode ser inativado ou excluído!", retorno);
+        ExclusaoEquipamentoDTO retorno = equipamentoService.excluir(1L);
+        assertEquals("O status atual do equipamento de ID 1 é INDISPONIVEL, então ele não pode ser inativado ou excluído!", retorno.getMensagem());
         verify(equipamentoRepository, Mockito.times(0)).delete(equipamento);
     }
 
@@ -183,8 +183,8 @@ public class EquipamentoServiceTest {
         when(equipamentoRepository.findById(1L)).thenReturn(Optional.of(equipamento));
         when(equipamentoRepository.save(any())).thenReturn(equipamento);
         when(emprestimoRepository.findByEquipamento(equipamento, paginacao)).thenReturn(mockEmprestimoPage(equipamento));
-        String retorno = equipamentoService.excluir(1L);
-        assertEquals("Equipamento de ID 1 inativado com sucesso!", retorno);
+        ExclusaoEquipamentoDTO retorno = equipamentoService.excluir(1L);
+        assertEquals("Equipamento de ID 1 inativado com sucesso!", retorno.getMensagem());
         verify(equipamentoRepository, Mockito.times(1)).save(equipamento);
         verify(equipamentoRepository, Mockito.times(0)).delete(equipamento);
     }
