@@ -1,10 +1,10 @@
 package com.govideo.gerenciador.dtos;
 
-public class ExclusaoEquipamentoDTO {
+public class RespostaDTO {
 
     private String mensagem;
 
-    public ExclusaoEquipamentoDTO(String mensagem) {
+    public RespostaDTO(String mensagem) {
         this.mensagem = mensagem;
     }
 

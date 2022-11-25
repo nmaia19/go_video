@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "93561b26-80ae-48be-89aa-d35313b713b0",
+		"_postman_id": "3a49bc59-ce3b-4539-b914-0ce7662a660d",
 		"name": "Go Video",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21006145"
 	},
 	"item": [
 		{
@@ -180,17 +181,63 @@
 				{
 					"name": "/usuarios",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5NDExMTkwLCJleHAiOjE2Njk0MTQ3OTB9.JyWS7BqbAzBCfKgxHXOXb5aTCb6iGmp45e6xgQF5Hn8",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5NDA2MzU3LCJleHAiOjE2Njk0MDk5NTd9.ee4Wb2x_lkn-c9BaSt8seSV2BnjtVx3Na656oArDK0k",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "http://localhost:8080/equipamentos",
+							"raw": "http://localhost:8080/usuarios",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"equipamentos"
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/usuarios/{id}",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5NDExMTkwLCJleHAiOjE2Njk0MTQ3OTB9.JyWS7BqbAzBCfKgxHXOXb5aTCb6iGmp45e6xgQF5Hn8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/usuarios/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"1"
 							]
 						}
 					},
@@ -199,17 +246,27 @@
 				{
 					"name": "/usuarios/buscarPorStatus/{status}",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5NDExMTkwLCJleHAiOjE2Njk0MTQ3OTB9.JyWS7BqbAzBCfKgxHXOXb5aTCb6iGmp45e6xgQF5Hn8",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/equipamentos/buscarPorStatus/inativo",
+							"raw": "http://localhost:8080/usuarios/buscarPorStatus/inativo",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"equipamentos",
+								"usuarios",
 								"buscarPorStatus",
 								"inativo"
 							]
@@ -225,6 +282,16 @@
 						}
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5NDExMTkwLCJleHAiOjE2Njk0MTQ3OTB9.JyWS7BqbAzBCfKgxHXOXb5aTCb6iGmp45e6xgQF5Hn8",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -233,33 +300,42 @@
 								"type": "text"
 							},
 							{
-								"key": "Accept-Language",
-								"value": "en-US",
-								"type": "text",
-								"disabled": true
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5NDA2MzU3LCJleHAiOjE2Njk0MDk5NTd9.ee4Wb2x_lkn-c9BaSt8seSV2BnjtVx3Na656oArDK0k",
+								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"modelo\":\"Pocket Cinema 6K\",\r\n    \"descricao\":\"Filmadora profissional Pocket Cinema 6K\",\r\n    \"marca\":\"Black Magic\",\r\n    \"categoria\":\"Filmadoras\",\r\n    \"urlFoto\":\"https://emania.vteximg.com.br/arquivos/ids/209607\"\r\n}"
+							"raw": "{\r\n    \"nome\":\"Colaborador\",\r\n    \"email\":\"colaborador@email.com\",\r\n    \"senha\":\"123\"\r\n}"
 						},
 						"url": {
-							"raw": "http://localhost:8080/equipamentos",
+							"raw": "http://localhost:8080/usuarios",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"equipamentos"
+								"usuarios"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/equipamentos/{id}",
+					"name": "/usuarios/alterarNome/{id}",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5NDExNDIwLCJleHAiOjE2Njk0MTUwMjB9.5dp9x8UAr2MVPzoBenW0vhuSujoePZ--q7_PQOY0V1g",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -275,38 +351,137 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"modelo\":\"Teste\",\r\n    \"descricao\":\"Testando\",\r\n    \"marca\":\"Teste\",\r\n    \"categoria\":\"Testando\",\r\n    \"urlFoto\":\"Teste\"\r\n}"
+							"raw": "{\r\n    \"nome\":\"Teste\"\r\n}"
 						},
 						"url": {
-							"raw": "http://localhost:8080/equipamentos/1",
+							"raw": "http://localhost:8080/usuarios/alterarNome/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"equipamentos",
-								"1"
+								"usuarios",
+								"alterarNome",
+								"2"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/equipamentos/{id}",
+					"name": "/usuarios/alterarSenha/{id}",
 					"request": {
-						"method": "DELETE",
-						"header": [],
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5NDExNDIwLCJleHAiOjE2Njk0MTUwMjB9.5dp9x8UAr2MVPzoBenW0vhuSujoePZ--q7_PQOY0V1g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgZG8gRsOzcnVtIGRhIEFsdXJhIiwic3ViIjoiMSIsImlhdCI6MTY1NzQ4NDUyOSwiZXhwIjoxNjU3NTcwOTI5fQ.VRb6o8vr_OQTOne7ClF_HOJYCPrI6jEyk80-eQIXxh8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"senhaAntiga\":\"123\",\r\n    \"novaSenha\":\"123teste\",\r\n     \"confirmaNovaSenha\":\"123teste\"\r\n}"
+						},
 						"url": {
-							"raw": "http://localhost:8080/equipamentos/1",
+							"raw": "http://localhost:8080/usuarios/alterarSenha/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"equipamentos",
-								"1"
+								"usuarios",
+								"alterarSenha",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/usuarios/resetarSenha/{id}",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5NDExMTkwLCJleHAiOjE2Njk0MTQ3OTB9.JyWS7BqbAzBCfKgxHXOXb5aTCb6iGmp45e6xgQF5Hn8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgZG8gRsOzcnVtIGRhIEFsdXJhIiwic3ViIjoiMSIsImlhdCI6MTY1NzQ4NDUyOSwiZXhwIjoxNjU3NTcwOTI5fQ.VRb6o8vr_OQTOne7ClF_HOJYCPrI6jEyk80-eQIXxh8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/usuarios/resetarSenha/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"resetarSenha",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/usuarios/{id}",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5NDExMTkwLCJleHAiOjE2Njk0MTQ3OTB9.JyWS7BqbAzBCfKgxHXOXb5aTCb6iGmp45e6xgQF5Hn8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/usuarios/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"2"
 							]
 						}
 					},

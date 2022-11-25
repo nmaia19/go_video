@@ -1,8 +1,7 @@
 package com.govideo.gerenciador.services;
 
 import com.govideo.gerenciador.dtos.EquipamentoDTO;
-import com.govideo.gerenciador.dtos.ExclusaoEquipamentoDTO;
-import com.govideo.gerenciador.entities.Emprestimo;
+import com.govideo.gerenciador.dtos.RespostaDTO;
 import com.govideo.gerenciador.entities.Equipamento;
 import com.govideo.gerenciador.entities.enuns.StatusEquipamento;
 import com.govideo.gerenciador.exceptions.RecursoNaoEncontradoException;
@@ -86,7 +85,7 @@ public class EquipamentoService {
     }
 
     @Transactional
-    public ExclusaoEquipamentoDTO excluir(Long id) {
+    public RespostaDTO excluir(Long id) {
         Equipamento equipamento = consultarPorId(id);
         String mensagem;
         Pageable paginacao = PageRequest.of(0, 10);
@@ -102,7 +101,7 @@ public class EquipamentoService {
         equipamentoRepository.delete(equipamento);
         mensagem = "Equipamento de ID " + id + " excluído com sucesso!";
          }
-        return new ExclusaoEquipamentoDTO(mensagem);
+        return new RespostaDTO(mensagem);
     }
 
 }
