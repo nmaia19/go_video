@@ -91,10 +91,10 @@ public class EmprestimoService {
             usuario = usuarioRepository.save(usuario);
         }
 
-        if(equipamento.getStatus() == StatusEquipamento.DISPONIVEL) {
+        if(equipamento.getStatus() == StatusEquipamento.DISPONÍVEL) {
             Emprestimo emprestimo = new Emprestimo(equipamento, usuario);
             emprestimo = emprestimoRepository.save(emprestimo);
-            equipamentoService.alterarStatus(idEquipamento, StatusEquipamento.INDISPONIVEL);
+            equipamentoService.alterarStatus(idEquipamento, StatusEquipamento.INDISPONÍVEL);
             return new EmprestimoDTO(emprestimo);
         } else {
             throw new EquipamentoNaoDisponivelException("O equipamento informado não está disponível para empréstimo.");
@@ -106,7 +106,7 @@ public class EmprestimoService {
         Emprestimo emprestimo = consultarPorId(id);
         emprestimo.setDataFim(LocalDateTime.now());
         emprestimoRepository.save(emprestimo);
-        equipamentoService.alterarStatus(emprestimo.getEquipamento().getId(), StatusEquipamento.DISPONIVEL);
+        equipamentoService.alterarStatus(emprestimo.getEquipamento().getId(), StatusEquipamento.DISPONÍVEL);
         return new EmprestimoDTO(emprestimo);
     }
 
