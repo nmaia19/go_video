@@ -44,9 +44,9 @@ public class EquipamentoService {
 
         if (statusString != null) {
             if (statusString.equalsIgnoreCase("DISPONIVEL")) {
-                equipamentos = equipamentoRepository.findByStatus(StatusEquipamento.DISPONIVEL, paginacao);
+                equipamentos = equipamentoRepository.findByStatus(StatusEquipamento.DISPONÍVEL, paginacao);
             } else if (statusString.equalsIgnoreCase("INDISPONIVEL")) {
-                equipamentos = equipamentoRepository.findByStatus(StatusEquipamento.INDISPONIVEL, paginacao);
+                equipamentos = equipamentoRepository.findByStatus(StatusEquipamento.INDISPONÍVEL, paginacao);
             } else if (statusString.equalsIgnoreCase("INATIVO")) {
                 equipamentos = equipamentoRepository.findByStatus(StatusEquipamento.INATIVO, paginacao);
             }
@@ -91,7 +91,7 @@ public class EquipamentoService {
         Pageable paginacao = PageRequest.of(0, 10);
         
         if(emprestimoRepository.findByEquipamento(equipamento, paginacao).hasContent()) {
-             if(equipamento.getStatus().equals(StatusEquipamento.DISPONIVEL)) {
+             if(equipamento.getStatus().equals(StatusEquipamento.DISPONÍVEL)) {
                 alterarStatus(id, StatusEquipamento.INATIVO);
                 mensagem = "Equipamento de ID " + id + " inativado com sucesso!";
              } else {

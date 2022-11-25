@@ -112,7 +112,7 @@ public class EquipamentoServiceTest {
     public void deveriaRetornarEquipamentosComStatusDisponivel() {
         Pageable paginacao = PageRequest.of(0, 10);
         when(equipamentoRepository.findAll(paginacao)).thenReturn(mockEquipamentoPage());
-        when(equipamentoRepository.findByStatus(StatusEquipamento.DISPONIVEL, paginacao)).thenReturn(mockEquipamentoPage());
+        when(equipamentoRepository.findByStatus(StatusEquipamento.DISPONÍVEL, paginacao)).thenReturn(mockEquipamentoPage());
         Page<EquipamentoDTO> equipamentoDTO = equipamentoService.consultarPorStatus("DISPONIVEL", paginacao);
         assertEquals(1L, equipamentoDTO.getTotalElements());
     }
@@ -121,7 +121,7 @@ public class EquipamentoServiceTest {
     public void deveriaRetornarEquipamentosComStatusIndisponivel() {
         Pageable paginacao = PageRequest.of(0, 10);
         when(equipamentoRepository.findAll(paginacao)).thenReturn(mockEquipamentoPage());
-        when(equipamentoRepository.findByStatus(StatusEquipamento.INDISPONIVEL, paginacao)).thenReturn(mockEquipamentoPage());
+        when(equipamentoRepository.findByStatus(StatusEquipamento.INDISPONÍVEL, paginacao)).thenReturn(mockEquipamentoPage());
         Page<EquipamentoDTO> equipamentoDTO = equipamentoService.consultarPorStatus("INDISPONIVEL", paginacao);
         assertEquals(1L, equipamentoDTO.getTotalElements());
     }
@@ -168,7 +168,7 @@ public class EquipamentoServiceTest {
     public void deveriaExibirMensagemAoTentarExcluirEquipamentoIndisponivel() {
         Pageable paginacao = PageRequest.of(0, 10);
         Equipamento equipamento = mockEquipamentoEntity();
-        equipamento.setStatus(StatusEquipamento.INDISPONIVEL);
+        equipamento.setStatus(StatusEquipamento.INDISPONÍVEL);
         when(equipamentoRepository.findById(any())).thenReturn(Optional.of(equipamento));
         when(emprestimoRepository.findByEquipamento(equipamento, paginacao)).thenReturn(mockEmprestimoPage(equipamento));
         String retorno = equipamentoService.excluir(1L);
