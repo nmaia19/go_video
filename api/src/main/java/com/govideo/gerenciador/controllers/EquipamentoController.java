@@ -1,7 +1,7 @@
 package com.govideo.gerenciador.controllers;
 
 import com.govideo.gerenciador.dtos.EquipamentoDTO;
-import com.govideo.gerenciador.dtos.ExclusaoEquipamentoDTO;
+import com.govideo.gerenciador.dtos.RespostaDTO;
 import com.govideo.gerenciador.forms.EquipamentoForm;
 import com.govideo.gerenciador.services.EquipamentoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -61,7 +61,7 @@ public class EquipamentoController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Excluir ou inativar equipamento")
-    public ResponseEntity<ExclusaoEquipamentoDTO> excluir(@PathVariable("id") Long id) {
+    public ResponseEntity<RespostaDTO> excluir(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(equipamentoService.excluir(id));
     }
 }

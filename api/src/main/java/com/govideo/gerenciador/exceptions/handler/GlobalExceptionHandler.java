@@ -1,6 +1,7 @@
 package com.govideo.gerenciador.exceptions.handler;
 
 import com.govideo.gerenciador.exceptions.ConflitoDeEmailException;
+import com.govideo.gerenciador.exceptions.OperacaoNaoPermitidaException;
 import com.govideo.gerenciador.exceptions.RecursoNaoEncontradoException;
 import com.govideo.gerenciador.exceptions.EquipamentoNaoDisponivelException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -63,6 +65,21 @@ public class GlobalExceptionHandler {
                                                                     HttpServletRequest req){
         ExceptionResponse error = new ExceptionResponse(Instant.now(), e.getMessage(), req.getRequestURI());
         return new ResponseEntity<>(error,e.getStatus());
+    }
+
+    @ExceptionHandler(OperacaoNaoPermitidaException.class)
+    public final ResponseEntity<ExceptionResponse> operacaoNaoPermitida(OperacaoNaoPermitidaException e,
+                                                                   HttpServletRequest req){
+        ExceptionResponse error = new ExceptionResponse(Instant.now(), e.getMessage(), req.getRequestURI());
+        return new ResponseEntity<>(error,e.getStatus());
+    }
+
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public final ResponseEntity<ExceptionResponse> emailNaoEncontrado(UsernameNotFoundException e,
+                                                                   HttpServletRequest req){
+        ExceptionResponse error = new ExceptionResponse(Instant.now(), e.getMessage(), req.getRequestURI());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
 }

@@ -1,7 +1,7 @@
 package com.govideo.gerenciador.services;
 
 import com.govideo.gerenciador.dtos.EquipamentoDTO;
-import com.govideo.gerenciador.dtos.ExclusaoEquipamentoDTO;
+import com.govideo.gerenciador.dtos.RespostaDTO;
 import com.govideo.gerenciador.entities.Emprestimo;
 import com.govideo.gerenciador.entities.Equipamento;
 import com.govideo.gerenciador.entities.enuns.StatusEquipamento;
@@ -160,7 +160,7 @@ public class EquipamentoServiceTest {
         when(equipamentoRepository.findById(any())).thenReturn(Optional.of(equipamento));
         when(emprestimoRepository.findByEquipamento(equipamento, paginacao)).thenReturn(Page.empty());
         doNothing().when(equipamentoRepository).delete(any());
-        ExclusaoEquipamentoDTO retorno = equipamentoService.excluir(1L);
+        RespostaDTO retorno = equipamentoService.excluir(1L);
         assertEquals("Equipamento de ID 1 excluído com sucesso!", retorno.getMensagem());
     }
 
@@ -171,7 +171,7 @@ public class EquipamentoServiceTest {
         equipamento.setStatus(StatusEquipamento.INDISPONÍVEL);
         when(equipamentoRepository.findById(any())).thenReturn(Optional.of(equipamento));
         when(emprestimoRepository.findByEquipamento(equipamento, paginacao)).thenReturn(mockEmprestimoPage(equipamento));
-        ExclusaoEquipamentoDTO retorno = equipamentoService.excluir(1L);
+        RespostaDTO retorno = equipamentoService.excluir(1L);
         assertEquals("O status atual do equipamento de ID 1 é INDISPONIVEL, então ele não pode ser inativado ou excluído!", retorno.getMensagem());
         verify(equipamentoRepository, Mockito.times(0)).delete(equipamento);
     }
@@ -183,7 +183,7 @@ public class EquipamentoServiceTest {
         when(equipamentoRepository.findById(1L)).thenReturn(Optional.of(equipamento));
         when(equipamentoRepository.save(any())).thenReturn(equipamento);
         when(emprestimoRepository.findByEquipamento(equipamento, paginacao)).thenReturn(mockEmprestimoPage(equipamento));
-        ExclusaoEquipamentoDTO retorno = equipamentoService.excluir(1L);
+        RespostaDTO retorno = equipamentoService.excluir(1L);
         assertEquals("Equipamento de ID 1 inativado com sucesso!", retorno.getMensagem());
         verify(equipamentoRepository, Mockito.times(1)).save(equipamento);
         verify(equipamentoRepository, Mockito.times(0)).delete(equipamento);
