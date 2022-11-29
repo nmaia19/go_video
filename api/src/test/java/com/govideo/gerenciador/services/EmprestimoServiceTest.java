@@ -4,6 +4,7 @@ import com.govideo.gerenciador.dtos.EmprestimoDTO;
 import com.govideo.gerenciador.dtos.EquipamentoDTO;
 import com.govideo.gerenciador.entities.Emprestimo;
 import com.govideo.gerenciador.entities.Equipamento;
+import com.govideo.gerenciador.entities.Perfil;
 import com.govideo.gerenciador.entities.Usuario;
 import com.govideo.gerenciador.entities.enuns.StatusEquipamento;
 import com.govideo.gerenciador.exceptions.EquipamentoNaoDisponivelException;
@@ -23,7 +24,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -45,6 +48,9 @@ public class EmprestimoServiceTest {
 
     @Mock
     private UsuarioRepository usuarioRepository;
+
+    @Mock
+    private UsuarioService usuarioService;
 
     @Mock
     private EquipamentoService equipamentoService;
@@ -115,6 +121,9 @@ public class EmprestimoServiceTest {
     @Test
     public void deveriaRetornarEmprestimoDTOAoBuscarPorId() {
         Usuario usuario = mockUsuarioEntity();
+        List<Perfil> perfis = new ArrayList<>();
+        perfis.add(new Perfil("ROLE_COLABORADOR"));
+        usuario.setPerfis(perfis);
         when(emprestimoRepository.findById(any())).thenReturn(Optional.of(mockEmprestimoEntity()));
         EmprestimoDTO retornoEmprestimo = emprestimoService.consultarPorIdRetornarDTO(1L, usuario);
         assertNotNull(retornoEmprestimo);
@@ -171,7 +180,10 @@ public class EmprestimoServiceTest {
     public void deveriaRetornarEmprestimosPorUsuario() {
         Pageable paginacao = PageRequest.of(0, 10);
         Usuario usuario = mockUsuarioEntity();
-        when(usuarioRepository.findById(any())).thenReturn(Optional.of(usuario));
+        List<Perfil> perfis = new ArrayList<>();
+        perfis.add(new Perfil("ROLE_COLABORADOR"));
+        usuario.setPerfis(perfis);
+        when(usuarioService.consultarPorId(any())).thenReturn(usuario);
         when(emprestimoRepository.findByUsuario(usuario, paginacao)).thenReturn(mockEmprestimoPage());
         Page<EmprestimoDTO> emprestimoDTO = emprestimoService.consultarEmprestimosPorUsuario(1L, usuario, paginacao);
         assertEquals(1L, emprestimoDTO.getTotalElements());
@@ -181,7 +193,10 @@ public class EmprestimoServiceTest {
     public void deveriaRetornarEmprestimosVigentesPorUsuario() {
         Pageable paginacao = PageRequest.of(0, 10);
         Usuario usuario = mockUsuarioEntity();
-        when(usuarioRepository.findById(any())).thenReturn(Optional.of(usuario));
+        List<Perfil> perfis = new ArrayList<>();
+        perfis.add(new Perfil("ROLE_COLABORADOR"));
+        usuario.setPerfis(perfis);
+        when(usuarioService.consultarPorId(any())).thenReturn(usuario);
         when(emprestimoRepository.findVigentesByUsuario(1L, paginacao)).thenReturn(mockEmprestimoPage());
         Page<EmprestimoDTO> emprestimoDTO = emprestimoService.consultarEmprestimosVigentesPorUsuario(1L, usuario, paginacao);
         assertEquals(1L, emprestimoDTO.getTotalElements());
@@ -192,6 +207,9 @@ public class EmprestimoServiceTest {
         Pageable paginacao = PageRequest.of(0, 10);
         Emprestimo emprestimo = mockEmprestimoEntity();
         Usuario usuario = mockUsuarioEntity();
+        List<Perfil> perfis = new ArrayList<>();
+        perfis.add(new Perfil("ROLE_ADMINISTRADOR"));
+        usuario.setPerfis(perfis);
         when(emprestimoRepository.findById(any())).thenReturn(Optional.ofNullable(emprestimo));
         when(emprestimoRepository.save(any())).thenReturn(emprestimo);
         when(equipamentoService.alterarStatus(emprestimo.getEquipamento().getId(), StatusEquipamento.DISPONÍVEL)).thenReturn(new EquipamentoDTO(emprestimo.getEquipamento()));
