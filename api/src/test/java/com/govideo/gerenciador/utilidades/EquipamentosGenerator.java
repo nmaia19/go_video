@@ -8,8 +8,7 @@ import java.net.URI;
 
 public class EquipamentosGenerator {
 
-    //TODO: incluir tokenGenerator quando security pronto
-    public void cadastrarEquipamento(MockMvc mockMvc) throws Exception {
+    public void cadastrarEquipamento(MockMvc mockMvc, TokenGenerator tokenGenerator) throws Exception {
         URI uri = new URI("/equipamentos");
         String json = "{\r\n"
                 + "    \"modelo\": \"Pocket Cinema 6K\",\r\n"
@@ -19,12 +18,11 @@ public class EquipamentosGenerator {
                 + "    \"urlFoto\": \"https://emania.vteximg.com.br/arquivos/ids/209607\"\r\n"
                 + "}";
 
-        //TODO: incluir header quando security pronto
-        //.header("Authorization", "Bearer " + generator.obterTokenAdmin(mockMvc))
         mockMvc.
                 perform(
                         MockMvcRequestBuilders
                                 .post(uri)
+                                .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc))
                                 .content(json)
                                 .contentType(MediaType.APPLICATION_JSON));
     }

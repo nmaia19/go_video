@@ -2,6 +2,7 @@ package com.govideo.gerenciador.controllers;
 
 import com.govideo.gerenciador.services.EquipamentoService;
 import com.govideo.gerenciador.utilidades.EquipamentosGenerator;
+import com.govideo.gerenciador.utilidades.TokenGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -21,8 +22,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class EquipamentoControllerTest {
-    //TODO: adicionar a linha abaixo depois de security pronto
-    //private TokenGenerator tokenGenerator;
+
+    private TokenGenerator tokenGenerator;
 
     private EquipamentosGenerator equipamentosGenerator;
 
@@ -35,8 +36,7 @@ public class EquipamentoControllerTest {
     @BeforeEach
     public void beforeEach() {
         this.equipamentosGenerator = new EquipamentosGenerator();
-        //TODO: adicionar a linha abaixo depois de security pronto
-        //tokenGenerator = new TokenGenerator();
+        this.tokenGenerator = new TokenGenerator();
     }
 
     @Test
@@ -50,12 +50,11 @@ public class EquipamentoControllerTest {
                 + "    \"urlFoto\": \"https://emania.vteximg.com.br/arquivos/ids/209607\"\r\n"
                 + "}";
 
-        //TODO: incluir header quando security pronto
-        //.header("Authorization", "Bearer " + generator.obterTokenAdmin(mockMvc))
         mockMvc.
                 perform(
                         MockMvcRequestBuilders
                                 .post(uri)
+                                .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc))
                                 .content(json)
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers
@@ -66,18 +65,17 @@ public class EquipamentoControllerTest {
     @Test
     public void deveriaDevolver200AoBuscarTodosOsEquipamentos() throws Exception {
         URI uri = new URI("/equipamentos");
-        equipamentosGenerator.cadastrarEquipamento(mockMvc);
+        equipamentosGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
 
         ResultActions result =
-                //TODO: incluir header quando security pronto
-                //.header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc))
-                mockMvc.
-                        perform(
-                                MockMvcRequestBuilders
-                                        .get(uri))
-                        .andExpect(MockMvcResultMatchers
-                                .status()
-                                .is(200));
+            mockMvc.
+                    perform(
+                            MockMvcRequestBuilders
+                                    .get(uri)
+                                    .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc)))
+                    .andExpect(MockMvcResultMatchers
+                            .status()
+                            .is(200));
 
         String listaEquipamento = result.andReturn().getResponse().getContentAsString();
         assertFalse(listaEquipamento.isEmpty());
@@ -86,15 +84,16 @@ public class EquipamentoControllerTest {
     @Test
     public void deveriaDevolver200AoBuscarEquipamentoPorId() throws Exception {
         URI uri = new URI("/equipamentos/1");
-        equipamentosGenerator.cadastrarEquipamento(mockMvc);
+        equipamentosGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
+
+        tokenGenerator.cadastrarColaborador(mockMvc);
 
         ResultActions result =
                 mockMvc.
-                        //TODO: incluir header quando security pronto
-                        //.header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc))
                         perform(
                                 MockMvcRequestBuilders
-                                        .get(uri))
+                                        .get(uri)
+                                        .header("Authorization", "Bearer " + tokenGenerator.obterTokenColaborador(mockMvc)))
                         .andExpect(MockMvcResultMatchers
                                 .status()
                                 .is(200));
@@ -106,15 +105,14 @@ public class EquipamentoControllerTest {
     @Test
     public void deveriaDevolver200AoBuscarEquipamentoPorStatusDisponivel() throws Exception {
         URI uri = new URI("/equipamentos/buscarPorStatus/disponivel");
-        equipamentosGenerator.cadastrarEquipamento(mockMvc);
+        equipamentosGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
 
         ResultActions result =
                 mockMvc.
-                        //TODO: incluir header quando security pronto
-                        //.header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc))
                         perform(
                                 MockMvcRequestBuilders
-                                        .get(uri))
+                                        .get(uri)
+                                        .header("Authorization", "Bearer " + tokenGenerator.obterTokenColaborador(mockMvc)))
                         .andExpect(MockMvcResultMatchers
                                 .status()
                                 .is(200));
@@ -124,11 +122,10 @@ public class EquipamentoControllerTest {
     }
 
     //TODO: testar buscar por status caso inativo e indisponível
-
     @Test
     public void deveriaDevolver200AoAtualizarEquipamento() throws Exception {
         URI uri = new URI("/equipamentos/1");
-        equipamentosGenerator.cadastrarEquipamento(mockMvc);
+        equipamentosGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
 
         String json = "{\r\n"
                 + "    \"modelo\": \"Modelo alterado\",\r\n"
@@ -140,10 +137,9 @@ public class EquipamentoControllerTest {
 
         mockMvc.
                 perform(
-                        //TODO: incluir header quando security pronto
-                        //.header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc
                         MockMvcRequestBuilders
                                 .put(uri)
+                                .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc))
                                 .content(json)
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers
@@ -155,14 +151,13 @@ public class EquipamentoControllerTest {
     @Test
     public void deveriaDevolver200AoExcluirEquipamentos() throws Exception {
         URI uri = new URI("/equipamentos/1");
-        equipamentosGenerator.cadastrarEquipamento(mockMvc);
+        equipamentosGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
 
         mockMvc.
-                //TODO: incluir header quando security pronto
-                //.header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc
                 perform(
                         MockMvcRequestBuilders
-                                .delete(uri))
+                                .delete(uri)
+                                .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc)))
                 .andExpect(MockMvcResultMatchers
                         .status()
                         .is(200));

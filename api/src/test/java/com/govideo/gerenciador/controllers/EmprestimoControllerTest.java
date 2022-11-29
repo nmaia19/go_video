@@ -4,6 +4,7 @@ import com.govideo.gerenciador.services.EmprestimoService;
 import com.govideo.gerenciador.utilidades.EmprestimoGenerator;
 import com.govideo.gerenciador.utilidades.EquipamentosGenerator;
 
+import com.govideo.gerenciador.utilidades.TokenGenerator;
 import org.junit.jupiter.api.*;
 
 import org.mockito.Mock;
@@ -23,10 +24,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class EmprestimoControllerTest {
-    //TODO: adicionar a linha abaixo depois de security pronto
-    //private TokenGenerator tokenGenerator;
+
+    private TokenGenerator tokenGenerator;
 
     private EmprestimoGenerator emprestimoGenerator;
 
@@ -42,23 +42,20 @@ public class EmprestimoControllerTest {
     public void beforeEach() {
         this.equipamentosGenerator = new EquipamentosGenerator();
         this.emprestimoGenerator = new EmprestimoGenerator();
-        //TODO: adicionar a linha abaixo depois de security pronto
-        //tokenGenerator = new TokenGenerator();
+        this.tokenGenerator = new TokenGenerator();
     }
 
     @Test
-    @Order(1)
     public void deveriaDevolver200AoBuscarTodosOsEmprestimos() throws Exception {
         URI uri = new URI("/emprestimos");
-        emprestimoGenerator.cadastrarEmprestimo(mockMvc, equipamentosGenerator);
+        emprestimoGenerator.cadastrarEmprestimo(mockMvc, equipamentosGenerator, tokenGenerator);
 
         ResultActions result =
-                //TODO: incluir header quando security pronto
-                //.header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc))
                 mockMvc.
                         perform(
                                 MockMvcRequestBuilders
-                                        .get(uri))
+                                        .get(uri)
+                                        .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc)))
                         .andExpect(MockMvcResultMatchers
                                 .status()
                                 .is(200));
@@ -68,18 +65,16 @@ public class EmprestimoControllerTest {
     }
 
     @Test
-    @Order(2)
     public void deveriaDevolver201AoCadastrarEmprestimo() throws Exception {
-
         URI uri = new URI("/emprestimos/2");
-        equipamentosGenerator.cadastrarEquipamento(mockMvc);
+        equipamentosGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
+        tokenGenerator.cadastrarColaborador(mockMvc);
 
-        //TODO: incluir header quando security pronto
-        //.header("Authorization", "Bearer " + generator.obterTokenAdmin(mockMvc))
         mockMvc.
                 perform(
                         MockMvcRequestBuilders
                                 .post(uri)
+                                .header("Authorization", "Bearer " + tokenGenerator.obterTokenColaborador(mockMvc))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers
                         .status()
@@ -87,18 +82,16 @@ public class EmprestimoControllerTest {
     }
 
     @Test
-    @Order(3)
     public void deveriaDevolver200AoBuscarEmprestimoPorId() throws Exception {
         URI uri = new URI("/emprestimos/1");
-        emprestimoGenerator.cadastrarEmprestimo(mockMvc, equipamentosGenerator);
+        emprestimoGenerator.cadastrarEmprestimo(mockMvc, equipamentosGenerator, tokenGenerator);
 
         ResultActions result =
                 mockMvc.
-                        //TODO: incluir header quando security pronto
-                        //.header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc))
                                 perform(
                                 MockMvcRequestBuilders
-                                        .get(uri))
+                                        .get(uri)
+                                        .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc)))
                         .andExpect(MockMvcResultMatchers
                                 .status()
                                 .is(200));
@@ -108,18 +101,16 @@ public class EmprestimoControllerTest {
     }
 
     @Test
-    @Order(4)
     public void deveriaDevolver200AoBuscarEmprestimosPorStatusVigentes() throws Exception {
         URI uri = new URI("/emprestimos/vigentes");
-        emprestimoGenerator.cadastrarEmprestimo(mockMvc, equipamentosGenerator);
+        emprestimoGenerator.cadastrarEmprestimo(mockMvc, equipamentosGenerator, tokenGenerator);
 
         ResultActions result =
                 mockMvc.
-                        //TODO: incluir header quando security pronto
-                        //.header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc))
-                                perform(
+                        perform(
                                 MockMvcRequestBuilders
-                                        .get(uri))
+                                        .get(uri)
+                                        .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc)))
                         .andExpect(MockMvcResultMatchers
                                 .status()
                                 .is(200));
@@ -129,18 +120,16 @@ public class EmprestimoControllerTest {
     }
 
     @Test
-    @Order(5)
     public void deveriaDevolver200AoBuscarEmprestimosPorUsuario() throws Exception {
         URI uri = new URI("/emprestimos/usuario/1");
-        emprestimoGenerator.cadastrarEmprestimo(mockMvc, equipamentosGenerator);
+        emprestimoGenerator.cadastrarEmprestimo(mockMvc, equipamentosGenerator, tokenGenerator);
 
         ResultActions result =
                 mockMvc.
-                        //TODO: incluir header quando security pronto
-                        //.header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc))
-                                perform(
+                        perform(
                                 MockMvcRequestBuilders
-                                        .get(uri))
+                                        .get(uri)
+                                        .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc)))
                         .andExpect(MockMvcResultMatchers
                                 .status()
                                 .is(200));
@@ -150,18 +139,16 @@ public class EmprestimoControllerTest {
     }
 
     @Test
-    @Order(6)
     public void deveriaDevolver200AoBuscarEmprestimosVigentesPorUsuario() throws Exception {
         URI uri = new URI("/emprestimos/vigentes/usuario/1");
-        emprestimoGenerator.cadastrarEmprestimo(mockMvc, equipamentosGenerator);
+        emprestimoGenerator.cadastrarEmprestimo(mockMvc, equipamentosGenerator, tokenGenerator);
 
         ResultActions result =
                 mockMvc.
-                        //TODO: incluir header quando security pronto
-                        //.header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc))
-                                perform(
+                        perform(
                                 MockMvcRequestBuilders
-                                        .get(uri))
+                                        .get(uri)
+                                        .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc)))
                         .andExpect(MockMvcResultMatchers
                                 .status()
                                 .is(200));
@@ -171,35 +158,37 @@ public class EmprestimoControllerTest {
     }
 
     @Test
-    @Order(7)
     public void deveriaDevolver200AoEncerrarEmprestimo() throws Exception {
         URI uri = new URI("/emprestimos/encerrar/1");
-        emprestimoGenerator.cadastrarEmprestimo(mockMvc, equipamentosGenerator);
+        emprestimoGenerator.cadastrarEmprestimo(mockMvc, equipamentosGenerator, tokenGenerator);
 
         mockMvc.
-                //TODO: incluir header quando security pronto
-                //.header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc
-                        perform(
+                perform(
                         MockMvcRequestBuilders
-                                .put(uri))
+                                .put(uri)
+                                .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc)))
                 .andExpect(MockMvcResultMatchers
                         .status()
                         .is(200));
     }
 
     @Test
-    @Order(8)
     public void deveriaDevolver200AoBuscarEmprestimosEncerrados() throws Exception {
         URI uri = new URI("/emprestimos/encerrados");
-        emprestimoGenerator.cadastrarEmprestimo(mockMvc, equipamentosGenerator);
+        emprestimoGenerator.cadastrarEmprestimo(mockMvc, equipamentosGenerator, tokenGenerator);
+
+        mockMvc.
+                perform(
+                        MockMvcRequestBuilders
+                                .put("/emprestimos/encerrar/1")
+                                .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc)));
 
         ResultActions result =
                 mockMvc.
-                        //TODO: incluir header quando security pronto
-                        //.header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc))
-                                perform(
+                        perform(
                                 MockMvcRequestBuilders
-                                        .get(uri))
+                                        .get(uri)
+                                        .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc)))
                         .andExpect(MockMvcResultMatchers
                                 .status()
                                 .is(200));

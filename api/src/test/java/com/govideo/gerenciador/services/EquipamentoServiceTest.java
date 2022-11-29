@@ -172,7 +172,7 @@ public class EquipamentoServiceTest {
         when(equipamentoRepository.findById(any())).thenReturn(Optional.of(equipamento));
         when(emprestimoRepository.findByEquipamento(equipamento, paginacao)).thenReturn(mockEmprestimoPage(equipamento));
         RespostaDTO retorno = equipamentoService.excluir(1L);
-        assertEquals("O status atual do equipamento de ID 1 é INDISPONIVEL, então ele não pode ser inativado ou excluído!", retorno.getMensagem());
+        assertEquals("O status atual do equipamento de ID 1 é INDISPONÍVEL, então ele não pode ser inativado ou excluído!", retorno.getMensagem());
         verify(equipamentoRepository, Mockito.times(0)).delete(equipamento);
     }
 

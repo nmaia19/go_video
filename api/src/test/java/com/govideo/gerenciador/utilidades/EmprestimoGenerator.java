@@ -8,17 +8,16 @@ import java.net.URI;
 
 public class EmprestimoGenerator {
 
-    //TODO: incluir tokenGenerator quando security pronto
-    public void cadastrarEmprestimo(MockMvc mockMvc, EquipamentosGenerator equipamentosGenerator) throws Exception {
+    public void cadastrarEmprestimo(MockMvc mockMvc, EquipamentosGenerator equipamentosGenerator, TokenGenerator tokenGenerator) throws Exception {
         URI uri = new URI("/emprestimos/1");
-        equipamentosGenerator.cadastrarEquipamento(mockMvc);
+        equipamentosGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
+        tokenGenerator.cadastrarColaborador(mockMvc);
 
-        //TODO: incluir header quando security pronto
-        //.header("Authorization", "Bearer " + generator.obterTokenAdmin(mockMvc))
         mockMvc.
                 perform(
                         MockMvcRequestBuilders
                                 .post(uri)
+                                .header("Authorization", "Bearer " + tokenGenerator.obterTokenColaborador(mockMvc))
                                 .contentType(MediaType.APPLICATION_JSON));
     }
 }
