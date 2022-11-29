@@ -5,6 +5,7 @@ import com.govideo.gerenciador.dtos.RespostaDTO;
 import com.govideo.gerenciador.forms.EquipamentoForm;
 import com.govideo.gerenciador.services.EquipamentoService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,7 @@ import java.net.URI;
 @Tag(name = "Equipamentos Endpoint")
 @RestController
 @RequestMapping("/equipamentos")
+@SecurityRequirement(name = "bearer-key")
 public class EquipamentoController {
 
     @Autowired

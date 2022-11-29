@@ -3,12 +3,13 @@ package com.govideo.gerenciador.services;
 import com.govideo.gerenciador.dtos.EmprestimoDTO;
 import com.govideo.gerenciador.entities.Emprestimo;
 import com.govideo.gerenciador.entities.Equipamento;
+import com.govideo.gerenciador.entities.Perfil;
 import com.govideo.gerenciador.entities.Usuario;
 import com.govideo.gerenciador.entities.enuns.StatusEquipamento;
 import com.govideo.gerenciador.exceptions.EquipamentoNaoDisponivelException;
+import com.govideo.gerenciador.exceptions.OperacaoNaoPermitidaException;
 import com.govideo.gerenciador.exceptions.RecursoNaoEncontradoException;
 import com.govideo.gerenciador.repositories.EmprestimoRepository;
-import com.govideo.gerenciador.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,19 +27,23 @@ public class EmprestimoService {
     private EmprestimoRepository emprestimoRepository;
 
     @Autowired
-    private EquipamentoService equipamentoService;
+    UsuarioService usuarioService;
 
-    //TODO: APAGAR APÓS IMPLEMENTAÇÃO DE SECURITY
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private EquipamentoService equipamentoService;
 
     public Page<EmprestimoDTO> consultar(Pageable paginacao) {
         Page<Emprestimo> emprestimos = emprestimoRepository.findAll(paginacao);
         return EmprestimoDTO.converterParaDTO(emprestimos);
     }
 
-    public EmprestimoDTO consultarPorIdRetornarDTO(Long id) {
+    public EmprestimoDTO consultarPorIdRetornarDTO(Long id, Usuario usuarioLogado) {
         Emprestimo emprestimo = emprestimoRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Empréstimo não encontrado!"));
+
+        List<Perfil> perfilUsuarioLogado = usuarioLogado.getPerfis();
+        if(!perfilUsuarioLogado.get(0).getPerfil().equals("ROLE_ADMINISTRADOR") && !usuarioLogado.equals(emprestimo.getUsuario())) {
+            throw new OperacaoNaoPermitidaException("Não é possível consultar empréstimos de outro colaborador!");
+        }
         return new EmprestimoDTO(emprestimo);
     }
 
@@ -61,38 +67,38 @@ public class EmprestimoService {
         return EmprestimoDTO.converterParaDTO(emprestimos);
     }
 
-    //TODO: VALIDAR QUAL USUARIO ESTÁ LOGADO PARA TER ACESSO OU NÃO A ESSA BUSCA
-    //TODO: CRIAR NA SERVICE DE USUARIO UMA CONSULTA POR ID, COMO A DE EQUIPAMENTOS E SUBSTITUIR O OPTIONAL DENTRO DESSE MÉTODO
-    public Page<EmprestimoDTO> consultarEmprestimosPorUsuario(Long idUsuario, Pageable paginacao){
-        Optional<Usuario> usuario = usuarioRepository.findById(idUsuario);
-        Page<Emprestimo> emprestimos = emprestimoRepository.findByUsuario(usuario.get(), paginacao);
-        return EmprestimoDTO.converterParaDTO(emprestimos);
-    }
+    public Page<EmprestimoDTO> consultarEmprestimosPorUsuario(Long idUsuario, Usuario usuarioLogado, Pageable paginacao){
+        Usuario usuario = usuarioService.consultarPorId(idUsuario);
+        Long idUsuarioLogado = usuarioLogado.getId();
+        List<Perfil> perfilUsuarioLogado = usuarioLogado.getPerfis();
 
-    //TODO: CRIAR NA SERVICE DE USUARIO UMA CONSULTA POR ID, COMO A DE EQUIPAMENTOS E SUBSTITUIR O OPTIONAL DENTRO DESSE MÉTODO
-    public Page<EmprestimoDTO> consultarEmprestimosVigentesPorUsuario(Long idUsuario, Pageable paginacao){
-        Optional<Usuario> usuario = usuarioRepository.findById(idUsuario);
-        Page<Emprestimo> emprestimos = emprestimoRepository.findByUsuarioEStatus(usuario.get().getId(), paginacao);
-        return EmprestimoDTO.converterParaDTO(emprestimos);
-    }
-
-    //TODO: AVALIAR SE O USUÁRIO ESTÁ NA CONTROLLER E É PASSADO PARA O SERVICE OU SE É CAPTURADO E TRATADO AQUI
-    @Transactional
-    public EmprestimoDTO cadastrar(Long idEquipamento) throws EquipamentoNaoDisponivelException {
-        Equipamento equipamento = equipamentoService.consultarPorId(idEquipamento);
-
-        //TODO: BUSCAR O USUÁRIO PELO ID (NA SERVICE DE USUARIO) QUE VEM PELA CONTROLLER
-        Optional<Usuario> optionalUsuario = usuarioRepository.findById(1L);
-        Usuario usuario = null;
-        if(optionalUsuario.isPresent()){
-            usuario = optionalUsuario.get();
-        } else {
-            usuario = new Usuario(1L);
-            usuario = usuarioRepository.save(usuario);
+        if(!perfilUsuarioLogado.get(0).getPerfil().equals("ROLE_ADMINISTRADOR") && !idUsuarioLogado.equals(idUsuario)) {
+            throw new OperacaoNaoPermitidaException("Não é possível consultar empréstimos de outro colaborador!");
         }
 
+        Page<Emprestimo> emprestimos = emprestimoRepository.findByUsuario(usuario, paginacao);
+        return EmprestimoDTO.converterParaDTO(emprestimos);
+    }
+
+    public Page<EmprestimoDTO> consultarEmprestimosVigentesPorUsuario(Long idUsuario, Usuario usuarioLogado, Pageable paginacao){
+        Usuario usuario = usuarioService.consultarPorId(idUsuario);
+        Long idUsuarioLogado = usuarioLogado.getId();
+        List<Perfil> perfilUsuarioLogado = usuarioLogado.getPerfis();
+
+        if(!perfilUsuarioLogado.get(0).getPerfil().equals("ROLE_ADMINISTRADOR") && !idUsuarioLogado.equals(idUsuario)) {
+            throw new OperacaoNaoPermitidaException("Não é possível consultar empréstimos de outro colaborador!");
+        }
+
+        Page<Emprestimo> emprestimos = emprestimoRepository.findVigentesByUsuario(idUsuario, paginacao);
+        return EmprestimoDTO.converterParaDTO(emprestimos);
+    }
+
+    @Transactional
+    public EmprestimoDTO cadastrar(Long idEquipamento, Usuario usuarioLogado) throws EquipamentoNaoDisponivelException {
+        Equipamento equipamento = equipamentoService.consultarPorId(idEquipamento);
+
         if(equipamento.getStatus() == StatusEquipamento.DISPONÍVEL) {
-            Emprestimo emprestimo = new Emprestimo(equipamento, usuario);
+            Emprestimo emprestimo = new Emprestimo(equipamento, usuarioLogado);
             emprestimo = emprestimoRepository.save(emprestimo);
             equipamentoService.alterarStatus(idEquipamento, StatusEquipamento.INDISPONÍVEL);
             return new EmprestimoDTO(emprestimo);
@@ -102,8 +108,15 @@ public class EmprestimoService {
     }
 
     @Transactional
-    public EmprestimoDTO encerrar(Long id) {
+    public EmprestimoDTO encerrar(Long id, Usuario usuarioLogado) {
         Emprestimo emprestimo = consultarPorId(id);
+
+        List<Perfil> perfilUsuarioLogado = usuarioLogado.getPerfis();
+
+        if(!perfilUsuarioLogado.get(0).getPerfil().equals("ROLE_ADMINISTRADOR") && !usuarioLogado.equals(emprestimo.getUsuario())) {
+            throw new OperacaoNaoPermitidaException("Não é possível encerrar empréstimos de outro colaborador!");
+        }
+
         emprestimo.setDataFim(LocalDateTime.now());
         emprestimoRepository.save(emprestimo);
         equipamentoService.alterarStatus(emprestimo.getEquipamento().getId(), StatusEquipamento.DISPONÍVEL);

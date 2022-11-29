@@ -80,12 +80,13 @@ public class UsuarioService {
     }
     if(perfilRepository.existsByPerfil(COLABORADOR.getPerfil())) {
       usuario.getPerfis().add(COLABORADOR);
-    }else{
+    } else {
       Perfil perfil = perfilRepository.save(COLABORADOR);
       usuario.getPerfis().add(perfil);
     }
     usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
     usuario = usuarioRepository.save(usuario);
+    perfilRepository.save(usuario.getPerfis().get(0));
     return new UsuarioDTO(usuario);
   }
 
@@ -125,13 +126,8 @@ public class UsuarioService {
   }
 
   @Transactional
-  public UsuarioDTO alterarNome(Long id, Usuario usuarioLogado, AlteraNomeUsuarioForm usuarioForm) {
+  public UsuarioDTO alterarNome(Long id,  AlteraNomeUsuarioForm usuarioForm) {
     Usuario usuario = consultarPorId(id);
-    Long idUsuarioLogado = usuarioLogado.getId();
-
-    if(!idUsuarioLogado.equals(id)) {
-      throw new OperacaoNaoPermitidaException("Não é possível alterar o nome de outro colaborador!");
-    }
 
     usuario.setNome(usuarioForm.getNome());
     usuario = usuarioRepository.save(usuario);
@@ -145,7 +141,7 @@ public class UsuarioService {
     String mensagem;
     Pageable paginacao = PageRequest.of(0, 10);
 
-    if (emprestimoRepository.findByUsuarioEStatus(id, paginacao).hasContent()) {
+    if (emprestimoRepository.findVigentesByUsuario(id, paginacao).hasContent()) {
       mensagem = "Usuários com empréstimos ativos não podem ser inativados!";
     } else {
       mensagem = "Usuário inativado com sucesso!";
