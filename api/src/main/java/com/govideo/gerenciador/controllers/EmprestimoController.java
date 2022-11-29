@@ -1,9 +1,11 @@
 package com.govideo.gerenciador.controllers;
 
 import com.govideo.gerenciador.dtos.EmprestimoDTO;
+import com.govideo.gerenciador.entities.Usuario;
 import com.govideo.gerenciador.exceptions.EquipamentoNaoDisponivelException;
 import com.govideo.gerenciador.services.EmprestimoService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -19,6 +22,7 @@ import java.net.URI;
 @Tag(name = "Empréstimos Endpoint")
 @RestController
 @RequestMapping("/emprestimos")
+@SecurityRequirement(name = "bearer-key")
 public class EmprestimoController {
 
     @Autowired
@@ -34,7 +38,8 @@ public class EmprestimoController {
     @GetMapping("/{id}")
     @Operation(summary = "Consultar empréstimo por ID")
     public ResponseEntity<EmprestimoDTO> consultarPorId(@PathVariable("id") Long id) {
-        return ResponseEntity.ok().body(emprestimoService.consultarPorIdRetornarDTO(id));
+        Usuario usuarioLogado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok().body(emprestimoService.consultarPorIdRetornarDTO(id, usuarioLogado));
     }
 
     @GetMapping("/encerrados")
@@ -52,19 +57,22 @@ public class EmprestimoController {
     @GetMapping("/usuario/{idUsuario}")
     @Operation(summary = "Listar empréstimos por usuário")
     public ResponseEntity<Page<EmprestimoDTO>> consultarPorUsuario(@PathVariable("idUsuario") Long idUsuario, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, page = 0, size = 5) Pageable paginacao) {
-        return ResponseEntity.ok().body(emprestimoService.consultarEmprestimosPorUsuario(idUsuario, paginacao));
+        Usuario usuarioLogado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok().body(emprestimoService.consultarEmprestimosPorUsuario(idUsuario, usuarioLogado, paginacao));
     }
 
     @GetMapping("/vigentes/usuario/{idUsuario}")
     @Operation(summary = "Listar empréstimos vigentes por usuário")
     public ResponseEntity<Page<EmprestimoDTO>> consultarVigentesPorUsuario(@PathVariable("idUsuario") Long idUsuario, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, page = 0, size = 5) Pageable paginacao) {
-        return ResponseEntity.ok().body(emprestimoService.consultarEmprestimosVigentesPorUsuario(idUsuario, paginacao));
+        Usuario usuarioLogado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok().body(emprestimoService.consultarEmprestimosVigentesPorUsuario(idUsuario, usuarioLogado, paginacao));
     }
 
     @PostMapping("/{idEquipamento}")
     @Operation(summary = "Cadastrar empréstimo")
     public ResponseEntity<EmprestimoDTO> cadastrar(@PathVariable("idEquipamento") Long idEquipamento, UriComponentsBuilder uriBuilder) throws EquipamentoNaoDisponivelException {
-        EmprestimoDTO emprestimoDTO = emprestimoService.cadastrar(idEquipamento);
+        Usuario usuarioLogado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        EmprestimoDTO emprestimoDTO = emprestimoService.cadastrar(idEquipamento, usuarioLogado);
         URI uri = uriBuilder.path("/emprestimos/{id}").buildAndExpand(emprestimoDTO.getId()).toUri();
         return ResponseEntity.created(uri).body(emprestimoDTO);
     }
@@ -72,7 +80,8 @@ public class EmprestimoController {
     @PutMapping("/encerrar/{id}")
     @Operation(summary = "Encerrar empréstimo")
     public ResponseEntity<EmprestimoDTO> encerrar(@PathVariable Long id) {
-        return ResponseEntity.ok().body(emprestimoService.encerrar(id));
+        Usuario usuarioLogado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok().body(emprestimoService.encerrar(id, usuarioLogado));
     }
 
 }

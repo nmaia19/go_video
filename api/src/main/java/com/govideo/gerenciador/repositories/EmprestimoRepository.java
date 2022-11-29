@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 public interface EmprestimoRepository extends JpaRepository<Emprestimo, Long> {
 
     @Query(value = "SELECT * FROM emprestimo WHERE data_fim is null AND usuario_id = :idUsuario", nativeQuery = true)
-    Page<Emprestimo> findByUsuarioEStatus(Long idUsuario, Pageable paginacao);
+    Page<Emprestimo> findVigentesByUsuario(Long idUsuario, Pageable paginacao);
 
     Page<Emprestimo> findByDataFimIsNotNull(Pageable paginacao);
 

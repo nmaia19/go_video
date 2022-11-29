@@ -1,15 +1,14 @@
 package com.govideo.gerenciador.controllers;
 
-import com.govideo.gerenciador.dtos.EquipamentoDTO;
 import com.govideo.gerenciador.dtos.RespostaDTO;
 import com.govideo.gerenciador.dtos.UsuarioDTO;
 import com.govideo.gerenciador.entities.Usuario;
 import com.govideo.gerenciador.forms.AlteraNomeUsuarioForm;
 import com.govideo.gerenciador.forms.AlteraSenhaUsuarioForm;
-import com.govideo.gerenciador.forms.EquipamentoForm;
 import com.govideo.gerenciador.forms.UsuarioForm;
 import com.govideo.gerenciador.services.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,6 +26,7 @@ import java.net.URI;
 @Tag(name = "Usuarios Endpoint")
 @RestController
 @RequestMapping("/usuarios")
+@SecurityRequirement(name = "bearer-key")
 public class UsuarioController {
 
     @Autowired
@@ -76,8 +76,7 @@ public class UsuarioController {
     @PutMapping("/alterarNome/{id}")
     @Operation(summary = "Alterar nome de usuario")
     public ResponseEntity<UsuarioDTO> alterarNome(@PathVariable Long id, @Valid @RequestBody AlteraNomeUsuarioForm usuarioForm) {
-        Usuario usuarioLogado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return ResponseEntity.ok().body(usuarioService.alterarNome(id, usuarioLogado, usuarioForm));
+        return ResponseEntity.ok().body(usuarioService.alterarNome(id, usuarioForm));
     }
 
     @DeleteMapping("/{id}")
