@@ -28,23 +28,6 @@ public class TokenGenerator {
         return jsonParser.parseMap(resultString).get("token").toString();
     }
 
-    public void cadastrarColaborador(MockMvc mockMvc) throws Exception {
-        URI uri = new URI("/usuarios");
-        String json = "{\r\n"
-                + "    \"nome\": \"Nome do Colaborador\",\r\n"
-                + "    \"email\": \"colaborador@email.com\",\r\n"
-                + "    \"senha\": \"123\"\r\n"
-                + "}";
-
-        mockMvc.
-                perform(
-                        MockMvcRequestBuilders
-                                .post(uri)
-                                .header("Authorization", "Bearer " + this.obterTokenAdmin(mockMvc))
-                                .content(json)
-                                .contentType(MediaType.APPLICATION_JSON));
-    }
-
     public String obterTokenColaborador(MockMvc mockMvc) throws Exception {
 
         URI uri = new URI("/login");
