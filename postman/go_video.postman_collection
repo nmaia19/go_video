@@ -12,6 +12,16 @@
 				{
 					"name": "/equipamentos",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5NzMwMTk4LCJleHAiOjE2Njk3MzM3OTh9.qQ-nLd_QshQ8QNV_Ic0UPTp13RocIISxMIHHgVbrq8E",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -31,6 +41,16 @@
 				{
 					"name": "/equipamentos?size=1&page=0",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5NzMwMTk4LCJleHAiOjE2Njk3MzM3OTh9.qQ-nLd_QshQ8QNV_Ic0UPTp13RocIISxMIHHgVbrq8E",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -60,10 +80,20 @@
 				{
 					"name": "/equipamentos/buscarPorStatus/{status}",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5NzMwMTk4LCJleHAiOjE2Njk3MzM3OTh9.qQ-nLd_QshQ8QNV_Ic0UPTp13RocIISxMIHHgVbrq8E",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/equipamentos/buscarPorStatus/inativo",
+							"raw": "http://localhost:8080/equipamentos/buscarPorStatus/ativo",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -72,7 +102,7 @@
 							"path": [
 								"equipamentos",
 								"buscarPorStatus",
-								"inativo"
+								"ativo"
 							]
 						}
 					},
@@ -86,6 +116,16 @@
 						}
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5NzMwNDgxLCJleHAiOjE2Njk3MzQwODF9.o9MR6Lo05NH0qg1gxYhcSW96FRvaSDN2tFYJqaoYHxc",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -121,6 +161,16 @@
 				{
 					"name": "/equipamentos/{id}",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5NzMwMTk4LCJleHAiOjE2Njk3MzM3OTh9.qQ-nLd_QshQ8QNV_Ic0UPTp13RocIISxMIHHgVbrq8E",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -156,6 +206,16 @@
 				{
 					"name": "/equipamentos/{id}",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIzIiwiaWF0IjoxNjY5NzI5OTMxLCJleHAiOjE2Njk3MzM1MzF9.SPuvsyrOJLWVXpN_pXlx1Tjq_IqVi1K50axdr3STmfk",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -186,7 +246,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5NDExMTkwLCJleHAiOjE2Njk0MTQ3OTB9.JyWS7BqbAzBCfKgxHXOXb5aTCb6iGmp45e6xgQF5Hn8",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5NzMwMzg1LCJleHAiOjE2Njk3MzM5ODV9.o1xQCtH1x0lvQSlKZrxsVzxcQf67RaPmLyGoBj_g5m0",
 									"type": "string"
 								}
 							]
@@ -221,7 +281,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5NDExMTkwLCJleHAiOjE2Njk0MTQ3OTB9.JyWS7BqbAzBCfKgxHXOXb5aTCb6iGmp45e6xgQF5Hn8",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIzIiwiaWF0IjoxNjY5NzI5OTMxLCJleHAiOjE2Njk3MzM1MzF9.SPuvsyrOJLWVXpN_pXlx1Tjq_IqVi1K50axdr3STmfk",
 									"type": "string"
 								}
 							]
@@ -251,7 +311,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5NDExMTkwLCJleHAiOjE2Njk0MTQ3OTB9.JyWS7BqbAzBCfKgxHXOXb5aTCb6iGmp45e6xgQF5Hn8",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIzIiwiaWF0IjoxNjY5NzI5OTMxLCJleHAiOjE2Njk3MzM1MzF9.SPuvsyrOJLWVXpN_pXlx1Tjq_IqVi1K50axdr3STmfk",
 									"type": "string"
 								}
 							]
@@ -287,7 +347,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5NDExMTkwLCJleHAiOjE2Njk0MTQ3OTB9.JyWS7BqbAzBCfKgxHXOXb5aTCb6iGmp45e6xgQF5Hn8",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5ODE1MTQ1LCJleHAiOjE2Njk4MTg3NDV9.sIQE4rC8GHX6teiXFCdaHkHaaCR24z1oLcf80kRNElQ",
 									"type": "string"
 								}
 							]
@@ -331,7 +391,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5NDExNDIwLCJleHAiOjE2Njk0MTUwMjB9.5dp9x8UAr2MVPzoBenW0vhuSujoePZ--q7_PQOY0V1g",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIzIiwiaWF0IjoxNjY5NzI5OTMxLCJleHAiOjE2Njk3MzM1MzF9.SPuvsyrOJLWVXpN_pXlx1Tjq_IqVi1K50axdr3STmfk",
 									"type": "string"
 								}
 							]
@@ -351,7 +411,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nome\":\"Teste\"\r\n}"
+							"raw": "{\r\n    \"nome\":\"Testando\"\r\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/usuarios/alterarNome/2",
@@ -377,7 +437,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5NDExNDIwLCJleHAiOjE2Njk0MTUwMjB9.5dp9x8UAr2MVPzoBenW0vhuSujoePZ--q7_PQOY0V1g",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIzIiwiaWF0IjoxNjY5NzI5OTMxLCJleHAiOjE2Njk3MzM1MzF9.SPuvsyrOJLWVXpN_pXlx1Tjq_IqVi1K50axdr3STmfk",
 									"type": "string"
 								}
 							]
@@ -423,7 +483,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5NDExMTkwLCJleHAiOjE2Njk0MTQ3OTB9.JyWS7BqbAzBCfKgxHXOXb5aTCb6iGmp45e6xgQF5Hn8",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIzIiwiaWF0IjoxNjY5NzI5OTMxLCJleHAiOjE2Njk3MzM1MzF9.SPuvsyrOJLWVXpN_pXlx1Tjq_IqVi1K50axdr3STmfk",
 									"type": "string"
 								}
 							]
@@ -465,7 +525,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5NDExMTkwLCJleHAiOjE2Njk0MTQ3OTB9.JyWS7BqbAzBCfKgxHXOXb5aTCb6iGmp45e6xgQF5Hn8",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIzIiwiaWF0IjoxNjY5NzI5OTMxLCJleHAiOjE2Njk3MzM1MzF9.SPuvsyrOJLWVXpN_pXlx1Tjq_IqVi1K50axdr3STmfk",
 									"type": "string"
 								}
 							]
@@ -495,6 +555,16 @@
 				{
 					"name": "/emprestimos",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIzIiwiaWF0IjoxNjY5NzMwNDA3LCJleHAiOjE2Njk3MzQwMDd9.jWbJnMBwyLsbDGnB5ul_FQW9wquDTJMWF7cwtTXYlm0",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -519,7 +589,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIyIiwiaWF0IjoxNjY5NzMwNDcwLCJleHAiOjE2Njk3MzQwNzB9.YesPN15FWEguTsTnr05VLqd3xpiXbzq6hE-bPFyZfSY",
 									"type": "string"
 								}
 							]
@@ -551,6 +621,16 @@
 				{
 					"name": "/emprestimos/encerrados",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIyIiwiaWF0IjoxNjY5NzMwNDcwLCJleHAiOjE2Njk3MzQwNzB9.YesPN15FWEguTsTnr05VLqd3xpiXbzq6hE-bPFyZfSY",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -571,6 +651,16 @@
 				{
 					"name": "/emprestimos/vigentes",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIyIiwiaWF0IjoxNjY5NzMwNDcwLCJleHAiOjE2Njk3MzQwNzB9.YesPN15FWEguTsTnr05VLqd3xpiXbzq6hE-bPFyZfSY",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -591,10 +681,20 @@
 				{
 					"name": "/emprestimos/vigentes/usuario/{idUsuario}",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIyIiwiaWF0IjoxNjY5NzMwNDcwLCJleHAiOjE2Njk3MzQwNzB9.YesPN15FWEguTsTnr05VLqd3xpiXbzq6hE-bPFyZfSY",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/emprestimos/vigentes/usuario/1",
+							"raw": "http://localhost:8080/emprestimos/vigentes/usuario/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -604,7 +704,7 @@
 								"emprestimos",
 								"vigentes",
 								"usuario",
-								"1"
+								"2"
 							]
 						}
 					},
@@ -613,10 +713,20 @@
 				{
 					"name": "/emprestimos/usuario/{idUsuario}",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIyIiwiaWF0IjoxNjY5NzMwNDcwLCJleHAiOjE2Njk3MzQwNzB9.YesPN15FWEguTsTnr05VLqd3xpiXbzq6hE-bPFyZfSY",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/emprestimos/usuario/1",
+							"raw": "http://localhost:8080/emprestimos/usuario/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -625,7 +735,7 @@
 							"path": [
 								"emprestimos",
 								"usuario",
-								"1"
+								"2"
 							]
 						}
 					},
@@ -639,6 +749,16 @@
 						}
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIyIiwiaWF0IjoxNjY5NzMwNDcwLCJleHAiOjE2Njk3MzQwNzB9.YesPN15FWEguTsTnr05VLqd3xpiXbzq6hE-bPFyZfSY",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -671,6 +791,16 @@
 				{
 					"name": "/emprestimos/encerrar/{id}",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIyIiwiaWF0IjoxNjY5NzMwNDcwLCJleHAiOjE2Njk3MzQwNzB9.YesPN15FWEguTsTnr05VLqd3xpiXbzq6hE-bPFyZfSY",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -706,7 +836,47 @@
 			"name": "Auth",
 			"item": [
 				{
-					"name": "/auth",
+					"name": "/login-colaborador",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en-US",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"colaborador@email.com\",\r\n    \"senha\":\"123\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/login-admin",
 					"protocolProfileBehavior": {
 						"disabledSystemHeaders": {
 							"content-type": true
@@ -732,14 +902,14 @@
 							"raw": "{\r\n    \"email\":\"admin@email.com\",\r\n    \"senha\":\"123\"\r\n}"
 						},
 						"url": {
-							"raw": "http://localhost:8080/auth",
+							"raw": "http://localhost:8080/login",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"auth"
+								"login"
 							]
 						}
 					},
