@@ -83,10 +83,8 @@ public class EquipamentoControllerTest {
 
     @Test
     public void deveriaDevolver200AoBuscarEquipamentoPorId() throws Exception {
-        URI uri = new URI("/equipamentos/1");
-        equipamentosGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
-
-        tokenGenerator.cadastrarColaborador(mockMvc);
+        String idEquipamento = equipamentosGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
+        URI uri = new URI("/equipamentos/" + idEquipamento);
 
         ResultActions result =
                 mockMvc.
