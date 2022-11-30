@@ -43,9 +43,10 @@ public class SecurityConfigurations {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.headers().frameOptions().disable();
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
-                .antMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                .antMatchers("/swagger-ui/**", "/v3/api-docs/**", "/h2-console/**").permitAll()
 
                 .antMatchers(HttpMethod.GET, "/usuarios").hasRole("ADMINISTRADOR")
                 .antMatchers(HttpMethod.GET, "/usuarios/buscarPorStatus/*").hasRole("ADMINISTRADOR")

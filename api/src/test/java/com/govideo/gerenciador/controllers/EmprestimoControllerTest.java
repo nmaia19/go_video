@@ -66,9 +66,8 @@ public class EmprestimoControllerTest {
 
     @Test
     public void deveriaDevolver201AoCadastrarEmprestimo() throws Exception {
-        URI uri = new URI("/emprestimos/2");
-        equipamentosGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
-        tokenGenerator.cadastrarColaborador(mockMvc);
+        String idEquipamento = equipamentosGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
+        URI uri = new URI("/emprestimos/"+idEquipamento);
 
         mockMvc.
                 perform(
@@ -83,8 +82,8 @@ public class EmprestimoControllerTest {
 
     @Test
     public void deveriaDevolver200AoBuscarEmprestimoPorId() throws Exception {
-        URI uri = new URI("/emprestimos/1");
-        emprestimoGenerator.cadastrarEmprestimo(mockMvc, equipamentosGenerator, tokenGenerator);
+        String idEmprestimo = emprestimoGenerator.cadastrarEmprestimo(mockMvc, equipamentosGenerator, tokenGenerator);
+        URI uri = new URI("/emprestimos/"+idEmprestimo);
 
         ResultActions result =
                 mockMvc.
@@ -159,9 +158,8 @@ public class EmprestimoControllerTest {
 
     @Test
     public void deveriaDevolver200AoEncerrarEmprestimo() throws Exception {
-        URI uri = new URI("/emprestimos/encerrar/1");
-        emprestimoGenerator.cadastrarEmprestimo(mockMvc, equipamentosGenerator, tokenGenerator);
-
+        String idEmprestimo = emprestimoGenerator.cadastrarEmprestimo(mockMvc, equipamentosGenerator, tokenGenerator);
+        URI uri = new URI("/emprestimos/encerrar/"+idEmprestimo);
         mockMvc.
                 perform(
                         MockMvcRequestBuilders
@@ -175,12 +173,12 @@ public class EmprestimoControllerTest {
     @Test
     public void deveriaDevolver200AoBuscarEmprestimosEncerrados() throws Exception {
         URI uri = new URI("/emprestimos/encerrados");
-        emprestimoGenerator.cadastrarEmprestimo(mockMvc, equipamentosGenerator, tokenGenerator);
+        String idEmprestimo = emprestimoGenerator.cadastrarEmprestimo(mockMvc, equipamentosGenerator, tokenGenerator);
 
         mockMvc.
                 perform(
                         MockMvcRequestBuilders
-                                .put("/emprestimos/encerrar/1")
+                                .put("/emprestimos/encerrar/"+idEmprestimo)
                                 .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc)));
 
         ResultActions result =
