@@ -39,6 +39,36 @@
 					"response": []
 				},
 				{
+					"name": "/equipamentos/{id}",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5NzMwMTk4LCJleHAiOjE2Njk3MzM3OTh9.qQ-nLd_QshQ8QNV_Ic0UPTp13RocIISxMIHHgVbrq8E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/equipamentos/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"equipamentos",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "/equipamentos?size=1&page=0",
 					"request": {
 						"auth": {
@@ -121,7 +151,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIxIiwiaWF0IjoxNjY5NzMwNDgxLCJleHAiOjE2Njk3MzQwODF9.o9MR6Lo05NH0qg1gxYhcSW96FRvaSDN2tFYJqaoYHxc",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicGVyZmlzIjpbeyJpZCI6MSwicGVyZmlsIjoiUk9MRV9BRE1JTklTVFJBRE9SIiwiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTklTVFJBRE9SIn1dLCJpYXQiOjE2Njk5MDUzNjAsImV4cCI6MTY2OTkwODk2MH0.6HqG3a4Z2QcUcvWE5Z7SoWn3U9p25CLwdi8SkdY70d0",
 									"type": "string"
 								}
 							]
@@ -754,7 +784,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIyIiwiaWF0IjoxNjY5NzMwNDcwLCJleHAiOjE2Njk3MzQwNzB9.YesPN15FWEguTsTnr05VLqd3xpiXbzq6hE-bPFyZfSY",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicGVyZmlzIjpbeyJpZCI6MiwicGVyZmlsIjoiUk9MRV9DT0xBQk9SQURPUiIsImF1dGhvcml0eSI6IlJPTEVfQ09MQUJPUkFET1IifV0sImlhdCI6MTY2OTkwNTQxOCwiZXhwIjoxNjY5OTA5MDE4fQ.bYKGPw1WqJZcf-m3CY3kzeRq74X1cIcpp4OGNzDSF3U",
 									"type": "string"
 								}
 							]
