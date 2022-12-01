@@ -1,6 +1,9 @@
 INSERT INTO usuario(criado_em, email, nome, senha, status) VALUES(current_timestamp() ,'admin@email.com', 'Administrador', '$2a$10$FjtQZMQuy8PhXP5AI0lEbe0f/8WnA8dI9Bg0f1jJtP0yU3c5tC06.', 'ATIVO');
+INSERT INTO usuario(criado_em, email, nome, senha, status) VALUES(current_timestamp() ,'colaborador@email.com', 'Colaborador', '$2a$10$FjtQZMQuy8PhXP5AI0lEbe0f/8WnA8dI9Bg0f1jJtP0yU3c5tC06.', 'ATIVO');
 INSERT INTO perfil(id, perfil) VALUES(1, 'ROLE_ADMINISTRADOR');
+INSERT INTO perfil(id, perfil) VALUES(2, 'ROLE_COLABORADOR');
 INSERT INTO usuario_perfis(usuario_id, perfis_id) VALUES (1,1);
+INSERT INTO usuario_perfis(usuario_id, perfis_id) VALUES (2,2);
 
 INSERT INTO equipamento(criado_em, categoria, descricao, marca, modelo, status, url_foto) VALUES
 	(current_timestamp(), 'Câmeras', 'Sensor X-Trans CMOS 5 HS de 5ª geração e X-Processor 5. Para fotógrafos como os cinematógrafos.', 'FUJIFILM' , 'Fuji X-H2S', 'DISPONÍVEL', 'https://fujifilm-x.com/wp-content/uploads/2022/05/sgew_x-h2s_thum-1.png'),
