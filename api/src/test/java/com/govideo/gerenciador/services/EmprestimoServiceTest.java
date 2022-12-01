@@ -190,6 +190,19 @@ public class EmprestimoServiceTest {
     }
 
     @Test
+    public void deveriaRetornarEmprestimosEncerradosPorUsuario() {
+        Pageable paginacao = PageRequest.of(0, 10);
+        Usuario usuario = mockUsuarioEntity();
+        List<Perfil> perfis = new ArrayList<>();
+        perfis.add(new Perfil("ROLE_COLABORADOR"));
+        usuario.setPerfis(perfis);
+        when(usuarioService.consultarPorId(any())).thenReturn(usuario);
+        when(emprestimoRepository.findEncerradosByUsuario(1L, paginacao)).thenReturn(mockEmprestimoPage());
+        Page<EmprestimoDTO> emprestimoDTO = emprestimoService.consultarEmprestimosEncerradosPorUsuario(1L, usuario, paginacao);
+        assertEquals(1L, emprestimoDTO.getTotalElements());
+    }
+
+    @Test
     public void deveriaRetornarEmprestimosVigentesPorUsuario() {
         Pageable paginacao = PageRequest.of(0, 10);
         Usuario usuario = mockUsuarioEntity();

@@ -138,6 +138,31 @@ public class EmprestimoControllerTest {
     }
 
     @Test
+    public void deveriaDevolver200AoBuscarEmprestimosEncerradosPorUsuario() throws Exception {
+        URI uri = new URI("/emprestimos/encerrados/usuario/1");
+
+        String idEmprestimo = emprestimoGenerator.cadastrarEmprestimo(mockMvc, equipamentosGenerator, tokenGenerator);
+        mockMvc.
+                perform(
+                        MockMvcRequestBuilders
+                                .put("/emprestimos/encerrar/"+idEmprestimo)
+                                .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc)));
+
+        ResultActions result =
+                mockMvc.
+                        perform(
+                                MockMvcRequestBuilders
+                                        .get(uri)
+                                        .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc)))
+                        .andExpect(MockMvcResultMatchers
+                                .status()
+                                .is(200));
+
+        String listaEmprestimos = result.andReturn().getResponse().getContentAsString();
+        assertFalse(listaEmprestimos.isEmpty());
+    }
+
+    @Test
     public void deveriaDevolver200AoBuscarEmprestimosVigentesPorUsuario() throws Exception {
         URI uri = new URI("/emprestimos/vigentes/usuario/1");
         emprestimoGenerator.cadastrarEmprestimo(mockMvc, equipamentosGenerator, tokenGenerator);

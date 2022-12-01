@@ -716,7 +716,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIyIiwiaWF0IjoxNjY5NzMwNDcwLCJleHAiOjE2Njk3MzQwNzB9.YesPN15FWEguTsTnr05VLqd3xpiXbzq6hE-bPFyZfSY",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicGVyZmlzIjpbeyJpZCI6MiwicGVyZmlsIjoiUk9MRV9DT0xBQk9SQURPUiIsImF1dGhvcml0eSI6IlJPTEVfQ09MQUJPUkFET1IifV0sImlhdCI6MTY2OTkxNzgzOSwiZXhwIjoxNjY5OTIxNDM5fQ.wXZTbzeixoGogNjZS-B6LJE9HwS_YGqn8eYQzS83waI",
 									"type": "string"
 								}
 							]
@@ -733,6 +733,38 @@
 							"path": [
 								"emprestimos",
 								"vigentes",
+								"usuario",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/emprestimos/encerrados/usuario/{idUsuario}",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicGVyZmlzIjpbeyJpZCI6MiwicGVyZmlsIjoiUk9MRV9DT0xBQk9SQURPUiIsImF1dGhvcml0eSI6IlJPTEVfQ09MQUJPUkFET1IifV0sImlhdCI6MTY2OTkxNzgzOSwiZXhwIjoxNjY5OTIxNDM5fQ.wXZTbzeixoGogNjZS-B6LJE9HwS_YGqn8eYQzS83waI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/emprestimos/encerrados/usuario/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"emprestimos",
+								"encerrados",
 								"usuario",
 								"2"
 							]
@@ -784,7 +816,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicGVyZmlzIjpbeyJpZCI6MiwicGVyZmlsIjoiUk9MRV9DT0xBQk9SQURPUiIsImF1dGhvcml0eSI6IlJPTEVfQ09MQUJPUkFET1IifV0sImlhdCI6MTY2OTkwNTQxOCwiZXhwIjoxNjY5OTA5MDE4fQ.bYKGPw1WqJZcf-m3CY3kzeRq74X1cIcpp4OGNzDSF3U",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicGVyZmlzIjpbeyJpZCI6MiwicGVyZmlsIjoiUk9MRV9DT0xBQk9SQURPUiIsImF1dGhvcml0eSI6IlJPTEVfQ09MQUJPUkFET1IifV0sImlhdCI6MTY2OTkxNzgzOSwiZXhwIjoxNjY5OTIxNDM5fQ.wXZTbzeixoGogNjZS-B6LJE9HwS_YGqn8eYQzS83waI",
 									"type": "string"
 								}
 							]
@@ -826,7 +858,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgR28gVmlkZW8iLCJzdWIiOiIyIiwiaWF0IjoxNjY5NzMwNDcwLCJleHAiOjE2Njk3MzQwNzB9.YesPN15FWEguTsTnr05VLqd3xpiXbzq6hE-bPFyZfSY",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicGVyZmlzIjpbeyJpZCI6MiwicGVyZmlsIjoiUk9MRV9DT0xBQk9SQURPUiIsImF1dGhvcml0eSI6IlJPTEVfQ09MQUJPUkFET1IifV0sImlhdCI6MTY2OTkxNzgzOSwiZXhwIjoxNjY5OTIxNDM5fQ.wXZTbzeixoGogNjZS-B6LJE9HwS_YGqn8eYQzS83waI",
 									"type": "string"
 								}
 							]
