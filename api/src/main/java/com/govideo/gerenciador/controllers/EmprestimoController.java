@@ -61,6 +61,13 @@ public class EmprestimoController {
         return ResponseEntity.ok().body(emprestimoService.consultarEmprestimosPorUsuario(idUsuario, usuarioLogado, paginacao));
     }
 
+    @GetMapping("/encerrados/usuario/{idUsuario}")
+    @Operation(summary = "Listar empréstimos encerrados por usuário")
+    public ResponseEntity<Page<EmprestimoDTO>> consultarEncerradosPorUsuario(@PathVariable("idUsuario") Long idUsuario, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, page = 0, size = 5) Pageable paginacao) {
+        Usuario usuarioLogado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok().body(emprestimoService.consultarEmprestimosEncerradosPorUsuario(idUsuario, usuarioLogado, paginacao));
+    }
+
     @GetMapping("/vigentes/usuario/{idUsuario}")
     @Operation(summary = "Listar empréstimos vigentes por usuário")
     public ResponseEntity<Page<EmprestimoDTO>> consultarVigentesPorUsuario(@PathVariable("idUsuario") Long idUsuario, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, page = 0, size = 5) Pageable paginacao) {

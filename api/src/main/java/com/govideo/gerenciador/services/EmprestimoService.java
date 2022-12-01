@@ -80,6 +80,19 @@ public class EmprestimoService {
         return EmprestimoDTO.converterParaDTO(emprestimos);
     }
 
+    public Page<EmprestimoDTO> consultarEmprestimosEncerradosPorUsuario(Long idUsuario, Usuario usuarioLogado, Pageable paginacao){
+        Usuario usuario = usuarioService.consultarPorId(idUsuario);
+        Long idUsuarioLogado = usuarioLogado.getId();
+        List<Perfil> perfilUsuarioLogado = usuarioLogado.getPerfis();
+
+        if(!perfilUsuarioLogado.get(0).getPerfil().equals("ROLE_ADMINISTRADOR") && !idUsuarioLogado.equals(idUsuario)) {
+            throw new OperacaoNaoPermitidaException("Não é possível consultar empréstimos de outro colaborador!");
+        }
+
+        Page<Emprestimo> emprestimos = emprestimoRepository.findEncerradosByUsuario(idUsuario, paginacao);
+        return EmprestimoDTO.converterParaDTO(emprestimos);
+    }
+
     public Page<EmprestimoDTO> consultarEmprestimosVigentesPorUsuario(Long idUsuario, Usuario usuarioLogado, Pageable paginacao){
         Usuario usuario = usuarioService.consultarPorId(idUsuario);
         Long idUsuarioLogado = usuarioLogado.getId();
