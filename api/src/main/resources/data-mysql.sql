@@ -1,9 +1,16 @@
-INSERT INTO usuario(criado_em, email, nome, senha, status) VALUES(current_timestamp() ,'admin@email.com', 'Administrador', '$2a$10$FjtQZMQuy8PhXP5AI0lEbe0f/8WnA8dI9Bg0f1jJtP0yU3c5tC06.', 'ATIVO');
-INSERT INTO usuario(criado_em, email, nome, senha, status) VALUES(current_timestamp() ,'colaborador@email.com', 'Colaborador', '$2a$10$FjtQZMQuy8PhXP5AI0lEbe0f/8WnA8dI9Bg0f1jJtP0yU3c5tC06.', 'ATIVO');
-INSERT INTO perfil(id, perfil) VALUES(1, 'ROLE_ADMINISTRADOR');
-INSERT INTO perfil(id, perfil) VALUES(2, 'ROLE_COLABORADOR');
-INSERT INTO usuario_perfis(usuario_id, perfis_id) VALUES (1,1);
-INSERT INTO usuario_perfis(usuario_id, perfis_id) VALUES (2,2);
+INSERT INTO usuario(criado_em, email, nome, senha, status) VALUES
+    (current_timestamp() ,'admin@email.com', 'Administrador', '$2a$10$FjtQZMQuy8PhXP5AI0lEbe0f/8WnA8dI9Bg0f1jJtP0yU3c5tC06.', 'ATIVO'),
+    (current_timestamp() ,'colaborador@email.com', 'Colaborador', '$2a$10$FjtQZMQuy8PhXP5AI0lEbe0f/8WnA8dI9Bg0f1jJtP0yU3c5tC06.', 'ATIVO'),
+    (current_timestamp() ,'ex-colaborador@email.com', 'Ex-colaborador ', '$2a$10$FjtQZMQuy8PhXP5AI0lEbe0f/8WnA8dI9Bg0f1jJtP0yU3c5tC06.', 'INATIVO');
+
+INSERT INTO perfil(id, perfil) VALUES
+    (1, 'ROLE_ADMINISTRADOR'),
+    (2, 'ROLE_COLABORADOR');
+
+INSERT INTO usuario_perfis(usuario_id, perfis_id) VALUES
+    (1,1),
+    (2,2),
+    (3,2);
 
 INSERT INTO equipamento(criado_em, categoria, descricao, marca, modelo, status, url_foto) VALUES
 	(current_timestamp(), 'Câmeras', 'Sensor X-Trans CMOS 5 HS de 5ª geração e X-Processor 5. Para fotógrafos como os cinematógrafos.', 'FUJIFILM' , 'Fuji X-H2S', 'DISPONÍVEL', 'https://fujifilm-x.com/wp-content/uploads/2022/05/sgew_x-h2s_thum-1.png'),
@@ -12,3 +19,10 @@ INSERT INTO equipamento(criado_em, categoria, descricao, marca, modelo, status, 
 	(current_timestamp(), 'Lentes', 'High-performance cinema lens.', 'FUJINON' , 'MKX18-55mmT2.9', 'DISPONÍVEL', 'https://fujifilm-x.com/wp-content/uploads/2018/02/1_thum_mkx18-55mmt2-9.jpg'),
 	(current_timestamp(), 'Acessórios', 'Stereo Microphone.', 'FUJIFILM' , 'MIC-ST1', 'DISPONÍVEL', 'https://fujifilm-x.com/wp-content/uploads/2019/10/stereo-microphone_thum.jpg');
 
+INSERT INTO emprestimo(criado_em, data_inicio, data_fim, equipamento_id, usuario_id) VALUES
+    (current_timestamp(), current_timestamp(), current_timestamp(), 1, 2),
+    (current_timestamp(), current_timestamp(), null, 2, 2);
+
+UPDATE equipamento
+SET status = 'INDISPONÍVEL'
+WHERE id = 1;
