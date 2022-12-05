@@ -4,6 +4,7 @@ import com.govideo.gerenciador.dtos.EquipamentoDTO;
 import com.govideo.gerenciador.dtos.RespostaDTO;
 import com.govideo.gerenciador.entities.Equipamento;
 import com.govideo.gerenciador.entities.enuns.StatusEquipamento;
+import com.govideo.gerenciador.exceptions.OperacaoNaoPermitidaException;
 import com.govideo.gerenciador.exceptions.RecursoNaoEncontradoException;
 import com.govideo.gerenciador.forms.EquipamentoForm;
 import com.govideo.gerenciador.repositories.EmprestimoRepository;
@@ -95,7 +96,7 @@ public class EquipamentoService {
                 alterarStatus(id, StatusEquipamento.INATIVO);
                 mensagem = "Equipamento de ID " + id + " inativado com sucesso!";
              } else {
-                 mensagem = "O status atual do equipamento de ID " + id + " é " + equipamento.getStatus() + ", então ele não pode ser inativado ou excluído!";
+                 throw new OperacaoNaoPermitidaException("O status atual do equipamento de ID " + id + " é " + equipamento.getStatus() + ", então ele não pode ser inativado ou excluído!");
              }
          } else {
         equipamentoRepository.delete(equipamento);
