@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsuarioService {
@@ -35,8 +36,6 @@ public class UsuarioService {
 
   @Autowired
   private EmprestimoRepository emprestimoRepository;
-
-  public final Perfil COLABORADOR = new Perfil("ROLE_COLABORADOR");
 
   public Page<UsuarioDTO> consultar(Pageable paginacao) {
     Page<Usuario> usuarios = usuarioRepository.findAll(paginacao);
@@ -78,10 +77,11 @@ public class UsuarioService {
     if(usuarioRepository.existsByEmail(usuario.getEmail())) {
       throw new ConflitoDeEmailException("Já existe cadastro com o e-mail informado!");
     }
-    if(perfilRepository.existsByPerfil(COLABORADOR.getPerfil())) {
-      usuario.getPerfis().add(COLABORADOR);
+    if(perfilRepository.existsByPerfil("ROLE_COLABORADOR")) {
+      Optional<Perfil> perfilColaborador = perfilRepository.findByPerfil("ROLE_COLABORADOR");
+      usuario.getPerfis().add(perfilColaborador.get());
     } else {
-      Perfil perfil = perfilRepository.save(COLABORADOR);
+      Perfil perfil = perfilRepository.save(new Perfil("ROLE_COLABORADOR"));
       usuario.getPerfis().add(perfil);
     }
     usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
