@@ -142,7 +142,7 @@ public class UsuarioService {
     Pageable paginacao = PageRequest.of(0, 10);
 
     if (emprestimoRepository.findVigentesByUsuario(id, paginacao).hasContent()) {
-      mensagem = "Usuários com empréstimos ativos não podem ser inativados!";
+      throw new OperacaoNaoPermitidaException("Usuários com empréstimos vigentes não podem ser inativados!");
     } else {
       mensagem = "Usuário inativado com sucesso!";
       usuario.setStatus(StatusUsuario.INATIVO);

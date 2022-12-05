@@ -5,6 +5,7 @@ import com.govideo.gerenciador.dtos.RespostaDTO;
 import com.govideo.gerenciador.entities.Emprestimo;
 import com.govideo.gerenciador.entities.Equipamento;
 import com.govideo.gerenciador.entities.enuns.StatusEquipamento;
+import com.govideo.gerenciador.exceptions.OperacaoNaoPermitidaException;
 import com.govideo.gerenciador.exceptions.RecursoNaoEncontradoException;
 import com.govideo.gerenciador.forms.EquipamentoForm;
 import com.govideo.gerenciador.repositories.EmprestimoRepository;
@@ -169,10 +170,14 @@ public class EquipamentoServiceTest {
         Pageable paginacao = PageRequest.of(0, 10);
         Equipamento equipamento = mockEquipamentoEntity();
         equipamento.setStatus(StatusEquipamento.INDISPONÍVEL);
-        when(equipamentoRepository.findById(any())).thenReturn(Optional.of(equipamento));
-        when(emprestimoRepository.findByEquipamento(equipamento, paginacao)).thenReturn(mockEmprestimoPage(equipamento));
-        RespostaDTO retorno = equipamentoService.excluir(1L);
-        assertEquals("O status atual do equipamento de ID 1 é INDISPONÍVEL, então ele não pode ser inativado ou excluído!", retorno.getMensagem());
+
+        OperacaoNaoPermitidaException exception = assertThrows(OperacaoNaoPermitidaException.class, () -> {
+            when(equipamentoRepository.findById(any())).thenReturn(Optional.of(equipamento));
+            when(emprestimoRepository.findByEquipamento(equipamento, paginacao)).thenReturn(mockEmprestimoPage(equipamento));
+            RespostaDTO retorno = equipamentoService.excluir(1L);
+        });
+        assertEquals("O status atual do equipamento de ID 1 é INDISPONÍVEL, então ele não pode ser inativado ou excluído!", exception.getMessage());
+
         verify(equipamentoRepository, Mockito.times(0)).delete(equipamento);
     }
 
