@@ -1,7 +1,11 @@
 package com.govideo.gerenciador.controllers;
 
 import com.govideo.gerenciador.dtos.TokenDTO;
+import com.govideo.gerenciador.entities.Usuario;
+import com.govideo.gerenciador.entities.enuns.StatusUsuario;
+import com.govideo.gerenciador.exceptions.OperacaoNaoPermitidaException;
 import com.govideo.gerenciador.forms.LoginForm;
+import com.govideo.gerenciador.repositories.UsuarioRepository;
 import com.govideo.gerenciador.services.TokenService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,6 +19,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 
 @Tag(name = "Autenticação Endpoint")
@@ -28,10 +33,18 @@ public class AutenticacaoController {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
     @PostMapping
     @Operation(summary = "Logar com email e senha")
     public ResponseEntity<TokenDTO> autenticar(@RequestBody @Valid LoginForm form) {
         UsernamePasswordAuthenticationToken dadosLogin = form.converter();
+
+        Optional<Usuario> usuario = usuarioRepository.findByEmail(form.getEmail());
+        if(usuario.get().getStatus().equals(StatusUsuario.INATIVO)) {
+            throw new OperacaoNaoPermitidaException("Seu perfil está inativo! Entre em contato com o administrador do sistema.");
+        }
 
         try {
             Authentication authentication = authManager.authenticate(dadosLogin);
