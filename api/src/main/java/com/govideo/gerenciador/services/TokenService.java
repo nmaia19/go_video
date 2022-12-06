@@ -25,7 +25,10 @@ public class TokenService {
         Date hoje = new Date();
         Date dataExpiracao = new Date(hoje.getTime() + Long.parseLong(expiration));
 
-        return Jwts.builder().setIssuer("API Go Video").setSubject(logado.getId().toString()).setIssuedAt(hoje)
+        Claims claims = Jwts.claims().setSubject(logado.getEmail());
+        claims.put("perfis", logado.getPerfis());
+
+        return Jwts.builder().setIssuer("API Go Video").setClaims(claims).setSubject(logado.getId().toString()).setIssuedAt(hoje)
                 .setExpiration(dataExpiracao).signWith(SignatureAlgorithm.HS256, secret).compact();
     }
 

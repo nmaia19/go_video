@@ -4,6 +4,7 @@ import com.govideo.gerenciador.dtos.EmprestimoDTO;
 import com.govideo.gerenciador.dtos.EquipamentoDTO;
 import com.govideo.gerenciador.entities.Emprestimo;
 import com.govideo.gerenciador.entities.Equipamento;
+import com.govideo.gerenciador.entities.Perfil;
 import com.govideo.gerenciador.entities.Usuario;
 import com.govideo.gerenciador.entities.enuns.StatusEquipamento;
 import com.govideo.gerenciador.exceptions.EquipamentoNaoDisponivelException;
@@ -23,7 +24,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -47,6 +50,9 @@ public class EmprestimoServiceTest {
     private UsuarioRepository usuarioRepository;
 
     @Mock
+    private UsuarioService usuarioService;
+
+    @Mock
     private EquipamentoService equipamentoService;
 
     public Equipamento mockEquipamentoEntity() {
@@ -56,8 +62,7 @@ public class EmprestimoServiceTest {
     }
 
     public Usuario mockUsuarioEntity() {
-        Usuario usuario = new Usuario(1L);
-        return usuario;
+        return new Usuario(1L);
     }
 
     public Emprestimo mockEmprestimoEntity() {
@@ -70,29 +75,31 @@ public class EmprestimoServiceTest {
         return new PageImpl<>(Collections.singletonList(mockEmprestimoEntity()));
     }
 
+    //REFATORAR!
     @Test
     public void deveriaCadastrarEmprestimo() throws EquipamentoNaoDisponivelException {
         Emprestimo emprestimo = mockEmprestimoEntity();
+        Usuario usuario = mockUsuarioEntity();
         when(equipamentoService.consultarPorId(any())).thenReturn(emprestimo.getEquipamento());
         when(equipamentoRepository.findById(any())).thenReturn(Optional.of(emprestimo.getEquipamento()));
         when(equipamentoRepository.save(any())).thenReturn(emprestimo.getEquipamento());
-        when(usuarioRepository.save(any())).thenReturn(emprestimo.getUsuario());
         when(emprestimoRepository.save(any())).thenReturn(emprestimo);
-        EmprestimoDTO retornoEmprestimo = emprestimoService.cadastrar(1L);
+        EmprestimoDTO retornoEmprestimo = emprestimoService.cadastrar(1L, usuario);
         assertEquals(1L, (long) retornoEmprestimo.getId());
     }
 
     @Test
     public void naoDeveriaCadastrarEmprestimo() {
         Emprestimo emprestimo = mockEmprestimoEntity();
-        emprestimo.getEquipamento().setStatus(StatusEquipamento.INDISPONIVEL);
+        Usuario usuario = mockUsuarioEntity();
+        emprestimo.getEquipamento().setStatus(StatusEquipamento.INDISPONÍVEL);
         EquipamentoNaoDisponivelException exception = assertThrows(EquipamentoNaoDisponivelException.class, () -> {
             when(equipamentoService.consultarPorId(any())).thenReturn(emprestimo.getEquipamento());
             when(usuarioRepository.save(any())).thenReturn(emprestimo.getUsuario());
 
-            emprestimoService.cadastrar(1L);
+            emprestimoService.cadastrar(1L, usuario);
         });
-        assertTrue(exception.getMessage().equals("O equipamento informado não está disponível para empréstimo."));
+        assertEquals("O equipamento informado não está disponível para empréstimo.", exception.getMessage());
     }
 
     @Test
@@ -108,23 +115,28 @@ public class EmprestimoServiceTest {
             when(emprestimoRepository.findById(any())).thenReturn(Optional.empty());
             emprestimoService.consultarPorId(1L);
         });
-        assertTrue(exception.getMessage().equals("Empréstimo não encontrado!"));
+        assertEquals("Empréstimo não encontrado!", exception.getMessage());
     }
 
     @Test
     public void deveriaRetornarEmprestimoDTOAoBuscarPorId() {
+        Usuario usuario = mockUsuarioEntity();
+        List<Perfil> perfis = new ArrayList<>();
+        perfis.add(new Perfil("ROLE_COLABORADOR"));
+        usuario.setPerfis(perfis);
         when(emprestimoRepository.findById(any())).thenReturn(Optional.of(mockEmprestimoEntity()));
-        EmprestimoDTO retornoEmprestimo = emprestimoService.consultarPorIdRetornarDTO(1L);
+        EmprestimoDTO retornoEmprestimo = emprestimoService.consultarPorIdRetornarDTO(1L, usuario);
         assertNotNull(retornoEmprestimo);
     }
 
     @Test
     public void naoDeveriaRetornarEmprestimoDTOAoBuscarPorId() {
+        Usuario usuario = mockUsuarioEntity();
         RecursoNaoEncontradoException exception = assertThrows(RecursoNaoEncontradoException.class, () -> {
             when(emprestimoRepository.findById(any())).thenReturn(Optional.empty());
-            emprestimoService.consultarPorIdRetornarDTO(1L);
+            emprestimoService.consultarPorIdRetornarDTO(1L, usuario);
         });
-        assertTrue(exception.getMessage().equals("Empréstimo não encontrado!"));
+        assertEquals("Empréstimo não encontrado!", exception.getMessage());
     }
 
     @Test
@@ -168,9 +180,25 @@ public class EmprestimoServiceTest {
     public void deveriaRetornarEmprestimosPorUsuario() {
         Pageable paginacao = PageRequest.of(0, 10);
         Usuario usuario = mockUsuarioEntity();
-        when(usuarioRepository.findById(any())).thenReturn(Optional.of(usuario));
+        List<Perfil> perfis = new ArrayList<>();
+        perfis.add(new Perfil("ROLE_COLABORADOR"));
+        usuario.setPerfis(perfis);
+        when(usuarioService.consultarPorId(any())).thenReturn(usuario);
         when(emprestimoRepository.findByUsuario(usuario, paginacao)).thenReturn(mockEmprestimoPage());
-        Page<EmprestimoDTO> emprestimoDTO = emprestimoService.consultarEmprestimosPorUsuario(1L, paginacao);
+        Page<EmprestimoDTO> emprestimoDTO = emprestimoService.consultarEmprestimosPorUsuario(1L, usuario, paginacao);
+        assertEquals(1L, emprestimoDTO.getTotalElements());
+    }
+
+    @Test
+    public void deveriaRetornarEmprestimosEncerradosPorUsuario() {
+        Pageable paginacao = PageRequest.of(0, 10);
+        Usuario usuario = mockUsuarioEntity();
+        List<Perfil> perfis = new ArrayList<>();
+        perfis.add(new Perfil("ROLE_COLABORADOR"));
+        usuario.setPerfis(perfis);
+        when(usuarioService.consultarPorId(any())).thenReturn(usuario);
+        when(emprestimoRepository.findEncerradosByUsuario(1L, paginacao)).thenReturn(mockEmprestimoPage());
+        Page<EmprestimoDTO> emprestimoDTO = emprestimoService.consultarEmprestimosEncerradosPorUsuario(1L, usuario, paginacao);
         assertEquals(1L, emprestimoDTO.getTotalElements());
     }
 
@@ -178,9 +206,12 @@ public class EmprestimoServiceTest {
     public void deveriaRetornarEmprestimosVigentesPorUsuario() {
         Pageable paginacao = PageRequest.of(0, 10);
         Usuario usuario = mockUsuarioEntity();
-        when(usuarioRepository.findById(any())).thenReturn(Optional.of(usuario));
-        when(emprestimoRepository.findByUsuarioEStatus(1L, paginacao)).thenReturn(mockEmprestimoPage());
-        Page<EmprestimoDTO> emprestimoDTO = emprestimoService.consultarEmprestimosVigentesPorUsuario(1L, paginacao);
+        List<Perfil> perfis = new ArrayList<>();
+        perfis.add(new Perfil("ROLE_COLABORADOR"));
+        usuario.setPerfis(perfis);
+        when(usuarioService.consultarPorId(any())).thenReturn(usuario);
+        when(emprestimoRepository.findVigentesByUsuario(1L, paginacao)).thenReturn(mockEmprestimoPage());
+        Page<EmprestimoDTO> emprestimoDTO = emprestimoService.consultarEmprestimosVigentesPorUsuario(1L, usuario, paginacao);
         assertEquals(1L, emprestimoDTO.getTotalElements());
     }
 
@@ -188,10 +219,14 @@ public class EmprestimoServiceTest {
     public void deveriaEncerrarEmprestimo() {
         Pageable paginacao = PageRequest.of(0, 10);
         Emprestimo emprestimo = mockEmprestimoEntity();
+        Usuario usuario = mockUsuarioEntity();
+        List<Perfil> perfis = new ArrayList<>();
+        perfis.add(new Perfil("ROLE_ADMINISTRADOR"));
+        usuario.setPerfis(perfis);
         when(emprestimoRepository.findById(any())).thenReturn(Optional.ofNullable(emprestimo));
         when(emprestimoRepository.save(any())).thenReturn(emprestimo);
-        when(equipamentoService.alterarStatus(emprestimo.getEquipamento().getId(), StatusEquipamento.DISPONIVEL)).thenReturn(new EquipamentoDTO(emprestimo.getEquipamento()));
-        EmprestimoDTO emprestimoDTO = emprestimoService.encerrar(1L);
+        when(equipamentoService.alterarStatus(emprestimo.getEquipamento().getId(), StatusEquipamento.DISPONÍVEL)).thenReturn(new EquipamentoDTO(emprestimo.getEquipamento()));
+        EmprestimoDTO emprestimoDTO = emprestimoService.encerrar(1L, usuario);
         assertNotNull(emprestimoDTO);
         verify(emprestimoRepository, Mockito.times(1)).save(emprestimo);
     }

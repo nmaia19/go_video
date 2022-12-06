@@ -23,7 +23,7 @@ public class Equipamento {
     private String urlFoto;
 
     @Enumerated(EnumType.STRING)
-    private StatusEquipamento status = StatusEquipamento.DISPONIVEL;
+    private StatusEquipamento status = StatusEquipamento.DISPONÍVEL;
 
     @Column(columnDefinition = "DATETIME")
     private Instant criadoEm;

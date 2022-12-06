@@ -1,5 +1,7 @@
 package com.govideo.gerenciador.configs.swagger;
 
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,11 +19,11 @@ public class SwaggerConfig {
                         .title("Go Video API")
                         .description("API REST para gerenciamento de emprestimos de equipamentos audiovisuais.")
                         .version("v1")
-                        .license(new License().name("Apache 2.0").url("http://springdoc.org")));
-//                .components(new Components()
-//                        .addSecuritySchemes("bearer-key", new SecurityScheme()
-//                                .type(SecurityScheme.Type.HTTP)
-//                                .scheme("bearer")
-//                                .in(SecurityScheme.In.HEADER).bearerFormat("JWT")));
+                        .license(new License().name("Apache 2.0").url("http://springdoc.org")))
+                .components(new Components()
+                        .addSecuritySchemes("bearer-key", new SecurityScheme()
+                                .type(SecurityScheme.Type.HTTP)
+                                .scheme("bearer")
+                                .in(SecurityScheme.In.HEADER).bearerFormat("JWT")));
     }
 }

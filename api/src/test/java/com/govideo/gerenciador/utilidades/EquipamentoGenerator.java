@@ -8,18 +8,25 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.net.URI;
 
-public class EmprestimoGenerator {
+public class EquipamentoGenerator {
 
-    public String cadastrarEmprestimo(MockMvc mockMvc, EquipamentoGenerator equipamentosGenerator, TokenGenerator tokenGenerator) throws Exception {
-        String id = equipamentosGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
-        URI uri = new URI("/emprestimos/" + id);
+    public String cadastrarEquipamento(MockMvc mockMvc, TokenGenerator tokenGenerator) throws Exception {
+        URI uri = new URI("/equipamentos");
+        String json = "{\r\n"
+                + "    \"modelo\": \"Pocket Cinema 6K\",\r\n"
+                + "    \"descricao\": \"Filmadora profissional Pocket Cinema 6K\",\r\n"
+                + "    \"marca\": \"Black Magic\",\r\n"
+                + "    \"categoria\": \"Filmadoras\",\r\n"
+                + "    \"urlFoto\": \"https://emania.vteximg.com.br/arquivos/ids/209607\"\r\n"
+                + "}";
 
         ResultActions result =
             mockMvc.
                     perform(
                             MockMvcRequestBuilders
                                     .post(uri)
-                                    .header("Authorization", "Bearer " + tokenGenerator.obterTokenColaborador(mockMvc))
+                                    .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc))
+                                    .content(json)
                                     .contentType(MediaType.APPLICATION_JSON));
         String resultString = result.andReturn().getResponse().getContentAsString();
         JacksonJsonParser jsonParser = new JacksonJsonParser();

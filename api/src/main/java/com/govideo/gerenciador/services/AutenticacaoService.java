@@ -22,8 +22,7 @@ public class AutenticacaoService implements UserDetailsService {
         if(usuario.isPresent()) {
             return usuario.get();
         }
-        throw new UsernameNotFoundException("Email incorreto!");
+        throw new UsernameNotFoundException("Não existe cadastro com o email informado!");
     }
-
 
 }

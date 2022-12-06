@@ -2,6 +2,7 @@ package com.govideo.gerenciador.dtos;
 
 import com.govideo.gerenciador.entities.Perfil;
 import com.govideo.gerenciador.entities.Usuario;
+import com.govideo.gerenciador.entities.enuns.StatusUsuario;
 import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
@@ -15,12 +16,15 @@ public class UsuarioDTO {
 
     private String email;
 
+    private StatusUsuario status;
+
     private List<Perfil> perfis = new ArrayList<>();
 
     public UsuarioDTO(Usuario usuario) {
         this.id = usuario.getId();
         this.nome = usuario.getNome();
         this.email = usuario.getEmail();
+        this.status = usuario.getStatus();
         this.perfis = usuario.getPerfis();
     }
 
@@ -34,6 +38,10 @@ public class UsuarioDTO {
 
     public String getEmail() {
         return email;
+    }
+
+    public StatusUsuario getStatus() {
+        return status;
     }
 
     public List<Perfil> getPerfis() {

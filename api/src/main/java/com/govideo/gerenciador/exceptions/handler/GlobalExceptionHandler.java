@@ -1,13 +1,12 @@
 package com.govideo.gerenciador.exceptions.handler;
 
-import com.govideo.gerenciador.exceptions.ConflitoDeEmailException;
-import com.govideo.gerenciador.exceptions.RecursoNaoEncontradoException;
-import com.govideo.gerenciador.exceptions.EquipamentoNaoDisponivelException;
+import com.govideo.gerenciador.exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -39,30 +38,51 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public final ResponseEntity<ExceptionResponse> allExceptionHandler(Exception ex, HttpServletRequest req) {
-        ExceptionResponse error = new ExceptionResponse(Instant.now(), ex.getMessage(), req.getRequestURI());
+    public final ResponseEntity<ExceptionResponse> allExceptionHandler(Exception e, HttpServletRequest req) {
+        ExceptionResponse error = new ExceptionResponse(Instant.now(), e.getMessage(), req.getRequestURI());
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(RecursoNaoEncontradoException.class)
-    public final ResponseEntity<ExceptionResponse> recursoNaoEncontrado(RecursoNaoEncontradoException r,
+    public final ResponseEntity<ExceptionResponse> recursoNaoEncontrado(RecursoNaoEncontradoException e,
                                                                     HttpServletRequest req){
-        ExceptionResponse error = new ExceptionResponse(Instant.now(), r.getMessage(), req.getRequestURI());
-        return new ResponseEntity<>(error,r.getStatus());
+        ExceptionResponse error = new ExceptionResponse(Instant.now(), e.getMessage(), req.getRequestURI());
+        return new ResponseEntity<>(error, e.getStatus());
     }
 
     @ExceptionHandler(EquipamentoNaoDisponivelException.class)
     public final ResponseEntity<ExceptionResponse> equipamentoNaoDisponivel(EquipamentoNaoDisponivelException e,
                                                                     HttpServletRequest req){
         ExceptionResponse error = new ExceptionResponse(Instant.now(), e.getMessage(), req.getRequestURI());
-        return new ResponseEntity<>(error,e.getStatus());
+        return new ResponseEntity<>(error, e.getStatus());
     }
 
     @ExceptionHandler(ConflitoDeEmailException.class)
     public final ResponseEntity<ExceptionResponse> conflitoDeEmail(ConflitoDeEmailException e,
                                                                     HttpServletRequest req){
         ExceptionResponse error = new ExceptionResponse(Instant.now(), e.getMessage(), req.getRequestURI());
-        return new ResponseEntity<>(error,e.getStatus());
+        return new ResponseEntity<>(error, e.getStatus());
+    }
+
+    @ExceptionHandler(OperacaoNaoPermitidaException.class)
+    public final ResponseEntity<ExceptionResponse> operacaoNaoPermitida(OperacaoNaoPermitidaException e,
+                                                                   HttpServletRequest req){
+        ExceptionResponse error = new ExceptionResponse(Instant.now(), e.getMessage(), req.getRequestURI());
+        return new ResponseEntity<>(error, e.getStatus());
+    }
+
+    @ExceptionHandler(CredenciaisIncorretasException.class)
+    public final ResponseEntity<ExceptionResponse> credenciaisIncorretas(CredenciaisIncorretasException e,
+                                                                         HttpServletRequest req){
+        ExceptionResponse error = new ExceptionResponse(Instant.now(), e.getMessage(), req.getRequestURI());
+        return new ResponseEntity<>(error, e.getStatus());
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public final ResponseEntity<ExceptionResponse> emailNaoEncontrado(UsernameNotFoundException e,
+                                                                   HttpServletRequest req){
+        ExceptionResponse error = new ExceptionResponse(Instant.now(), e.getMessage(), req.getRequestURI());
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
 
 }

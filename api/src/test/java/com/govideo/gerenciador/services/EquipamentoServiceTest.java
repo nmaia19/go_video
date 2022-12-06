@@ -1,9 +1,11 @@
 package com.govideo.gerenciador.services;
 
 import com.govideo.gerenciador.dtos.EquipamentoDTO;
+import com.govideo.gerenciador.dtos.RespostaDTO;
 import com.govideo.gerenciador.entities.Emprestimo;
 import com.govideo.gerenciador.entities.Equipamento;
 import com.govideo.gerenciador.entities.enuns.StatusEquipamento;
+import com.govideo.gerenciador.exceptions.OperacaoNaoPermitidaException;
 import com.govideo.gerenciador.exceptions.RecursoNaoEncontradoException;
 import com.govideo.gerenciador.forms.EquipamentoForm;
 import com.govideo.gerenciador.repositories.EmprestimoRepository;
@@ -46,8 +48,7 @@ public class EquipamentoServiceTest {
     }
 
     public EquipamentoForm mockEquipamentoForm() {
-        EquipamentoForm equipamento = new EquipamentoForm("Pocket Cinema 6K", "Filmadora profissional Pocket Cinema 6K", "Black Magic", "Filmadoras", "https://emania.vteximg.com.br/arquivos/ids/209607");
-        return equipamento;
+        return new EquipamentoForm("Pocket Cinema 6K", "Filmadora profissional Pocket Cinema 6K", "Black Magic", "Filmadoras", "https://emania.vteximg.com.br/arquivos/ids/209607");
     }
 
     public Page<Equipamento> mockEquipamentoPage() {
@@ -81,7 +82,7 @@ public class EquipamentoServiceTest {
             when(equipamentoRepository.findById(any())).thenReturn(Optional.empty());
             equipamentoService.consultarPorId(1L);
         });
-        assertTrue(exception.getMessage().equals("Equipamento não encontrado!"));
+        assertEquals("Equipamento não encontrado!", exception.getMessage());
     }
 
     @Test
@@ -97,7 +98,7 @@ public class EquipamentoServiceTest {
             when(equipamentoRepository.findById(any())).thenReturn(Optional.empty());
             equipamentoService.consultarPorIdRetornarDTO(1L);
         });
-        assertTrue(exception.getMessage().equals("Equipamento não encontrado!"));
+        assertEquals("Equipamento não encontrado!", exception.getMessage());
     }
 
     @Test
@@ -112,7 +113,7 @@ public class EquipamentoServiceTest {
     public void deveriaRetornarEquipamentosComStatusDisponivel() {
         Pageable paginacao = PageRequest.of(0, 10);
         when(equipamentoRepository.findAll(paginacao)).thenReturn(mockEquipamentoPage());
-        when(equipamentoRepository.findByStatus(StatusEquipamento.DISPONIVEL, paginacao)).thenReturn(mockEquipamentoPage());
+        when(equipamentoRepository.findByStatus(StatusEquipamento.DISPONÍVEL, paginacao)).thenReturn(mockEquipamentoPage());
         Page<EquipamentoDTO> equipamentoDTO = equipamentoService.consultarPorStatus("DISPONIVEL", paginacao);
         assertEquals(1L, equipamentoDTO.getTotalElements());
     }
@@ -121,7 +122,7 @@ public class EquipamentoServiceTest {
     public void deveriaRetornarEquipamentosComStatusIndisponivel() {
         Pageable paginacao = PageRequest.of(0, 10);
         when(equipamentoRepository.findAll(paginacao)).thenReturn(mockEquipamentoPage());
-        when(equipamentoRepository.findByStatus(StatusEquipamento.INDISPONIVEL, paginacao)).thenReturn(mockEquipamentoPage());
+        when(equipamentoRepository.findByStatus(StatusEquipamento.INDISPONÍVEL, paginacao)).thenReturn(mockEquipamentoPage());
         Page<EquipamentoDTO> equipamentoDTO = equipamentoService.consultarPorStatus("INDISPONIVEL", paginacao);
         assertEquals(1L, equipamentoDTO.getTotalElements());
     }
@@ -160,19 +161,23 @@ public class EquipamentoServiceTest {
         when(equipamentoRepository.findById(any())).thenReturn(Optional.of(equipamento));
         when(emprestimoRepository.findByEquipamento(equipamento, paginacao)).thenReturn(Page.empty());
         doNothing().when(equipamentoRepository).delete(any());
-        String retorno = equipamentoService.excluir(1L);
-        assertEquals("Equipamento de ID 1 excluído com sucesso!", retorno);
+        RespostaDTO retorno = equipamentoService.excluir(1L);
+        assertEquals("Equipamento de ID 1 excluído com sucesso!", retorno.getMensagem());
     }
 
     @Test
     public void deveriaExibirMensagemAoTentarExcluirEquipamentoIndisponivel() {
         Pageable paginacao = PageRequest.of(0, 10);
         Equipamento equipamento = mockEquipamentoEntity();
-        equipamento.setStatus(StatusEquipamento.INDISPONIVEL);
-        when(equipamentoRepository.findById(any())).thenReturn(Optional.of(equipamento));
-        when(emprestimoRepository.findByEquipamento(equipamento, paginacao)).thenReturn(mockEmprestimoPage(equipamento));
-        String retorno = equipamentoService.excluir(1L);
-        assertEquals("O status atual do equipamento de ID 1 é INDISPONIVEL, então ele não pode ser inativado ou excluído!", retorno);
+        equipamento.setStatus(StatusEquipamento.INDISPONÍVEL);
+
+        OperacaoNaoPermitidaException exception = assertThrows(OperacaoNaoPermitidaException.class, () -> {
+            when(equipamentoRepository.findById(any())).thenReturn(Optional.of(equipamento));
+            when(emprestimoRepository.findByEquipamento(equipamento, paginacao)).thenReturn(mockEmprestimoPage(equipamento));
+            RespostaDTO retorno = equipamentoService.excluir(1L);
+        });
+        assertEquals("O status atual do equipamento de ID 1 é INDISPONÍVEL, então ele não pode ser inativado ou excluído!", exception.getMessage());
+
         verify(equipamentoRepository, Mockito.times(0)).delete(equipamento);
     }
 
@@ -183,8 +188,8 @@ public class EquipamentoServiceTest {
         when(equipamentoRepository.findById(1L)).thenReturn(Optional.of(equipamento));
         when(equipamentoRepository.save(any())).thenReturn(equipamento);
         when(emprestimoRepository.findByEquipamento(equipamento, paginacao)).thenReturn(mockEmprestimoPage(equipamento));
-        String retorno = equipamentoService.excluir(1L);
-        assertEquals("Equipamento de ID 1 inativado com sucesso!", retorno);
+        RespostaDTO retorno = equipamentoService.excluir(1L);
+        assertEquals("Equipamento de ID 1 inativado com sucesso!", retorno.getMensagem());
         verify(equipamentoRepository, Mockito.times(1)).save(equipamento);
         verify(equipamentoRepository, Mockito.times(0)).delete(equipamento);
     }
