@@ -3,6 +3,7 @@ package com.govideo.gerenciador.controllers;
 import com.govideo.gerenciador.dtos.TokenDTO;
 import com.govideo.gerenciador.entities.Usuario;
 import com.govideo.gerenciador.entities.enuns.StatusUsuario;
+import com.govideo.gerenciador.exceptions.CredenciaisIncorretasException;
 import com.govideo.gerenciador.exceptions.OperacaoNaoPermitidaException;
 import com.govideo.gerenciador.forms.LoginForm;
 import com.govideo.gerenciador.repositories.UsuarioRepository;
@@ -55,7 +56,7 @@ public class AutenticacaoController {
                 throw new OperacaoNaoPermitidaException("Seu perfil está inativo! Entre em contato com o administrador do sistema.");
             }
         } else {
-            throw new UsernameNotFoundException("Email incorreto!");
+            throw new CredenciaisIncorretasException("Email informado incorreto!");
         }
 
         try {
@@ -64,7 +65,7 @@ public class AutenticacaoController {
 
             return ResponseEntity.ok(new TokenDTO(token, "Bearer"));
         } catch (AuthenticationException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            throw new CredenciaisIncorretasException("Senha informada incorreta!");
         }
     }
 

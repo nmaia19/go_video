@@ -28,12 +28,12 @@ public class AutenticacaoControllerTest {
     }
 
     @Test
-    public void deveriaDevolver400CasoEmailParaAutenticacaoEstejaIncorreto() throws Exception {
+    public void deveriaDevolver401CasoEmailParaAutenticacaoEstejaIncorreto() throws Exception {
         URI uri = new URI("/login");
         String json = "{\"email\":\"invalido@email.com\",\"senha\":\"123\"}";
 
         mockMvc.perform(MockMvcRequestBuilders.post(uri).content(json).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().is(400));
+                .andExpect(MockMvcResultMatchers.status().is(401));
     }
 
     @Test
