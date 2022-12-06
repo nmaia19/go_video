@@ -82,7 +82,7 @@ public class GlobalExceptionHandler {
     public final ResponseEntity<ExceptionResponse> emailNaoEncontrado(UsernameNotFoundException e,
                                                                    HttpServletRequest req){
         ExceptionResponse error = new ExceptionResponse(Instant.now(), e.getMessage(), req.getRequestURI());
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
 
 }
