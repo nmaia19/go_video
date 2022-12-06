@@ -6,6 +6,7 @@ import com.govideo.gerenciador.entities.enuns.StatusUsuario;
 import com.govideo.gerenciador.exceptions.OperacaoNaoPermitidaException;
 import com.govideo.gerenciador.forms.LoginForm;
 import com.govideo.gerenciador.repositories.UsuarioRepository;
+import com.govideo.gerenciador.services.AutenticacaoService;
 import com.govideo.gerenciador.services.TokenService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -16,7 +17,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -34,6 +39,9 @@ public class AutenticacaoController {
     private TokenService tokenService;
 
     @Autowired
+    private AutenticacaoService autenticacaoService;
+
+    @Autowired
     private UsuarioRepository usuarioRepository;
 
     @PostMapping
@@ -42,8 +50,12 @@ public class AutenticacaoController {
         UsernamePasswordAuthenticationToken dadosLogin = form.converter();
 
         Optional<Usuario> usuario = usuarioRepository.findByEmail(form.getEmail());
-        if(usuario.get().getStatus().equals(StatusUsuario.INATIVO)) {
-            throw new OperacaoNaoPermitidaException("Seu perfil está inativo! Entre em contato com o administrador do sistema.");
+        if(usuario.isPresent()) {
+            if(usuario.get().getStatus().equals(StatusUsuario.INATIVO)) {
+                throw new OperacaoNaoPermitidaException("Seu perfil está inativo! Entre em contato com o administrador do sistema.");
+            }
+        } else {
+            throw new UsernameNotFoundException("Email incorreto!");
         }
 
         try {
