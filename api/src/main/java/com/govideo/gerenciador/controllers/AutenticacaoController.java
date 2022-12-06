@@ -53,10 +53,10 @@ public class AutenticacaoController {
         Optional<Usuario> usuario = usuarioRepository.findByEmail(form.getEmail());
         if(usuario.isPresent()) {
             if(usuario.get().getStatus().equals(StatusUsuario.INATIVO)) {
-                throw new OperacaoNaoPermitidaException("Seu perfil está inativo! Entre em contato com o administrador do sistema.");
+                throw new OperacaoNaoPermitidaException("Seu perfil está inativo, entre em contato com o administrador do sistema");
             }
         } else {
-            throw new CredenciaisIncorretasException("Email informado incorreto!");
+            throw new CredenciaisIncorretasException("Email informado incorreto");
         }
 
         try {
@@ -65,7 +65,7 @@ public class AutenticacaoController {
 
             return ResponseEntity.ok(new TokenDTO(token, "Bearer"));
         } catch (AuthenticationException e) {
-            throw new CredenciaisIncorretasException("Senha informada incorreta!");
+            throw new CredenciaisIncorretasException("Senha informada incorreta");
         }
     }
 
