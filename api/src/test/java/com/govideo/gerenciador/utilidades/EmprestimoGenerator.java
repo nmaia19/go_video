@@ -10,9 +10,9 @@ import java.net.URI;
 
 public class EmprestimoGenerator {
 
-    public String cadastrarEmprestimo(MockMvc mockMvc, EquipamentosGenerator equipamentosGenerator, TokenGenerator tokenGenerator) throws Exception {
+    public String cadastrarEmprestimo(MockMvc mockMvc, EquipamentoGenerator equipamentosGenerator, TokenGenerator tokenGenerator) throws Exception {
         String id = equipamentosGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
-        URI uri = new URI("/emprestimos/"+id);
+        URI uri = new URI("/emprestimos/" + id);
 
         ResultActions result =
             mockMvc.

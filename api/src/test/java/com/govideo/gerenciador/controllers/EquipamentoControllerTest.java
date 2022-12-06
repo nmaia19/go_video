@@ -1,7 +1,7 @@
 package com.govideo.gerenciador.controllers;
 
 import com.govideo.gerenciador.services.EquipamentoService;
-import com.govideo.gerenciador.utilidades.EquipamentosGenerator;
+import com.govideo.gerenciador.utilidades.EquipamentoGenerator;
 import com.govideo.gerenciador.utilidades.TokenGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.net.URI;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -25,7 +25,7 @@ public class EquipamentoControllerTest {
 
     private TokenGenerator tokenGenerator;
 
-    private EquipamentosGenerator equipamentosGenerator;
+    private EquipamentoGenerator equipamentoGenerator;
 
     @Autowired
     private MockMvc mockMvc;
@@ -35,7 +35,7 @@ public class EquipamentoControllerTest {
 
     @BeforeEach
     public void beforeEach() {
-        this.equipamentosGenerator = new EquipamentosGenerator();
+        this.equipamentoGenerator = new EquipamentoGenerator();
         this.tokenGenerator = new TokenGenerator();
     }
 
@@ -65,7 +65,7 @@ public class EquipamentoControllerTest {
     @Test
     public void deveriaDevolver200AoBuscarTodosOsEquipamentos() throws Exception {
         URI uri = new URI("/equipamentos");
-        equipamentosGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
+        equipamentoGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
 
         ResultActions result =
             mockMvc.
@@ -83,7 +83,7 @@ public class EquipamentoControllerTest {
 
     @Test
     public void deveriaDevolver200AoBuscarEquipamentoPorId() throws Exception {
-        String idEquipamento = equipamentosGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
+        String idEquipamento = equipamentoGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
         URI uri = new URI("/equipamentos/" + idEquipamento);
 
         ResultActions result =
@@ -101,9 +101,9 @@ public class EquipamentoControllerTest {
     }
 
     @Test
-    public void deveriaDevolver200AoBuscarEquipamentoPorStatusDisponivel() throws Exception {
+    public void deveriaDevolver200AoBuscarEquipamentosPorStatusDisponivel() throws Exception {
         URI uri = new URI("/equipamentos/buscarPorStatus/disponivel");
-        equipamentosGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
+        equipamentoGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
 
         ResultActions result =
                 mockMvc.
@@ -119,11 +119,12 @@ public class EquipamentoControllerTest {
         assertFalse(equipamento.isEmpty());
     }
 
-    //TODO: testar buscar por status caso inativo e indisponível
+    //TODO: TESTAR BUSCAR POR STATUS INATIVO E INDISPONÍVEL
+
     @Test
     public void deveriaDevolver200AoAtualizarEquipamento() throws Exception {
         URI uri = new URI("/equipamentos/1");
-        equipamentosGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
+        equipamentoGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
 
         String json = "{\r\n"
                 + "    \"modelo\": \"Modelo alterado\",\r\n"
@@ -145,11 +146,11 @@ public class EquipamentoControllerTest {
                         .is(200));
     }
 
-    //TODO: verificar mensagem que vem com a resposta
+    //TODO: VERIFICAR MSG QUE VEM COMO RESPOSTA
     @Test
-    public void deveriaDevolver200AoExcluirEquipamentos() throws Exception {
+    public void deveriaDevolver200AoExcluirEquipamento() throws Exception {
         URI uri = new URI("/equipamentos/1");
-        equipamentosGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
+        equipamentoGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
 
         mockMvc.
                 perform(
@@ -161,6 +162,28 @@ public class EquipamentoControllerTest {
                         .is(200));
     }
 
-    //TODO: testar quando (1) está disponível, mas já teve empréstimo--> inativa e (2) está em empréstimo --> faz nada
+    @Test
+    public void deveriaDevolver403AoExcluirEquipamentoComEmprestimoVigente() throws Exception {
+        String idEquipamento = equipamentoGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
 
+        mockMvc.
+            perform(
+                MockMvcRequestBuilders
+                    .post("/emprestimos/" + idEquipamento)
+                    .header("Authorization", "Bearer " + tokenGenerator.obterTokenColaborador(mockMvc))
+                    .contentType(MediaType.APPLICATION_JSON));
+
+        URI uri = new URI("/equipamentos/" + idEquipamento);
+
+        mockMvc.
+                perform(
+                        MockMvcRequestBuilders
+                                .delete(uri)
+                                .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc)))
+                .andExpect(MockMvcResultMatchers
+                        .status()
+                        .is(403));
+    }
+
+    //TODO: TESTAR EXCLUIR EQUIPAMENTO DISPONÍVEL, COM HISTÓRICO DE EMPRÉSTIMO (STATUS MUDA PARA INATIVO)
 }

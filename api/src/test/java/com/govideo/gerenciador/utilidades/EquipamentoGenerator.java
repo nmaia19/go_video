@@ -8,7 +8,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.net.URI;
 
-public class EquipamentosGenerator {
+public class EquipamentoGenerator {
 
     public String cadastrarEquipamento(MockMvc mockMvc, TokenGenerator tokenGenerator) throws Exception {
         URI uri = new URI("/equipamentos");
