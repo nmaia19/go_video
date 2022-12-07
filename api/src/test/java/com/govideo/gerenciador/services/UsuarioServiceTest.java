@@ -10,6 +10,7 @@ import com.govideo.gerenciador.entities.Perfil;
 import com.govideo.gerenciador.entities.Usuario;
 import com.govideo.gerenciador.entities.enuns.StatusEquipamento;
 import com.govideo.gerenciador.entities.enuns.StatusUsuario;
+import com.govideo.gerenciador.exceptions.ConflitoDeEmailException;
 import com.govideo.gerenciador.exceptions.OperacaoNaoPermitidaException;
 import com.govideo.gerenciador.exceptions.RecursoNaoEncontradoException;
 import com.govideo.gerenciador.forms.AlteraNomeUsuarioForm;
@@ -90,7 +91,14 @@ public class UsuarioServiceTest {
         assertEquals("usuario@email.com", retornoUsuario.getEmail());
     }
 
-    //TODO: TESTAR CADASTRAR USUÁRIO COM EMAIL EXISTENTE (LANÇA EXCEPTION)
+    @Test
+    public void naoDeveriaCadastrarUsuarioComEmailExistente() {
+        ConflitoDeEmailException exception = assertThrows(ConflitoDeEmailException.class, () -> {
+            when(usuarioRepository.existsByEmail(any())).thenReturn(true);
+            UsuarioDTO retornoUsuario = usuarioService.cadastrar(new UsuarioForm("Colaborador", "colaborador@email.com", "123"));
+        });
+        assertEquals("Já existe cadastro com o e-mail informado!", exception.getMessage());
+    }
 
     @Test
     public void deveriaRetornarUsuarioAoBuscarPorId() {

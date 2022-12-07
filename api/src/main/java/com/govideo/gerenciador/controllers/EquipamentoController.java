@@ -35,6 +35,13 @@ public class EquipamentoController {
         return ResponseEntity.ok().body(equipamentosDtos);
     }
 
+    @GetMapping("/ativos")
+    @Operation(summary = "Listar equipamentos ativos")
+    public ResponseEntity<Page<EquipamentoDTO>> consultarAtivos(@PageableDefault(sort = "id", direction = Sort.Direction.DESC, page = 0, size = 5) Pageable paginacao) {
+        Page<EquipamentoDTO> equipamentosDtos = equipamentoService.consultarAtivos(paginacao);
+        return ResponseEntity.ok().body(equipamentosDtos);
+    }
+
     @GetMapping("/{id}")
     @Operation(summary = "Consultar equipamento por ID")
     public ResponseEntity<EquipamentoDTO> consultarPorId(@PathVariable("id") Long id) {
