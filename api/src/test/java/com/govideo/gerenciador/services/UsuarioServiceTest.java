@@ -1,0 +1,189 @@
+package com.govideo.gerenciador.services;
+
+import com.govideo.gerenciador.dtos.EmprestimoDTO;
+import com.govideo.gerenciador.dtos.EquipamentoDTO;
+import com.govideo.gerenciador.dtos.RespostaDTO;
+import com.govideo.gerenciador.dtos.UsuarioDTO;
+import com.govideo.gerenciador.entities.Emprestimo;
+import com.govideo.gerenciador.entities.Equipamento;
+import com.govideo.gerenciador.entities.Perfil;
+import com.govideo.gerenciador.entities.Usuario;
+import com.govideo.gerenciador.entities.enuns.StatusEquipamento;
+import com.govideo.gerenciador.entities.enuns.StatusUsuario;
+import com.govideo.gerenciador.exceptions.OperacaoNaoPermitidaException;
+import com.govideo.gerenciador.exceptions.RecursoNaoEncontradoException;
+import com.govideo.gerenciador.forms.AlteraNomeUsuarioForm;
+import com.govideo.gerenciador.forms.EquipamentoForm;
+import com.govideo.gerenciador.forms.UsuarioForm;
+import com.govideo.gerenciador.repositories.EmprestimoRepository;
+import com.govideo.gerenciador.repositories.EquipamentoRepository;
+import com.govideo.gerenciador.repositories.PerfilRepository;
+import com.govideo.gerenciador.repositories.UsuarioRepository;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Collections;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
+
+@ExtendWith(SpringExtension.class)
+public class UsuarioServiceTest {
+
+    @InjectMocks
+    private UsuarioService usuarioService;
+
+    @Mock
+    private UsuarioRepository usuarioRepository;
+
+    @Mock
+    private PerfilRepository perfilRepository;
+
+    @Mock
+    private EmprestimoRepository emprestimoRepository;
+
+    public Usuario mockUsuarioEntity() {
+        Usuario usuario = new Usuario("Nome", "usuario@email.com", "123");
+        usuario.setId(1L);
+        Perfil perfil = new Perfil("ROLE_COLABORADOR");
+        perfil.setId(1L);
+        usuario.getPerfis().add(perfil);
+        return usuario;
+    }
+
+    public UsuarioForm mockUsuarioForm() {
+        return new UsuarioForm("Usuario", "usuario@email.com", "123");
+    }
+
+    public AlteraNomeUsuarioForm mockAlteraNomeUsuarioForm() {
+        return new AlteraNomeUsuarioForm("Usuario");
+    }
+
+    public Page<Usuario> mockUsuarioPage() {
+        return new PageImpl<>(Collections.singletonList(mockUsuarioEntity()));
+    }
+
+    public Page<Emprestimo> mockEmprestimoPage() {
+        Equipamento equipamento = new Equipamento("Pocket Cinema 6K", "Filmadora profissional Pocket Cinema 6K", "Black Magic", "Filmadoras", "https://emania.vteximg.com.br/arquivos/ids/209607");
+        equipamento.setId(1L);
+        Emprestimo emprestimo = new Emprestimo();
+        emprestimo.setId(1L);
+        emprestimo.setEquipamento(equipamento);
+        return new PageImpl<>(Collections.singletonList(emprestimo));
+    }
+
+    @Test
+    public void deveriaCadastrarUsuario() {
+        when(usuarioRepository.save(any())).thenReturn(mockUsuarioEntity());
+        UsuarioDTO retornoUsuario = usuarioService.cadastrar(mockUsuarioForm());
+        assertEquals("usuario@email.com", retornoUsuario.getEmail());
+    }
+
+    //TODO: TESTAR CADASTRAR USUÁRIO COM EMAIL EXISTENTE (LANÇA EXCEPTION)
+
+    @Test
+    public void deveriaRetornarUsuarioAoBuscarPorId() {
+        when(usuarioRepository.findById(any())).thenReturn(Optional.of(mockUsuarioEntity()));
+        Usuario retornoUsuario = usuarioService.consultarPorId(1L);
+        assertNotNull(retornoUsuario);
+    }
+
+    @Test
+    public void naoDeveriaRetornarUsuarioAoBuscarPorId() {
+        RecursoNaoEncontradoException exception = assertThrows(RecursoNaoEncontradoException.class, () -> {
+            when(usuarioRepository.findById(any())).thenReturn(Optional.empty());
+            usuarioService.consultarPorId(1L);
+        });
+        assertEquals("Usuário não encontrado!", exception.getMessage());
+    }
+
+    @Test
+    public void deveriaRetornarUsuarioDTOAoBuscarPorId() {
+        when(usuarioRepository.findById(any())).thenReturn(Optional.of(mockUsuarioEntity()));
+        UsuarioDTO retornoUsuario = usuarioService.consultarPorIdRetornarDTO(1L, mockUsuarioEntity());
+        assertNotNull(retornoUsuario);
+    }
+
+    @Test
+    public void naoDeveriaRetornarUsuarioDTOAoBuscarPorId() {
+        RecursoNaoEncontradoException exception = assertThrows(RecursoNaoEncontradoException.class, () -> {
+            when(usuarioRepository.findById(any())).thenReturn(Optional.empty());
+            usuarioService.consultarPorIdRetornarDTO(1L, mockUsuarioEntity());
+        });
+        assertEquals("Usuário não encontrado!", exception.getMessage());
+    }
+
+    @Test
+    public void deveriaRetornarTodosOsUsuarios() {
+        Pageable pageable = PageRequest.of(0, 10);
+        when(usuarioRepository.findAll(pageable)).thenReturn(mockUsuarioPage());
+        Page<UsuarioDTO> usuarioDTOPage = usuarioService.consultar(pageable);
+        assertEquals(1L, usuarioDTOPage.getTotalElements());
+    }
+
+    @Test
+    public void deveriaRetornarUsuariosComStatusAtivo() {
+        Pageable paginacao = PageRequest.of(0, 10);
+        when(usuarioRepository.findAll(paginacao)).thenReturn(mockUsuarioPage());
+        when(usuarioRepository.findByStatus(StatusUsuario.ATIVO, paginacao)).thenReturn(mockUsuarioPage());
+        Page<UsuarioDTO> usuarioDTO = usuarioService.consultarPorStatus("ATIVO", paginacao);
+        assertEquals(1L, usuarioDTO.getTotalElements());
+    }
+
+    @Test
+    public void deveriaRetornarUsuariosComStatusInativo() {
+        Pageable paginacao = PageRequest.of(0, 10);
+        when(usuarioRepository.findAll(paginacao)).thenReturn(mockUsuarioPage());
+        when(usuarioRepository.findByStatus(StatusUsuario.INATIVO, paginacao)).thenReturn(mockUsuarioPage());
+        Page<UsuarioDTO> usaurioDTO = usuarioService.consultarPorStatus("INATIVO", paginacao);
+        assertEquals(1L, usaurioDTO.getTotalElements());
+    }
+
+    @Test
+    public void deveriaAlterarNomeDeUsuarioComSucesso() {
+        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(mockUsuarioEntity()));
+        when(usuarioRepository.save(any())).thenReturn(mockUsuarioEntity());
+        UsuarioDTO retornoUsuario = usuarioService.alterarNome(1L, mockAlteraNomeUsuarioForm());
+        assertEquals(1L, (long) retornoUsuario.getId());
+    }
+
+    //TODO: TESTAR RESETAR SENHA
+
+    //TODO: TESTAR ALTERAR SENHA (SUCESSO, SENHA ATUAL ERRADA, SENHA NOVA IGUAL A ATUAL, SENHA NOVA DIFERENTE DA CONFIRMAÇÃO
+
+    @Test
+    public void deveriaInativarUsuario() {
+        Pageable paginacao = PageRequest.of(0, 10);
+        Usuario usuario = mockUsuarioEntity();
+        when(usuarioRepository.findById(any())).thenReturn(Optional.of(usuario));
+        when(emprestimoRepository.findVigentesByUsuario(usuario.getId(), paginacao)).thenReturn(Page.empty());
+        usuario.setStatus(StatusUsuario.INATIVO);
+        when(usuarioRepository.save(any())).thenReturn(usuario);
+        RespostaDTO retorno = usuarioService.inativar(usuario.getId());
+        assertEquals("Usuário inativado com sucesso!", retorno.getMensagem());
+    }
+
+    @Test
+    public void naoDeveriaInativarUsuarioComEmprestimoVigente() {
+        OperacaoNaoPermitidaException exception = assertThrows(OperacaoNaoPermitidaException.class, () -> {
+            Pageable paginacao = PageRequest.of(0, 10);
+            Usuario usuario = mockUsuarioEntity();
+            when(usuarioRepository.findById(any())).thenReturn(Optional.of(usuario));
+            when(emprestimoRepository.findVigentesByUsuario(usuario.getId(), paginacao)).thenReturn(mockEmprestimoPage());
+            usuarioService.inativar(usuario.getId());
+        });
+        assertEquals("Usuários com empréstimos vigentes não podem ser inativados!", exception.getMessage());
+    }
+
+}

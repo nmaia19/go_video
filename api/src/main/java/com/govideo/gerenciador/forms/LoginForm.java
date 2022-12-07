@@ -14,6 +14,15 @@ public class LoginForm {
     @NotNull @NotEmpty
     private String senha;
 
+    public LoginForm() {
+
+    }
+
+    public LoginForm(String email, String senha) {
+        this.email = email;
+        this.senha = senha;
+    }
+
     public String getEmail() {
         return email;
     }

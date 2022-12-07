@@ -218,4 +218,5 @@ public class EmprestimoControllerTest {
         String listaEmprestimos = result.andReturn().getResponse().getContentAsString();
         assertFalse(listaEmprestimos.contains("\"numberOfElements\":0"));
     }
+
 }

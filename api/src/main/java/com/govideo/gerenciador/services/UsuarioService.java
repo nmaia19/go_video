@@ -50,7 +50,6 @@ public class UsuarioService {
     if(!perfilUsuarioLogado.get(0).getPerfil().equals("ROLE_ADMINISTRADOR") && !idUsuarioLogado.equals(id)) {
       throw new OperacaoNaoPermitidaException("Não é possível consultar perfil de outro colaborador!");
     }
-
     return new UsuarioDTO(usuario);
   }
 
@@ -141,11 +140,11 @@ public class UsuarioService {
     String mensagem;
     Pageable paginacao = PageRequest.of(0, 10);
 
-    if (emprestimoRepository.findVigentesByUsuario(id, paginacao).hasContent()) {
+    if(emprestimoRepository.findVigentesByUsuario(id, paginacao).hasContent()) {
       throw new OperacaoNaoPermitidaException("Usuários com empréstimos vigentes não podem ser inativados!");
     } else {
-      mensagem = "Usuário inativado com sucesso!";
       usuario.setStatus(StatusUsuario.INATIVO);
+      mensagem = "Usuário inativado com sucesso!";
     }
 
     usuarioRepository.save(usuario);
