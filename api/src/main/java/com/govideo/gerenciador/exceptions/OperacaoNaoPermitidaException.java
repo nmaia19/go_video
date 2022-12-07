@@ -15,4 +15,5 @@ public class OperacaoNaoPermitidaException extends RuntimeException {
     public HttpStatus getStatus() {
         return status;
     }
+
 }

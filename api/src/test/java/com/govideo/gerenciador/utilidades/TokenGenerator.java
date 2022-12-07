@@ -45,4 +45,5 @@ public class TokenGenerator {
         JacksonJsonParser jsonParser = new JacksonJsonParser();
         return jsonParser.parseMap(resultString).get("token").toString();
     }
+
 }

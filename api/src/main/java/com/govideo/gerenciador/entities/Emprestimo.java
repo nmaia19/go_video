@@ -8,7 +8,8 @@ import java.util.Objects;
 @Entity
 public class Emprestimo {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -28,12 +29,12 @@ public class Emprestimo {
     private Instant atualizadoEm;
 
     @PrePersist
-    public void prePersit(){
+    public void prePersit() {
         criadoEm = Instant.now();
     }
 
     @PreUpdate
-    public void preUpdate(){
+    public void preUpdate() {
         atualizadoEm = Instant.now();
     }
 
@@ -105,4 +106,5 @@ public class Emprestimo {
     public Instant getAtualizadoEm() {
         return atualizadoEm;
     }
+
 }

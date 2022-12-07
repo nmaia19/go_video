@@ -17,7 +17,8 @@ public class Usuario implements UserDetails, Serializable {
 
     private static final Long serialVersionUID = 1L;
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nome;
@@ -39,12 +40,12 @@ public class Usuario implements UserDetails, Serializable {
     private Instant atualizadoEm;
 
     @PrePersist
-    public void prePersit(){
+    public void prePersit() {
         criadoEm = Instant.now();
     }
 
     @PreUpdate
-    public void preUpdate(){
+    public void preUpdate() {
         atualizadoEm = Instant.now();
     }
 
@@ -131,7 +132,6 @@ public class Usuario implements UserDetails, Serializable {
     }
 
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.perfis;
@@ -166,4 +166,5 @@ public class Usuario implements UserDetails, Serializable {
     public boolean isEnabled() {
         return true;
     }
+
 }

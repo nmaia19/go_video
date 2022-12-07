@@ -28,131 +28,131 @@ import java.util.Optional;
 @Service
 public class UsuarioService {
 
-  @Autowired
-  private UsuarioRepository usuarioRepository;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
-  @Autowired
-  private PerfilRepository perfilRepository;
+    @Autowired
+    private PerfilRepository perfilRepository;
 
-  @Autowired
-  private EmprestimoRepository emprestimoRepository;
+    @Autowired
+    private EmprestimoRepository emprestimoRepository;
 
-  public Page<UsuarioDTO> consultar(Pageable paginacao) {
-    Page<Usuario> usuarios = usuarioRepository.findAll(paginacao);
-    return UsuarioDTO.converterParaDTO(usuarios);
-  }
-
-  public UsuarioDTO consultarPorIdRetornarDTO(Long id, Usuario usuarioLogado) {
-    Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado!"));
-    Long idUsuarioLogado = usuarioLogado.getId();
-    List<Perfil> perfilUsuarioLogado = usuarioLogado.getPerfis();
-
-    if(!perfilUsuarioLogado.get(0).getPerfil().equals("ROLE_ADMINISTRADOR") && !idUsuarioLogado.equals(id)) {
-      throw new OperacaoNaoPermitidaException("Não é possível consultar perfil de outro colaborador!");
-    }
-    return new UsuarioDTO(usuario);
-  }
-
-  public Usuario consultarPorId(Long id) {
-    return usuarioRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado!"));
-  }
-
-  public Page<UsuarioDTO> consultarPorStatus(String statusString, Pageable paginacao) {
-    Page<Usuario> usuarios = usuarioRepository.findAll(paginacao);
-
-    if (statusString != null) {
-      if (statusString.equalsIgnoreCase("ATIVO")) {
-        usuarios = usuarioRepository.findByStatus(StatusUsuario.ATIVO, paginacao);
-      } else if (statusString.equalsIgnoreCase("INATIVO")) {
-        usuarios = usuarioRepository.findByStatus(StatusUsuario.INATIVO, paginacao);
-      }
-    }
-    return UsuarioDTO.converterParaDTO(usuarios);
-  }
-
-  @Transactional
-  public UsuarioDTO cadastrar(UsuarioForm usuarioForm) {
-    Usuario usuario = usuarioForm.converterParaEntidade();
-    if(usuarioRepository.existsByEmail(usuario.getEmail())) {
-      throw new ConflitoDeEmailException("Já existe cadastro com o e-mail informado!");
-    }
-    if(perfilRepository.existsByPerfil("ROLE_COLABORADOR")) {
-      Optional<Perfil> perfilColaborador = perfilRepository.findByPerfil("ROLE_COLABORADOR");
-      usuario.getPerfis().add(perfilColaborador.get());
-    } else {
-      Perfil perfil = perfilRepository.save(new Perfil("ROLE_COLABORADOR"));
-      usuario.getPerfis().add(perfil);
-    }
-    usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
-    usuario = usuarioRepository.save(usuario);
-    perfilRepository.save(usuario.getPerfis().get(0));
-    return new UsuarioDTO(usuario);
-  }
-
-  @Transactional
-  public UsuarioDTO resetarSenha(Long id) {
-    Usuario usuario = consultarPorId(id);
-
-    usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getEmail() + "123"));
-    usuario = usuarioRepository.save(usuario);
-    return new UsuarioDTO(usuario);
-  }
-
-  @Transactional
-  public UsuarioDTO alterarSenha(Long id, Usuario usuarioLogado, AlteraSenhaUsuarioForm usuarioForm) {
-    Usuario usuario = consultarPorId(id);
-    Long idUsuarioLogado = usuarioLogado.getId();
-
-    if(!idUsuarioLogado.equals(id)) {
-      throw new OperacaoNaoPermitidaException("Não é possível alterar a senha de outro colaborador!");
+    public Page<UsuarioDTO> consultar(Pageable paginacao) {
+        Page<Usuario> usuarios = usuarioRepository.findAll(paginacao);
+        return UsuarioDTO.converterParaDTO(usuarios);
     }
 
-    var passwordEncoder = new BCryptPasswordEncoder();
-    if(!passwordEncoder.matches(usuarioForm.getSenhaAntiga(), usuario.getSenha())) {
-      throw new IllegalArgumentException("Sua senha antiga foi inserida incorretamente. Digite-a novamente!");
-    }
-    if(!usuarioForm.getNovaSenha().equals(usuarioForm.getConfirmaNovaSenha())) {
-      throw new IllegalArgumentException("Certifique-se de que as senhas correspondam!");
-    }
-    if(passwordEncoder.matches(usuarioForm.getNovaSenha(), usuario.getSenha())) {
-      throw new IllegalArgumentException("Crie uma nova senha diferente da atual!");
-    }
+    public UsuarioDTO consultarPorIdRetornarDTO(Long id, Usuario usuarioLogado) {
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado!"));
+        Long idUsuarioLogado = usuarioLogado.getId();
+        List<Perfil> perfilUsuarioLogado = usuarioLogado.getPerfis();
 
-    usuario.setSenha(new BCryptPasswordEncoder().encode(usuarioForm.getNovaSenha()));
-    usuario = usuarioRepository.save(usuario);
-
-    return new UsuarioDTO(usuario);
-  }
-
-  @Transactional
-  public UsuarioDTO alterarNome(Long id,  AlteraNomeUsuarioForm usuarioForm) {
-    Usuario usuario = consultarPorId(id);
-
-    usuario.setNome(usuarioForm.getNome());
-    usuario = usuarioRepository.save(usuario);
-
-    return new UsuarioDTO(usuario);
-  }
-
-  @Transactional
-  public RespostaDTO inativar(Long id) {
-    Usuario usuario = consultarPorId(id);
-    String mensagem;
-    Pageable paginacao = PageRequest.of(0, 10);
-
-    if(usuario.getEmail().equals("admin@email.com")) {
-      throw new OperacaoNaoPermitidaException("O administrador não pode ser inativado!");
+        if (!perfilUsuarioLogado.get(0).getPerfil().equals("ROLE_ADMINISTRADOR") && !idUsuarioLogado.equals(id)) {
+            throw new OperacaoNaoPermitidaException("Não é possível consultar perfil de outro colaborador!");
+        }
+        return new UsuarioDTO(usuario);
     }
 
-    if(emprestimoRepository.findVigentesByUsuario(id, paginacao).hasContent()) {
-      throw new OperacaoNaoPermitidaException("Usuários com empréstimos vigentes não podem ser inativados!");
-    } else {
-      usuario.setStatus(StatusUsuario.INATIVO);
-      mensagem = "Usuário inativado com sucesso!";
+    public Usuario consultarPorId(Long id) {
+        return usuarioRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado!"));
     }
 
-    usuarioRepository.save(usuario);
-    return new RespostaDTO(mensagem);
-  }
+    public Page<UsuarioDTO> consultarPorStatus(String statusString, Pageable paginacao) {
+        Page<Usuario> usuarios = usuarioRepository.findAll(paginacao);
+
+        if (statusString != null) {
+            if (statusString.equalsIgnoreCase("ATIVO")) {
+                usuarios = usuarioRepository.findByStatus(StatusUsuario.ATIVO, paginacao);
+            } else if (statusString.equalsIgnoreCase("INATIVO")) {
+                usuarios = usuarioRepository.findByStatus(StatusUsuario.INATIVO, paginacao);
+            }
+        }
+        return UsuarioDTO.converterParaDTO(usuarios);
+    }
+
+    @Transactional
+    public UsuarioDTO cadastrar(UsuarioForm usuarioForm) {
+        Usuario usuario = usuarioForm.converterParaEntidade();
+        if (usuarioRepository.existsByEmail(usuario.getEmail())) {
+            throw new ConflitoDeEmailException("Já existe cadastro com o e-mail informado!");
+        }
+        if (perfilRepository.existsByPerfil("ROLE_COLABORADOR")) {
+            Optional<Perfil> perfilColaborador = perfilRepository.findByPerfil("ROLE_COLABORADOR");
+            usuario.getPerfis().add(perfilColaborador.get());
+        } else {
+            Perfil perfil = perfilRepository.save(new Perfil("ROLE_COLABORADOR"));
+            usuario.getPerfis().add(perfil);
+        }
+        usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
+        usuario = usuarioRepository.save(usuario);
+        perfilRepository.save(usuario.getPerfis().get(0));
+        return new UsuarioDTO(usuario);
+    }
+
+    @Transactional
+    public UsuarioDTO resetarSenha(Long id) {
+        Usuario usuario = consultarPorId(id);
+
+        usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getEmail() + "123"));
+        usuario = usuarioRepository.save(usuario);
+        return new UsuarioDTO(usuario);
+    }
+
+    @Transactional
+    public UsuarioDTO alterarSenha(Long id, Usuario usuarioLogado, AlteraSenhaUsuarioForm usuarioForm) {
+        Usuario usuario = consultarPorId(id);
+        Long idUsuarioLogado = usuarioLogado.getId();
+
+        if (!idUsuarioLogado.equals(id)) {
+            throw new OperacaoNaoPermitidaException("Não é possível alterar a senha de outro colaborador!");
+        }
+
+        var passwordEncoder = new BCryptPasswordEncoder();
+        if (!passwordEncoder.matches(usuarioForm.getSenhaAntiga(), usuario.getSenha())) {
+            throw new IllegalArgumentException("Sua senha antiga foi inserida incorretamente. Digite-a novamente!");
+        }
+        if (!usuarioForm.getNovaSenha().equals(usuarioForm.getConfirmaNovaSenha())) {
+            throw new IllegalArgumentException("Certifique-se de que as senhas correspondam!");
+        }
+        if (passwordEncoder.matches(usuarioForm.getNovaSenha(), usuario.getSenha())) {
+            throw new IllegalArgumentException("Crie uma nova senha diferente da atual!");
+        }
+
+        usuario.setSenha(new BCryptPasswordEncoder().encode(usuarioForm.getNovaSenha()));
+        usuario = usuarioRepository.save(usuario);
+
+        return new UsuarioDTO(usuario);
+    }
+
+    @Transactional
+    public UsuarioDTO alterarNome(Long id, AlteraNomeUsuarioForm usuarioForm) {
+        Usuario usuario = consultarPorId(id);
+
+        usuario.setNome(usuarioForm.getNome());
+        usuario = usuarioRepository.save(usuario);
+
+        return new UsuarioDTO(usuario);
+    }
+
+    @Transactional
+    public RespostaDTO inativar(Long id) {
+        Usuario usuario = consultarPorId(id);
+        String mensagem;
+        Pageable paginacao = PageRequest.of(0, 10);
+
+        if (usuario.getEmail().equals("admin@email.com")) {
+            throw new OperacaoNaoPermitidaException("O administrador não pode ser inativado!");
+        }
+
+        if (emprestimoRepository.findVigentesByUsuario(id, paginacao).hasContent()) {
+            throw new OperacaoNaoPermitidaException("Usuários com empréstimos vigentes não podem ser inativados!");
+        } else {
+            usuario.setStatus(StatusUsuario.INATIVO);
+            mensagem = "Usuário inativado com sucesso!";
+        }
+
+        usuarioRepository.save(usuario);
+        return new RespostaDTO(mensagem);
+    }
 
 }

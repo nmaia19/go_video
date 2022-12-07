@@ -12,13 +12,11 @@ import com.govideo.gerenciador.services.TokenService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,8 +49,8 @@ public class AutenticacaoController {
         UsernamePasswordAuthenticationToken dadosLogin = form.converter();
 
         Optional<Usuario> usuario = usuarioRepository.findByEmail(form.getEmail());
-        if(usuario.isPresent()) {
-            if(usuario.get().getStatus().equals(StatusUsuario.INATIVO)) {
+        if (usuario.isPresent()) {
+            if (usuario.get().getStatus().equals(StatusUsuario.INATIVO)) {
                 throw new OperacaoNaoPermitidaException("Seu perfil está inativo, entre em contato com o administrador do sistema");
             }
         } else {

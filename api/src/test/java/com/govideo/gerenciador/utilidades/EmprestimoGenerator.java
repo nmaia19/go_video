@@ -15,14 +15,15 @@ public class EmprestimoGenerator {
         URI uri = new URI("/emprestimos/" + id);
 
         ResultActions result =
-            mockMvc.
-                    perform(
-                            MockMvcRequestBuilders
-                                    .post(uri)
-                                    .header("Authorization", "Bearer " + tokenGenerator.obterTokenColaborador(mockMvc))
-                                    .contentType(MediaType.APPLICATION_JSON));
+                mockMvc.
+                        perform(
+                                MockMvcRequestBuilders
+                                        .post(uri)
+                                        .header("Authorization", "Bearer " + tokenGenerator.obterTokenColaborador(mockMvc))
+                                        .contentType(MediaType.APPLICATION_JSON));
         String resultString = result.andReturn().getResponse().getContentAsString();
         JacksonJsonParser jsonParser = new JacksonJsonParser();
         return jsonParser.parseMap(resultString).get("id").toString();
     }
+
 }

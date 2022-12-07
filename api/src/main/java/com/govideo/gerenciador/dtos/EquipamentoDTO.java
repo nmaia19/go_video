@@ -61,4 +61,5 @@ public class EquipamentoDTO {
     public static Page<EquipamentoDTO> converterParaDTO(Page<Equipamento> equipamentos) {
         return equipamentos.map(EquipamentoDTO::new);
     }
+
 }

@@ -7,6 +7,7 @@ public class EquipamentoNaoDisponivelException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     HttpStatus status = HttpStatus.BAD_REQUEST;
+
     public EquipamentoNaoDisponivelException(String message) {
         super(message);
     }
@@ -14,4 +15,5 @@ public class EquipamentoNaoDisponivelException extends RuntimeException {
     public HttpStatus getStatus() {
         return status;
     }
+
 }

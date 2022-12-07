@@ -8,13 +8,17 @@ import javax.validation.constraints.NotNull;
 
 public class UsuarioForm {
 
-    @NotNull @NotEmpty
+    @NotNull
+    @NotEmpty
     private String nome;
 
-    @NotNull @NotEmpty @Email
+    @NotNull
+    @NotEmpty
+    @Email
     private String email;
 
-    @NotNull @NotEmpty
+    @NotNull
+    @NotEmpty
     private String senha;
 
     public UsuarioForm() {

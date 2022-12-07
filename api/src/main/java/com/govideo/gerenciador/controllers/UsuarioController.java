@@ -84,4 +84,5 @@ public class UsuarioController {
     public ResponseEntity<RespostaDTO> excluir(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(usuarioService.inativar(id));
     }
+
 }

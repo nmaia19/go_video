@@ -95,18 +95,18 @@ public class EquipamentoService {
         Equipamento equipamento = consultarPorId(id);
         String mensagem;
         Pageable paginacao = PageRequest.of(0, 10);
-        
-        if(emprestimoRepository.findByEquipamento(equipamento, paginacao).hasContent()) {
-             if(equipamento.getStatus().equals(StatusEquipamento.DISPONÍVEL)) {
+
+        if (emprestimoRepository.findByEquipamento(equipamento, paginacao).hasContent()) {
+            if (equipamento.getStatus().equals(StatusEquipamento.DISPONÍVEL)) {
                 alterarStatus(id, StatusEquipamento.INATIVO);
                 mensagem = "Equipamento inativado com sucesso!";
-             } else {
-                 throw new OperacaoNaoPermitidaException("O status atual do equipamento é " + equipamento.getStatus() + ", então ele não pode ser inativado ou excluído!");
-             }
-         } else {
-        equipamentoRepository.delete(equipamento);
-        mensagem = "Equipamento excluído com sucesso!";
-         }
+            } else {
+                throw new OperacaoNaoPermitidaException("O status atual do equipamento é " + equipamento.getStatus() + ", então ele não pode ser inativado ou excluído!");
+            }
+        } else {
+            equipamentoRepository.delete(equipamento);
+            mensagem = "Equipamento excluído com sucesso!";
+        }
         return new RespostaDTO(mensagem);
     }
 
