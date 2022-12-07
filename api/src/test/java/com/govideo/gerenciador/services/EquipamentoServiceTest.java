@@ -162,7 +162,7 @@ public class EquipamentoServiceTest {
         when(emprestimoRepository.findByEquipamento(equipamento, paginacao)).thenReturn(Page.empty());
         doNothing().when(equipamentoRepository).delete(any());
         RespostaDTO retorno = equipamentoService.excluir(1L);
-        assertEquals("Equipamento de ID 1 excluído com sucesso!", retorno.getMensagem());
+        assertEquals("Equipamento excluído com sucesso!", retorno.getMensagem());
     }
 
     @Test
@@ -176,7 +176,7 @@ public class EquipamentoServiceTest {
             when(emprestimoRepository.findByEquipamento(equipamento, paginacao)).thenReturn(mockEmprestimoPage(equipamento));
             RespostaDTO retorno = equipamentoService.excluir(1L);
         });
-        assertEquals("O status atual do equipamento de ID 1 é INDISPONÍVEL, então ele não pode ser inativado ou excluído!", exception.getMessage());
+        assertEquals("O status atual do equipamento é INDISPONÍVEL, então ele não pode ser inativado ou excluído!", exception.getMessage());
 
         verify(equipamentoRepository, Mockito.times(0)).delete(equipamento);
     }
@@ -189,8 +189,9 @@ public class EquipamentoServiceTest {
         when(equipamentoRepository.save(any())).thenReturn(equipamento);
         when(emprestimoRepository.findByEquipamento(equipamento, paginacao)).thenReturn(mockEmprestimoPage(equipamento));
         RespostaDTO retorno = equipamentoService.excluir(1L);
-        assertEquals("Equipamento de ID 1 inativado com sucesso!", retorno.getMensagem());
+        assertEquals("Equipamento inativado com sucesso!", retorno.getMensagem());
         verify(equipamentoRepository, Mockito.times(1)).save(equipamento);
         verify(equipamentoRepository, Mockito.times(0)).delete(equipamento);
     }
+
 }

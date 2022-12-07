@@ -14,6 +14,16 @@ public class AlteraSenhaUsuarioForm {
     @NotNull @NotEmpty
     private String confirmaNovaSenha;
 
+    public AlteraSenhaUsuarioForm() {
+
+    }
+
+    public AlteraSenhaUsuarioForm(String senhaAntiga, String novaSenha, String confirmaNovaSenha) {
+        this.senhaAntiga = senhaAntiga;
+        this.novaSenha = novaSenha;
+        this.confirmaNovaSenha = confirmaNovaSenha;
+    }
+
     public String getSenhaAntiga() {
         return senhaAntiga;
     }

@@ -302,4 +302,5 @@ public class UsuarioControllerTest {
                         .status()
                         .is(403));
     }
+
 }

@@ -41,7 +41,10 @@ public class EmprestimoServiceTest {
     private EmprestimoService emprestimoService;
 
     @Mock
-    private EquipamentoRepository equipamentoRepository;
+    private UsuarioService usuarioService;
+
+    @Mock
+    private EquipamentoService equipamentoService;
 
     @Mock
     private EmprestimoRepository emprestimoRepository;
@@ -50,10 +53,7 @@ public class EmprestimoServiceTest {
     private UsuarioRepository usuarioRepository;
 
     @Mock
-    private UsuarioService usuarioService;
-
-    @Mock
-    private EquipamentoService equipamentoService;
+    private EquipamentoRepository equipamentoRepository;
 
     public Equipamento mockEquipamentoEntity() {
         Equipamento equipamento = new Equipamento("Pocket Cinema 6K", "Filmadora profissional Pocket Cinema 6K", "Black Magic", "Filmadoras", "https://emania.vteximg.com.br/arquivos/ids/209607");
@@ -75,7 +75,6 @@ public class EmprestimoServiceTest {
         return new PageImpl<>(Collections.singletonList(mockEmprestimoEntity()));
     }
 
-    //REFATORAR!
     @Test
     public void deveriaCadastrarEmprestimo() throws EquipamentoNaoDisponivelException {
         Emprestimo emprestimo = mockEmprestimoEntity();
@@ -230,4 +229,5 @@ public class EmprestimoServiceTest {
         assertNotNull(emprestimoDTO);
         verify(emprestimoRepository, Mockito.times(1)).save(emprestimo);
     }
+
 }

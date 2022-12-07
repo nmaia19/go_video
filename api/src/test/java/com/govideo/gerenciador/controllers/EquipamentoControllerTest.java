@@ -119,8 +119,6 @@ public class EquipamentoControllerTest {
         assertFalse(equipamento.isEmpty());
     }
 
-    //TODO: TESTAR BUSCAR POR STATUS INATIVO E INDISPONÍVEL
-
     @Test
     public void deveriaDevolver200AoAtualizarEquipamento() throws Exception {
         URI uri = new URI("/equipamentos/1");
@@ -146,7 +144,6 @@ public class EquipamentoControllerTest {
                         .is(200));
     }
 
-    //TODO: VERIFICAR MSG QUE VEM COMO RESPOSTA
     @Test
     public void deveriaDevolver200AoExcluirEquipamento() throws Exception {
         URI uri = new URI("/equipamentos/1");
@@ -186,4 +183,5 @@ public class EquipamentoControllerTest {
     }
 
     //TODO: TESTAR EXCLUIR EQUIPAMENTO DISPONÍVEL, COM HISTÓRICO DE EMPRÉSTIMO (STATUS MUDA PARA INATIVO)
+
 }

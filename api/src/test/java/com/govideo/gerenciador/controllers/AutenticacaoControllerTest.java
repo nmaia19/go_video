@@ -44,4 +44,7 @@ public class AutenticacaoControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post(uri).content(json).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().is(401));
     }
+
+    //TODO: TESTAR LOGIN PARA USUÁRIOS INATIVO (LANÇA EXCEPTION)
+
 }
