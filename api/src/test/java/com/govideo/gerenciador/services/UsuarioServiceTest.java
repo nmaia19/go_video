@@ -1,30 +1,24 @@
 package com.govideo.gerenciador.services;
 
-import com.govideo.gerenciador.dtos.EmprestimoDTO;
-import com.govideo.gerenciador.dtos.EquipamentoDTO;
 import com.govideo.gerenciador.dtos.RespostaDTO;
 import com.govideo.gerenciador.dtos.UsuarioDTO;
 import com.govideo.gerenciador.entities.Emprestimo;
 import com.govideo.gerenciador.entities.Equipamento;
 import com.govideo.gerenciador.entities.Perfil;
 import com.govideo.gerenciador.entities.Usuario;
-import com.govideo.gerenciador.entities.enuns.StatusEquipamento;
 import com.govideo.gerenciador.entities.enuns.StatusUsuario;
 import com.govideo.gerenciador.exceptions.ConflitoDeEmailException;
 import com.govideo.gerenciador.exceptions.OperacaoNaoPermitidaException;
 import com.govideo.gerenciador.exceptions.RecursoNaoEncontradoException;
 import com.govideo.gerenciador.forms.AlteraNomeUsuarioForm;
-import com.govideo.gerenciador.forms.EquipamentoForm;
 import com.govideo.gerenciador.forms.UsuarioForm;
 import com.govideo.gerenciador.repositories.EmprestimoRepository;
-import com.govideo.gerenciador.repositories.EquipamentoRepository;
 import com.govideo.gerenciador.repositories.PerfilRepository;
 import com.govideo.gerenciador.repositories.UsuarioRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -36,7 +30,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 
 @ExtendWith(SpringExtension.class)
@@ -159,16 +153,12 @@ public class UsuarioServiceTest {
     }
 
     @Test
-    public void deveriaAlterarNomeDeUsuarioComSucesso() {
+    public void deveriaAlterarNomeDeUsuario() {
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(mockUsuarioEntity()));
         when(usuarioRepository.save(any())).thenReturn(mockUsuarioEntity());
         UsuarioDTO retornoUsuario = usuarioService.alterarNome(1L, mockAlteraNomeUsuarioForm());
         assertEquals(1L, (long) retornoUsuario.getId());
     }
-
-    //TODO: TESTAR RESETAR SENHA
-
-    //TODO: TESTAR ALTERAR SENHA (SUCESSO, SENHA ATUAL ERRADA, SENHA NOVA IGUAL A ATUAL, SENHA NOVA DIFERENTE DA CONFIRMAÇÃO
 
     @Test
     public void deveriaInativarUsuario() {

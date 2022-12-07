@@ -16,4 +16,5 @@ public class RecursoNaoEncontradoException extends RuntimeException {
     public HttpStatus getStatus() {
         return status;
     }
+
 }

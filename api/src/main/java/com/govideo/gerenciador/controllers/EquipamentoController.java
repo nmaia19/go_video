@@ -73,4 +73,5 @@ public class EquipamentoController {
     public ResponseEntity<RespostaDTO> excluir(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(equipamentoService.excluir(id));
     }
+
 }

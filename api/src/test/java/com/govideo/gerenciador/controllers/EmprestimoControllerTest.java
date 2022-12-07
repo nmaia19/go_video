@@ -73,9 +73,9 @@ public class EmprestimoControllerTest {
                                 .post(uri)
                                 .header("Authorization", "Bearer " + tokenGenerator.obterTokenColaborador(mockMvc))
                                 .contentType(MediaType.APPLICATION_JSON))
-                        .andExpect(MockMvcResultMatchers
-                                .status()
-                                .is(201));
+                .andExpect(MockMvcResultMatchers
+                        .status()
+                        .is(201));
     }
 
     @Test
@@ -85,10 +85,10 @@ public class EmprestimoControllerTest {
 
         ResultActions result =
                 mockMvc.
-                    perform(
-                        MockMvcRequestBuilders
-                                .get(uri)
-                                .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc)))
+                        perform(
+                                MockMvcRequestBuilders
+                                        .get(uri)
+                                        .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc)))
                         .andExpect(MockMvcResultMatchers
                                 .status()
                                 .is(200));

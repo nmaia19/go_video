@@ -45,42 +45,42 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RecursoNaoEncontradoException.class)
     public final ResponseEntity<ExceptionResponse> recursoNaoEncontrado(RecursoNaoEncontradoException e,
-                                                                    HttpServletRequest req){
+                                                                        HttpServletRequest req) {
         ExceptionResponse error = new ExceptionResponse(Instant.now(), e.getMessage(), req.getRequestURI());
         return new ResponseEntity<>(error, e.getStatus());
     }
 
     @ExceptionHandler(EquipamentoNaoDisponivelException.class)
     public final ResponseEntity<ExceptionResponse> equipamentoNaoDisponivel(EquipamentoNaoDisponivelException e,
-                                                                    HttpServletRequest req){
+                                                                            HttpServletRequest req) {
         ExceptionResponse error = new ExceptionResponse(Instant.now(), e.getMessage(), req.getRequestURI());
         return new ResponseEntity<>(error, e.getStatus());
     }
 
     @ExceptionHandler(ConflitoDeEmailException.class)
     public final ResponseEntity<ExceptionResponse> conflitoDeEmail(ConflitoDeEmailException e,
-                                                                    HttpServletRequest req){
+                                                                   HttpServletRequest req) {
         ExceptionResponse error = new ExceptionResponse(Instant.now(), e.getMessage(), req.getRequestURI());
         return new ResponseEntity<>(error, e.getStatus());
     }
 
     @ExceptionHandler(OperacaoNaoPermitidaException.class)
     public final ResponseEntity<ExceptionResponse> operacaoNaoPermitida(OperacaoNaoPermitidaException e,
-                                                                   HttpServletRequest req){
+                                                                        HttpServletRequest req) {
         ExceptionResponse error = new ExceptionResponse(Instant.now(), e.getMessage(), req.getRequestURI());
         return new ResponseEntity<>(error, e.getStatus());
     }
 
     @ExceptionHandler(CredenciaisIncorretasException.class)
     public final ResponseEntity<ExceptionResponse> credenciaisIncorretas(CredenciaisIncorretasException e,
-                                                                         HttpServletRequest req){
+                                                                         HttpServletRequest req) {
         ExceptionResponse error = new ExceptionResponse(Instant.now(), e.getMessage(), req.getRequestURI());
         return new ResponseEntity<>(error, e.getStatus());
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
     public final ResponseEntity<ExceptionResponse> emailNaoEncontrado(UsernameNotFoundException e,
-                                                                   HttpServletRequest req){
+                                                                      HttpServletRequest req) {
         ExceptionResponse error = new ExceptionResponse(Instant.now(), e.getMessage(), req.getRequestURI());
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }

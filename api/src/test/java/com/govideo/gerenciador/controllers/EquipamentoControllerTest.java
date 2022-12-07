@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -68,14 +69,14 @@ public class EquipamentoControllerTest {
         equipamentoGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
 
         ResultActions result =
-            mockMvc.
-                    perform(
-                            MockMvcRequestBuilders
-                                    .get(uri)
-                                    .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc)))
-                    .andExpect(MockMvcResultMatchers
-                            .status()
-                            .is(200));
+                mockMvc.
+                        perform(
+                                MockMvcRequestBuilders
+                                        .get(uri)
+                                        .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc)))
+                        .andExpect(MockMvcResultMatchers
+                                .status()
+                                .is(200));
 
         String listaEquipamento = result.andReturn().getResponse().getContentAsString();
         assertFalse(listaEquipamento.isEmpty());
@@ -164,11 +165,11 @@ public class EquipamentoControllerTest {
         String idEquipamento = equipamentoGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
 
         mockMvc.
-            perform(
-                MockMvcRequestBuilders
-                    .post("/emprestimos/" + idEquipamento)
-                    .header("Authorization", "Bearer " + tokenGenerator.obterTokenColaborador(mockMvc))
-                    .contentType(MediaType.APPLICATION_JSON));
+                perform(
+                        MockMvcRequestBuilders
+                                .post("/emprestimos/" + idEquipamento)
+                                .header("Authorization", "Bearer " + tokenGenerator.obterTokenColaborador(mockMvc))
+                                .contentType(MediaType.APPLICATION_JSON));
 
         URI uri = new URI("/equipamentos/" + idEquipamento);
 
@@ -182,6 +183,38 @@ public class EquipamentoControllerTest {
                         .is(403));
     }
 
-    //TODO: TESTAR EXCLUIR EQUIPAMENTO DISPONÍVEL, COM HISTÓRICO DE EMPRÉSTIMO (STATUS MUDA PARA INATIVO)
+    @Test
+    public void deveriaDevolver200AoInativarEquipamentoComEmprestimoEncerrado() throws Exception {
+        String idEquipamento = equipamentoGenerator.cadastrarEquipamento(mockMvc, tokenGenerator);
+
+        ResultActions result =
+                mockMvc.
+                        perform(
+                                MockMvcRequestBuilders
+                                        .post("/emprestimos/" + idEquipamento)
+                                        .header("Authorization", "Bearer " + tokenGenerator.obterTokenColaborador(mockMvc))
+                                        .contentType(MediaType.APPLICATION_JSON));
+        String resultString = result.andReturn().getResponse().getContentAsString();
+        JacksonJsonParser jsonParser = new JacksonJsonParser();
+        String idEmprestimo = jsonParser.parseMap(resultString).get("id").toString();
+
+        mockMvc.
+                perform(
+                        MockMvcRequestBuilders
+                                .put("/emprestimos/encerrar/" + idEmprestimo)
+                                .header("Authorization", "Bearer " + tokenGenerator.obterTokenColaborador(mockMvc))
+                                .contentType(MediaType.APPLICATION_JSON));
+
+        URI uri = new URI("/equipamentos/" + idEquipamento);
+
+        mockMvc.
+                perform(
+                        MockMvcRequestBuilders
+                                .delete(uri)
+                                .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc)))
+                .andExpect(MockMvcResultMatchers
+                        .status()
+                        .is(200));
+    }
 
 }

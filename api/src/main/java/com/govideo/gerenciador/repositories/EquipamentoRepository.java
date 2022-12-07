@@ -1,6 +1,5 @@
 package com.govideo.gerenciador.repositories;
 
-import com.govideo.gerenciador.entities.Emprestimo;
 import com.govideo.gerenciador.entities.Equipamento;
 import com.govideo.gerenciador.entities.enuns.StatusEquipamento;
 import org.springframework.data.domain.Page;
@@ -16,8 +15,5 @@ public interface EquipamentoRepository extends JpaRepository<Equipamento, Long> 
     Page<Equipamento> findAtivos(Pageable paginacao);
 
     Page<Equipamento> findByStatus(StatusEquipamento statusEquipamento, Pageable paginacao);
-
-
-
 
 }

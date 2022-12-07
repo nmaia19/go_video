@@ -5,13 +5,16 @@ import javax.validation.constraints.NotNull;
 
 public class AlteraSenhaUsuarioForm {
 
-    @NotNull @NotEmpty
+    @NotNull
+    @NotEmpty
     private String senhaAntiga;
 
-    @NotNull @NotEmpty
+    @NotNull
+    @NotEmpty
     private String novaSenha;
 
-    @NotNull @NotEmpty
+    @NotNull
+    @NotEmpty
     private String confirmaNovaSenha;
 
     public AlteraSenhaUsuarioForm() {

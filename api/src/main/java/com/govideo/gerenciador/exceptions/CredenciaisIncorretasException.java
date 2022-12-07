@@ -7,6 +7,7 @@ public class CredenciaisIncorretasException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     HttpStatus status = HttpStatus.UNAUTHORIZED;
+
     public CredenciaisIncorretasException(String message) {
         super(message);
     }
@@ -14,4 +15,5 @@ public class CredenciaisIncorretasException extends RuntimeException {
     public HttpStatus getStatus() {
         return status;
     }
+
 }

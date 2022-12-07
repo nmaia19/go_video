@@ -50,4 +50,5 @@ public class EmprestimoDTO {
     public static Page<EmprestimoDTO> converterParaDTO(Page<Emprestimo> emprestimos) {
         return emprestimos.map(EmprestimoDTO::new);
     }
+
 }

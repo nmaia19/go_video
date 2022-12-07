@@ -9,7 +9,8 @@ import java.util.Objects;
 @Entity
 public class Equipamento {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String modelo;
@@ -32,12 +33,12 @@ public class Equipamento {
     private Instant atualizadoEm;
 
     @PrePersist
-    public void prePersit(){
+    public void prePersit() {
         criadoEm = Instant.now();
     }
 
     @PreUpdate
-    public void preUpdate(){
+    public void preUpdate() {
         atualizadoEm = Instant.now();
     }
 
@@ -129,4 +130,5 @@ public class Equipamento {
     public Instant getAtualizadoEm() {
         return atualizadoEm;
     }
+
 }

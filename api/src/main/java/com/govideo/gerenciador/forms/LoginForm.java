@@ -8,10 +8,13 @@ import javax.validation.constraints.NotNull;
 
 public class LoginForm {
 
-    @NotNull @NotEmpty @Email
+    @NotNull
+    @NotEmpty
+    @Email
     private String email;
 
-    @NotNull @NotEmpty
+    @NotNull
+    @NotEmpty
     private String senha;
 
     public LoginForm() {
