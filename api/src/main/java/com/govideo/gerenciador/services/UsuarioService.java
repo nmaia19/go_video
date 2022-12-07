@@ -140,6 +140,10 @@ public class UsuarioService {
     String mensagem;
     Pageable paginacao = PageRequest.of(0, 10);
 
+    if(usuario.getEmail().equals("admin@email.com")) {
+      throw new OperacaoNaoPermitidaException("O administrador não pode ser inativado!");
+    }
+
     if(emprestimoRepository.findVigentesByUsuario(id, paginacao).hasContent()) {
       throw new OperacaoNaoPermitidaException("Usuários com empréstimos vigentes não podem ser inativados!");
     } else {
