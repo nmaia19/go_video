@@ -31,6 +31,11 @@ public class EquipamentoService {
         return EquipamentoDTO.converterParaDTO(equipamentos);
     }
 
+    public Page<EquipamentoDTO> consultarAtivos(Pageable paginacao) {
+        Page<Equipamento> equipamentos = equipamentoRepository.findAtivos(paginacao);
+        return EquipamentoDTO.converterParaDTO(equipamentos);
+    }
+
     public EquipamentoDTO consultarPorIdRetornarDTO(Long id) {
         Equipamento equipamento = equipamentoRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Equipamento não encontrado!"));
         return new EquipamentoDTO(equipamento);

@@ -45,6 +45,6 @@ public class AutenticacaoControllerTest {
                 .andExpect(MockMvcResultMatchers.status().is(401));
     }
 
-    //TODO: TESTAR LOGIN PARA USUÁRIOS INATIVO (LANÇA EXCEPTION)
+    //TODO: TESTAR LOGIN PARA USUÁRIOS INATIVOS (LANÇA EXCEPTION)
 
 }
