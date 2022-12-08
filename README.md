@@ -11,7 +11,7 @@ Aplicação que tem como proposta fazer a gestão de equipamentos para produtora
   
 <h2 align="center"> Conteúdo </h2>
   
-  • <a href="#Repositórios">Repositórios</a> <br>
+  • <a href="#Repositorios">Repositórios</a> <br>
   
   • <a href="#Funcionalidades">Funcionalidades</a> <br>
 	
@@ -31,7 +31,7 @@ Aplicação que tem como proposta fazer a gestão de equipamentos para produtora
 
 </p>
 
-<h2 align="center"> <a name="Repositórios"> Repositórios </a> </h2>
+<h2 align="center"> <a name="Repositorios"> Repositórios </a> </h2>
 
 Acessos: 
 
