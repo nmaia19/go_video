@@ -269,8 +269,6 @@ Ferramentas usadas na construção do projeto:
 	
 <h2 align="center"> <a name="Links">  Links </a> </h2>
 
-Diagramas elaborados no Miro:
-
 • <a href="https://miro.com/app/board/uXjVPMLfw28=/?share_link_id=506333936334">Diagramas elaborados no Miro</a> <br> 
 
 • <a href="https://trello.com/b/llFKHfXZ/go-video">Gestão do projeto no Trello</a> <br>
