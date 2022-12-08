@@ -17,11 +17,11 @@ Aplicação que tem como proposta fazer a gestão de equipamentos para produtora
 	
   • <a href="#UML">UML</a> <br>
 	
-  • <a href="#Documentação">Documentação</a> <br>
+  • <a href="#Documentaçao">Documentação</a> <br>
 
   • <a href="#Fluxograma">Fluxograma</a> <br>
 
-  • <a href="#Prototipação">Prototipação</a> <br>
+  • <a href="#Prototipaçao">Prototipação</a> <br>
 	
   • <a href="#Tecnologias">Tecnologias</a> <br>
 
@@ -85,14 +85,21 @@ Será possível fazer as seguintes interações:
 
 <h2 align="center"> <a name="UML">  UML </h2>
 
-Diagrama de classes que compõem a aplicação:
+- Diagrama de classes:
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/102121711/206284130-98591b56-cb6f-4257-800a-42a8362baab6.jpg" width="700px"><br>
+  <img src="https://user-images.githubusercontent.com/102121711/206446321-025fe43b-4034-4518-ae9c-cddf07859a56.jpg" width="600px"><br>
+</div> 
+
+<br><br>
+
+- Modelagem do banco de dados:
+<div align="center">
+  <img src="https://user-images.githubusercontent.com/102121711/206442158-62d717ca-bf94-4df9-8bc8-3823a35c39c9.jpg" width="600px"><br>
 </div> 
 
 <br>
 		
-<h2 align="center"> <a name="Documentação">  Documentação </h2>
+<h2 align="center"> <a name="Documentaçao">  Documentação </h2>
 
 - Acesso:
 
@@ -154,12 +161,12 @@ Credencial com permissão de administrador para testes:
 
 Fluxogramas de rotas:
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/102121711/206284650-307b5829-4f19-4fcf-84c8-468fe85cd4b7.jpg" width="850px"><br>
+  <img src="https://user-images.githubusercontent.com/102121711/206441841-a6a24dd7-915d-47b4-9f7e-d563a918ca9e.jpg" width="850px"><br>
 </div> 
 
 <br>
 
- <h2 align="center"> <a name="Prototipação"> Prototipação </a> </h2>
+ <h2 align="center"> <a name="Prototipaçao"> Prototipação </a> </h2>
 
 - Acesso:
 
@@ -173,7 +180,7 @@ Para consultar as telas prototipadas no Figma, acesse o link:
 <br>
 
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/102121711/206285089-1fe69423-4947-4da0-88ad-cb99e4260df5.png" width="400px"><br>
+  <img src="https://user-images.githubusercontent.com/102121711/206285089-1fe69423-4947-4da0-88ad-cb99e4260df5.png" width="500px"><br>
 </div> 
 
 <br>
@@ -183,7 +190,7 @@ Para consultar as telas prototipadas no Figma, acesse o link:
 <br>
 
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/102121711/206285216-5747036a-de04-4b40-adc7-ce6c78d34ca2.png" width="400px"><br>
+  <img src="https://user-images.githubusercontent.com/102121711/206285216-5747036a-de04-4b40-adc7-ce6c78d34ca2.png" width="500px"><br>
 </div> 
 
 <br>
@@ -193,33 +200,8 @@ Para consultar as telas prototipadas no Figma, acesse o link:
 <br>
 
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/102121711/206285383-4e524305-b8e7-482e-945e-0fab7403602e.png" width="400px"><br>
+  <img src="https://user-images.githubusercontent.com/102121711/206285383-4e524305-b8e7-482e-945e-0fab7403602e.png" width="500px"><br>
 </div> 
-
-<br>
-
-- Telas:
-
-<details>
-<summary>Logar</summary><br>
-<div>
-  <img src="#" width="350px"><br>
-</div> 
-</details>
-
-<details>
-<summary>Termos e Condições</summary><br>
-<div>
-  <img src="#" width="350px"><br>
-</div> 
-</details>
-
-<details>
-<summary>Política de Privacidade</summary><br>
-<div>
-  <img src="#" width="350px"><br>
-</div> 
-</details>
 
 <br>
 
