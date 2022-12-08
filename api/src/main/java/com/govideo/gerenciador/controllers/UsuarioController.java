@@ -23,7 +23,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 
-@Tag(name = "Usuarios Endpoint")
+@Tag(name = "Usuários Endpoint")
 @RestController
 @RequestMapping("/usuarios")
 @SecurityRequirement(name = "bearer-key")
