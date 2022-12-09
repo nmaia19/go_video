@@ -1,11 +1,11 @@
 <div align="center">
-  <img align="center" src="https://github.com/aline-fagundes/go-video_frontend/blob/dev/src/assets/img-header/Logo%20Preto.png?raw=true" width="200px"/>
+  <img align="center" src="https://user-images.githubusercontent.com/102121711/206720762-c075e523-f79c-401e-961c-d748723722a8.png" width="200px"/>
 </div>
 
 <samp>
   <h1 align="center"> Go Video </h1>
 <p align="center">
-Aplicação que tem como proposta fazer a gestão de equipamentos para produtoras de vídeos. Nessa plataforma será possível controlar a utilização dos equipamentos empregados diariamente nos projetos da produtora. 
+Aplicação que tem proposta fazer a gestão de equipamentos para produtoras de vídeos. Nessa plataforma será possível gerenciar a utilização dos equipamentos empregados diariamente pelos colaboradores em projetos da produtora. 
 
 <br>
   
@@ -15,7 +15,7 @@ Aplicação que tem como proposta fazer a gestão de equipamentos para produtora
   
   • <a href="#Funcionalidades">Funcionalidades</a> <br>
 	
-  • <a href="#UML">UML</a> <br>
+  • <a href="#Modelagem">Modelagem</a> <br>
 	
   • <a href="#Documentaçao">Documentação</a> <br>
 
@@ -83,7 +83,7 @@ Será possível fazer as seguintes interações:
 
 <br>
 
-<h2 align="center"> <a name="UML">  UML </h2>
+<h2 align="center"> <a name="Modelagem">  Modelagem </h2>
 
 - Diagrama de classes:
 <div align="center">
@@ -180,7 +180,7 @@ Para consultar as telas prototipadas no Figma, acesse o link:
 <br>
 
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/102121711/206718744-8326aa42-cb39-4f57-afb9-8963392ecd10.png" width="700px"><br>
+  <img src="https://user-images.githubusercontent.com/102121711/206720553-b36d1bb4-156d-4ee7-b202-9efbfee451ae.png" width="700px"><br>
 </div> 
 
 <br>
