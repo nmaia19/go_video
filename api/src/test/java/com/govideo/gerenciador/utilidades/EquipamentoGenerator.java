@@ -21,15 +21,16 @@ public class EquipamentoGenerator {
                 + "}";
 
         ResultActions result =
-            mockMvc.
-                    perform(
-                            MockMvcRequestBuilders
-                                    .post(uri)
-                                    .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc))
-                                    .content(json)
-                                    .contentType(MediaType.APPLICATION_JSON));
+                mockMvc.
+                        perform(
+                                MockMvcRequestBuilders
+                                        .post(uri)
+                                        .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc))
+                                        .content(json)
+                                        .contentType(MediaType.APPLICATION_JSON));
         String resultString = result.andReturn().getResponse().getContentAsString();
         JacksonJsonParser jsonParser = new JacksonJsonParser();
         return jsonParser.parseMap(resultString).get("id").toString();
     }
+
 }

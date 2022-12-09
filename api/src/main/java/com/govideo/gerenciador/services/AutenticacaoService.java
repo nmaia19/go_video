@@ -19,7 +19,7 @@ public class AutenticacaoService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
-        if(usuario.isPresent()) {
+        if (usuario.isPresent()) {
             return usuario.get();
         }
         throw new UsernameNotFoundException("Não existe cadastro com o email informado!");

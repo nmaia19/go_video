@@ -70,14 +70,14 @@ public class UsuarioControllerTest {
         URI uri = new URI("/usuarios");
 
         ResultActions result =
-            mockMvc.
-                    perform(
-                            MockMvcRequestBuilders
-                                    .get(uri)
-                                    .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc)))
-                    .andExpect(MockMvcResultMatchers
-                            .status()
-                            .is(200));
+                mockMvc.
+                        perform(
+                                MockMvcRequestBuilders
+                                        .get(uri)
+                                        .header("Authorization", "Bearer " + tokenGenerator.obterTokenAdmin(mockMvc)))
+                        .andExpect(MockMvcResultMatchers
+                                .status()
+                                .is(200));
 
         String listaUsuario = result.andReturn().getResponse().getContentAsString();
         assertFalse(listaUsuario.isEmpty());
@@ -302,4 +302,5 @@ public class UsuarioControllerTest {
                         .status()
                         .is(403));
     }
+
 }

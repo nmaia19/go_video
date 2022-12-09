@@ -40,7 +40,7 @@ public class AutenticacaoServiceTest {
     public void naoDeveriaRetornarUsuarioAoBuscarPorEmail() {
         UsernameNotFoundException exception = assertThrows(UsernameNotFoundException.class, () -> {
             when(usuarioRepository.findByEmail(any())).thenReturn(Optional.empty());
-          autenticacaoService.loadUserByUsername("usuario-inexistente@email.com");
+            autenticacaoService.loadUserByUsername("usuario-inexistente@email.com");
         });
         assertEquals("Não existe cadastro com o email informado!", exception.getMessage());
     }

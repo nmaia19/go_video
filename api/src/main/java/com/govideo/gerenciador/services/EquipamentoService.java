@@ -31,6 +31,11 @@ public class EquipamentoService {
         return EquipamentoDTO.converterParaDTO(equipamentos);
     }
 
+    public Page<EquipamentoDTO> consultarAtivos(Pageable paginacao) {
+        Page<Equipamento> equipamentos = equipamentoRepository.findAtivos(paginacao);
+        return EquipamentoDTO.converterParaDTO(equipamentos);
+    }
+
     public EquipamentoDTO consultarPorIdRetornarDTO(Long id) {
         Equipamento equipamento = equipamentoRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Equipamento não encontrado!"));
         return new EquipamentoDTO(equipamento);
@@ -90,18 +95,18 @@ public class EquipamentoService {
         Equipamento equipamento = consultarPorId(id);
         String mensagem;
         Pageable paginacao = PageRequest.of(0, 10);
-        
-        if(emprestimoRepository.findByEquipamento(equipamento, paginacao).hasContent()) {
-             if(equipamento.getStatus().equals(StatusEquipamento.DISPONÍVEL)) {
+
+        if (emprestimoRepository.findByEquipamento(equipamento, paginacao).hasContent()) {
+            if (equipamento.getStatus().equals(StatusEquipamento.DISPONÍVEL)) {
                 alterarStatus(id, StatusEquipamento.INATIVO);
-                mensagem = "Equipamento de ID " + id + " inativado com sucesso!";
-             } else {
-                 throw new OperacaoNaoPermitidaException("O status atual do equipamento de ID " + id + " é " + equipamento.getStatus() + ", então ele não pode ser inativado ou excluído!");
-             }
-         } else {
-        equipamentoRepository.delete(equipamento);
-        mensagem = "Equipamento de ID " + id + " excluído com sucesso!";
-         }
+                mensagem = "Equipamento inativado com sucesso!";
+            } else {
+                throw new OperacaoNaoPermitidaException("O status atual do equipamento é " + equipamento.getStatus() + ", então ele não pode ser inativado ou excluído!");
+            }
+        } else {
+            equipamentoRepository.delete(equipamento);
+            mensagem = "Equipamento excluído com sucesso!";
+        }
         return new RespostaDTO(mensagem);
     }
 

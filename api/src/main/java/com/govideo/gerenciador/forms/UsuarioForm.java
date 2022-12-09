@@ -8,14 +8,28 @@ import javax.validation.constraints.NotNull;
 
 public class UsuarioForm {
 
-    @NotNull @NotEmpty
+    @NotNull
+    @NotEmpty
     private String nome;
 
-    @NotNull @NotEmpty @Email
+    @NotNull
+    @NotEmpty
+    @Email
     private String email;
 
-    @NotNull @NotEmpty
+    @NotNull
+    @NotEmpty
     private String senha;
+
+    public UsuarioForm() {
+
+    }
+
+    public UsuarioForm(String nome, String email, String senha) {
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+    }
 
     public String getNome() {
         return nome;

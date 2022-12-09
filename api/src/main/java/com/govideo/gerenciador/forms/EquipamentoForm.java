@@ -1,28 +1,35 @@
 package com.govideo.gerenciador.forms;
 
 import com.govideo.gerenciador.entities.Equipamento;
-import com.govideo.gerenciador.entities.enuns.StatusEquipamento;
-import org.springframework.data.domain.Page;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class EquipamentoForm {
 
-    @NotNull @NotEmpty
+    @NotNull
+    @NotEmpty
     private String modelo;
 
-    @NotNull @NotEmpty
+    @NotNull
+    @NotEmpty
     private String descricao;
 
-    @NotNull @NotEmpty
+    @NotNull
+    @NotEmpty
     private String marca;
 
-    @NotNull @NotEmpty
+    @NotNull
+    @NotEmpty
     private String categoria;
 
-    @NotNull @NotEmpty
+    @NotNull
+    @NotEmpty
     private String urlFoto;
+
+    public EquipamentoForm() {
+
+    }
 
     public EquipamentoForm(String modelo, String descricao, String marca, String categoria, String urlFoto) {
         this.modelo = modelo;

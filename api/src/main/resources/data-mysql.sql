@@ -1,11 +1,12 @@
 INSERT INTO usuario(criado_em, email, nome, senha, status) VALUES
     (current_timestamp(), 'admin@email.com', 'Administrador', '$2a$10$k9xs8MP5YnRS2dHqtUfZe.Am.Z8A2cqxKKPtceIVoeFydAFgSukVi', 'ATIVO'),
-    (current_timestamp(), 'aline.fagundes@email.com', 'Aline Fagundes', '$2a$10$k9xs8MP5YnRS2dHqtUfZe.Am.Z8A2cqxKKPtceIVoeFydAFgSukVi', 'ATIVO'),
-    (current_timestamp(), 'bruno.blanquez@email.com', 'Bruno Blanquez', '$2a$10$k9xs8MP5YnRS2dHqtUfZe.Am.Z8A2cqxKKPtceIVoeFydAFgSukVi', 'INATIVO'),
-    (current_timestamp(), 'diego.peixoto@email.com', 'Diego Peixoto', '$2a$10$k9xs8MP5YnRS2dHqtUfZe.Am.Z8A2cqxKKPtceIVoeFydAFgSukVi', 'ATIVO'),
-    (current_timestamp(), 'haline.tamaoki@email.com', 'Haline Tamaoki', '$2a$10$k9xs8MP5YnRS2dHqtUfZe.Am.Z8A2cqxKKPtceIVoeFydAFgSukVi', 'INATIVO'),
-    (current_timestamp(), 'nayane.maia@email.com', 'Nayane Maia', '$2a$10$k9xs8MP5YnRS2dHqtUfZe.Am.Z8A2cqxKKPtceIVoeFydAFgSukVi', 'ATIVO'),
-    (current_timestamp(), 'rafael.fiorini@email.com', 'Rafael Fiorini', '$2a$10$k9xs8MP5YnRS2dHqtUfZe.Am.Z8A2cqxKKPtceIVoeFydAFgSukVi', 'INATIVO');
+    (current_timestamp(), 'colaborador@email.com', 'Colaborador', '$2a$10$k9xs8MP5YnRS2dHqtUfZe.Am.Z8A2cqxKKPtceIVoeFydAFgSukVi', 'ATIVO'),
+    (current_timestamp(), 'aline.fagundes@email.com', 'Aline Fagundes', '$2a$10$k9xs8MP5YnRS2dHqtUfZe.Am.Z8A2cqxKKPtceIVoeFydAFgSukVi', 'INATIVO'),
+    (current_timestamp(), 'bruno.blanquez@email.com', 'Bruno Blanquez', '$2a$10$k9xs8MP5YnRS2dHqtUfZe.Am.Z8A2cqxKKPtceIVoeFydAFgSukVi', 'ATIVO'),
+    (current_timestamp(), 'diego.peixoto@email.com', 'Diego Peixoto', '$2a$10$k9xs8MP5YnRS2dHqtUfZe.Am.Z8A2cqxKKPtceIVoeFydAFgSukVi', 'INATIVO'),
+    (current_timestamp(), 'haline.tamaoki@email.com', 'Haline Tamaoki', '$2a$10$k9xs8MP5YnRS2dHqtUfZe.Am.Z8A2cqxKKPtceIVoeFydAFgSukVi', 'ATIVO'),
+    (current_timestamp(), 'nayane.maia@email.com', 'Nayane Maia', '$2a$10$k9xs8MP5YnRS2dHqtUfZe.Am.Z8A2cqxKKPtceIVoeFydAFgSukVi', 'INATIVO'),
+    (current_timestamp(), 'rafael.fiorini@email.com', 'Rafael Fiorini', '$2a$10$k9xs8MP5YnRS2dHqtUfZe.Am.Z8A2cqxKKPtceIVoeFydAFgSukVi', 'ATIVO');
 
 INSERT INTO perfil(id, perfil) VALUES
     (1, 'ROLE_ADMINISTRADOR'),
@@ -18,7 +19,8 @@ INSERT INTO usuario_perfis(usuario_id, perfis_id) VALUES
     (4,2),
     (5,2),
     (6,2),
-    (7,2);
+    (7,2),
+    (8,2);
 
 INSERT INTO equipamento(criado_em, categoria, descricao, marca, modelo, status, url_foto) VALUES
 	(current_timestamp(), 'Câmera', 'Câmera Fuji X-H2S - FUJIFILM', 'FUJIFILM', 'Fuji X-H2S', 'DISPONÍVEL', 'https://fujifilm-x.com/wp-content/uploads/2022/05/sgew_x-h2s_thum-1.png'),
@@ -44,8 +46,10 @@ INSERT INTO emprestimo(criado_em, data_inicio, data_fim, equipamento_id, usuario
     (current_timestamp(), current_timestamp(), null, 5, 6),
     (current_timestamp(), current_timestamp(), current_timestamp(), 6, 6),
     (current_timestamp(), current_timestamp(), current_timestamp(), 6, 7),
-    (current_timestamp(), current_timestamp(), current_timestamp(), 5, 7);
+    (current_timestamp(), current_timestamp(), current_timestamp(), 5, 7),
+    (current_timestamp(), current_timestamp(), null, 7, 8),
+    (current_timestamp(), current_timestamp(), current_timestamp(), 4, 8);
 
 UPDATE equipamento
 SET status = 'INDISPONÍVEL'
-WHERE id = 1 OR id = 3 OR id = 5;
+WHERE id = 1 OR id = 3 OR id = 5 OR id = 7;
